@@ -55,6 +55,16 @@ class DataSet:
         self.headers = list(self.dataFrame.columns.values)
         self.numAttributes = len(self.headers)
 
+    '''
+    Returns a list of all column headers with strictly numerical data.
+    '''
+    def getNumericalColumns(self):
+        numericalColumns = []
+        for i in range(len(self.headers)):
+            dataType = self.dataFrame[self.headers[i]].dtype
+            if dataType == 'float64' or dataType == 'int64':
+                numericalColumns.append(self.headers[i])
+        return numericalColumns
 
 
     #TODO: create method to determine whether or not other attributes are numerical/valid or not
