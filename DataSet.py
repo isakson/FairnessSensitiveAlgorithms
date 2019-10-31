@@ -65,6 +65,3 @@ class DataSet:
             if dataType == 'float64' or dataType == 'int64':
                 numericalColumns.append(self.headers[i])
         return numericalColumns
-
-
-    #TODO: create method to determine whether or not other attributes are numerical/valid or not
