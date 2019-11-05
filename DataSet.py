@@ -49,11 +49,8 @@ class DataSet:
     Also sets hasGroundTruth to false.
     '''
     def stripOfGroundTruth(self):
-        self.dataFrame = self.dataFrame.drop(columns=[self.trueLabels])
+        self.dataFrame[self.trueLabels] = "***"
         self.hasGroundTruth = False
-        self.trueLabels = None
-        self.headers = list(self.dataFrame.columns.values)
-        self.numAttributes = len(self.headers)
 
     '''
     Returns a list of all column headers with strictly numerical data.

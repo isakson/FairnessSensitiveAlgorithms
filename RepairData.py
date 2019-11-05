@@ -61,9 +61,9 @@ class RepairData:
                 bucketList[i][bucketAssignments[i][j]].append(distributions[i][j])
 
         return bucketList
-
-    def findMedianDistribution(self, bucketList):
-        # TODO: Figure out how to do median distribution
-        medianDistributions = []
-        for sublist in range(len(bucketList)):
-            for bucket in range(len(sublist)):
+    #
+    # def findMedianDistribution(self, bucketList):
+    #     # TODO: Figure out how to do median distribution
+    #     medianDistributions = []
+    #     for sublist in range(len(bucketList)):
+    #         for bucket in range(len(sublist)):
