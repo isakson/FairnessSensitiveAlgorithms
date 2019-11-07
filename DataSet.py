@@ -77,3 +77,14 @@ class DataSet:
             if dataType == 'float64' or dataType == 'int64':
                 numericalColumns.append(self.headers[i])
         return numericalColumns
+
+    '''
+    Returns True if a column has numerical data; returns False otherwise
+    column (string) - the header for the column in question
+    '''
+    def isNumerical(self, column):
+        dataType = self.dataFrame[column].dtype
+        if dataType == 'float64' or dataType == 'int64':
+            return True
+        else:
+            return False
