@@ -77,15 +77,3 @@ class RepairData:
             medianDistribution.append(median(sublist))
 
         return medianDistribution
-
-    def modifyData(self, columnName, medianDistribution, bucketAssignments):
-        df = self.dataSetCopy.dataFrame
-
-        for i in range(df.shape[0]):
-            print(df.loc[[i], [columnName]])
-
-            # self.dataFrame.loc[[i], [columnName]] += noise[i]
-
-    #TODO: write runDataRepair or something that runs all of our good functions
-        #TODO: help we have multiple columns to do this on? Do we put this somewhere? idk?
-            #TODO: Suggestion: make bucketAssignments fn
