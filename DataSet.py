@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 
 '''
 An object representing a data set pulled from a csv file. It contains:
@@ -17,6 +18,10 @@ class DataSet:
 
     '''
     Loads data into dataFrame of DataSet; sets all object instance variables
+        fileName (string) - the name of the file to import
+        protectedAttributes (array of strings) - the names of the column headers for the protected
+            attributes
+        trueLabels (string) - the column header for the ground truth in the data
     '''
     def loadData(self, fileName, protectedAttributes, trueLabels):
         self.fileName = fileName
@@ -26,6 +31,16 @@ class DataSet:
         self.headers = list(self.dataFrame.columns.values)
         self.numAttributes = len(self.headers)
         self.hasGroundTruth = True
+
+    '''
+    Adds random noise to a column in the DataFrame according to the provided scale
+        columnName (string) - the name of the column where we should add noise
+        scale (float) - the standard deviation (spread or “width”) of the distribution
+    '''
+    def addRandomNoise(self, columnName, scale):
+        noise = np.random.normal(0, scale, self.dataFrame.shape[0])
+        for i in range(len(noise)):
+            self.dataFrame.loc[[i], [columnName]] += noise[i]
 
     '''
     Creates a new DataSet that is a copy of this DataSet. 
@@ -45,7 +60,7 @@ class DataSet:
         return newDataSet
 
     '''
-    Strips the DataSet's dataFrame of the column containing the ground truth.
+    Changes the values in the DataSet's dataFrame ground truth column to be ***s
     Also sets hasGroundTruth to false.
     '''
     def stripOfGroundTruth(self):
