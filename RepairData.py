@@ -1,5 +1,6 @@
 import pandas as pd
 from DataSet import DataSet
+from statistics import median
 
 
 class RepairData:
@@ -31,39 +32,76 @@ class RepairData:
         df = self.dataSetOriginal.dataFrame
 
         attributeDistributions = []
+        attributeValues = []
         for value in df[protectedAttribute].unique():
             protectedDataFrame = df.loc[df[protectedAttribute] == value, [nonProtectedAttribute]]
             series = protectedDataFrame[nonProtectedAttribute].tolist()
             attributeDistributions.append(series)
-        return attributeDistributions
+            attributeValues.append(value)
+        return attributeDistributions, attributeValues
 
     '''
     Takes the list of distributions from makeDistributions and puts the values into buckets.
     distributions (list of lists) - the values from a single column separated by a protectedAttribute value
     '''
-    def bucketize(self, distributions, numBuckets=None):
-        # TODO: figure out why we have empty bucket
-        # TODO: remove optional parameter once we figure out what's happening
-        if not numBuckets:
-            numBuckets = self.maxBuckets
+    def bucketize(self, distributions):
         # bucketAssignments is a list containing the index values for the bucket that the distribution values should end up in
         # e.g. [0, 1, 2, 3, 0] assigns the first and last items to bucket 0, the second item to bucket 2, etc.
         bucketAssignments = []
         for i in range(len(distributions)):
-            bucketAssignments.append(pd.qcut(distributions[i], numBuckets, labels=False))
+            bucketAssignments.append(pd.qcut(distributions[i], self.maxBuckets, labels=False))
         print(bucketAssignments)
 
-        bucketList = [[[] for i in range(numBuckets)] for subList in bucketAssignments]
+        # A list of distributions of a protected attribute's values, organized by bucket
+        bucketList = [[[] for i in range(self.maxBuckets)] for subList in bucketAssignments]
 
         for i in range(len(bucketAssignments)):
             for j in range(len(bucketAssignments[i])):
                 # Use the bucket assignment to append the distribution value to the appropriate bucket
                 bucketList[i][bucketAssignments[i][j]].append(distributions[i][j])
 
+
         return bucketList
 
+    '''
+    Takes in bucketized values and returns a median distribution.
+    bucketList (list of list of list of floats) - a list of distributions of a protected 
+        attribute's values, organized by bucket
+    '''
     def findMedianDistribution(self, bucketList):
-        # TODO: Figure out how to do median distribution
-        medianDistributions = []
-        for sublist in range(len(bucketList)):
-            for bucket in range(len(sublist)):
+        bucketMedians = [[] for subList in bucketList]
+        for dist in range(len(bucketList)):
+            for bucket in bucketList[dist]:
+                bucketMedians[dist].append(median(bucket))
+        zippedList = list(zip(*bucketMedians))
+
+        medianDistribution = []
+        for sublist in zippedList:
+            medianDistribution.append(median(sublist))
+
+        return medianDistribution
+
+    def modifyData(self, columnName, medianDistribution, bucketList, attributeValues):
+        df = self.dataSetCopy.dataFrame
+
+        for i in range(df.shape[0]):
+            # TODO: Note: this assumes that there is only one protected attribute
+            protectedAttributeValue = df.at[i, self.dataSetCopy.protectedAttributes[0]]
+            indexForProtectedAttributeValue = attributeValues.index(protectedAttributeValue)
+            currentValue = df.at[i, columnName]
+            bucket = self.getBucket(currentValue, indexForProtectedAttributeValue, bucketList)
+            df.loc[[i], [columnName]] = medianDistribution[bucket]
+
+    def getBucket(self, value, indexForProtectedAttributeValue, bucketList):
+        bucketedDistribution = bucketList[indexForProtectedAttributeValue]
+        #TODO: Note: this will be bad for big data sets
+        for bucket in bucketedDistribution:
+            if value in bucket:
+                return bucketedDistribution.index(bucket)
+
+
+    #TODO: write runDataRepair or something that runs all of our good functions
+        #TODO: help we have multiple columns to do this on? Do we put this somewhere? idk?
+            #TODO: Suggestion: make bucketAssignments fn
+
+    #TODO: make sure that the DataSet that goes into RepairData has noise already!
