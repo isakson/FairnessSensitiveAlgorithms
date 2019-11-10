@@ -32,11 +32,13 @@ class RepairData:
         df = self.dataSetOriginal.dataFrame
 
         attributeDistributions = []
+        attributeValues = []
         for value in df[protectedAttribute].unique():
             protectedDataFrame = df.loc[df[protectedAttribute] == value, [nonProtectedAttribute]]
             series = protectedDataFrame[nonProtectedAttribute].tolist()
             attributeDistributions.append(series)
-        return attributeDistributions
+            attributeValues.append(value)
+        return attributeDistributions, attributeValues
 
     '''
     Takes the list of distributions from makeDistributions and puts the values into buckets.
@@ -58,7 +60,8 @@ class RepairData:
                 # Use the bucket assignment to append the distribution value to the appropriate bucket
                 bucketList[i][bucketAssignments[i][j]].append(distributions[i][j])
 
-        return bucketList, bucketAssignments
+
+        return bucketList
 
     '''
     Takes in bucketized values and returns a median distribution.
@@ -77,3 +80,28 @@ class RepairData:
             medianDistribution.append(median(sublist))
 
         return medianDistribution
+
+    def modifyData(self, columnName, medianDistribution, bucketList, attributeValues):
+        df = self.dataSetCopy.dataFrame
+
+        for i in range(df.shape[0]):
+            # TODO: Note: this assumes that there is only one protected attribute
+            protectedAttributeValue = df.at[i, self.dataSetCopy.protectedAttributes[0]]
+            indexForProtectedAttributeValue = attributeValues.index(protectedAttributeValue)
+            currentValue = df.at[i, columnName]
+            bucket = self.getBucket(currentValue, indexForProtectedAttributeValue, bucketList)
+            df.loc[[i], [columnName]] = medianDistribution[bucket]
+
+    def getBucket(self, value, indexForProtectedAttributeValue, bucketList):
+        bucketedDistribution = bucketList[indexForProtectedAttributeValue]
+        #TODO: Note: this will be bad for big data sets
+        for bucket in bucketedDistribution:
+            if value in bucket:
+                return bucketedDistribution.index(bucket)
+
+
+    #TODO: write runDataRepair or something that runs all of our good functions
+        #TODO: help we have multiple columns to do this on? Do we put this somewhere? idk?
+            #TODO: Suggestion: make bucketAssignments fn
+
+    #TODO: make sure that the DataSet that goes into RepairData has noise already!
