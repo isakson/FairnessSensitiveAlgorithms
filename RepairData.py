@@ -4,7 +4,15 @@ from statistics import median
 
 
 class RepairData:
-    def __init__(self, dataSet):
+    def __init__(self):
+        pass
+
+    '''
+    Sets the instance variables for a DataSet
+        dataSet (DataSet) - a DataSet object
+    '''
+    def setDataSetVariables(self, dataSet):
+
         self.dataSetOriginal = dataSet
         self.dataSetCopy = dataSet.copyDataSet()
         self.maxBuckets = self.getMaxBuckets()
@@ -24,9 +32,9 @@ class RepairData:
 
     '''
     Finds all unique attribute values in our protected attributes and then finds the distributions attached to
-    those values.
-    protectedAttribute (string) - the name of the protected attribute we want to use to make the distributions
-    nonProtectedAttribute (string) - the name of the numerical, non-protected attribute that we want to get a distribution for
+    those values. Also returns a list of all possible values for the current protected attribute.
+        protectedAttribute (string) - the name of the protected attribute we want to use to make the distributions
+        nonProtectedAttribute (string) - the name of the numerical, non-protected attribute that we want to get a distribution for
     '''
     def makeDistributions(self, protectedAttribute, nonProtectedAttribute):
         df = self.dataSetOriginal.dataFrame
@@ -42,7 +50,7 @@ class RepairData:
 
     '''
     Takes the list of distributions from makeDistributions and puts the values into buckets.
-    distributions (list of lists) - the values from a single column separated by a protectedAttribute value
+        distributions (list of lists) - the values from a single column separated by a protectedAttribute value
     '''
     def bucketize(self, distributions):
         # bucketAssignments is a list containing the index values for the bucket that the distribution values should end up in
@@ -65,8 +73,8 @@ class RepairData:
 
     '''
     Takes in bucketized values and returns a median distribution.
-    bucketList (list of list of list of floats) - a list of distributions of a protected 
-        attribute's values, organized by bucket
+        bucketList (list of list of list of floats) - a list of distributions of a protected 
+            attribute's values, organized by bucket
     '''
     def findMedianDistribution(self, bucketList):
         bucketMedians = [[] for subList in bucketList]
@@ -81,6 +89,15 @@ class RepairData:
 
         return medianDistribution
 
+    '''
+    Updates a DataSet object with modified values
+        columnName (string) - a column header
+        medianDistribution (list of floats) - a one-dimensional list containing the median values for each bucket
+            in bucketList
+        bucketList (list of list of list of floats) - a list of distributions of a protected 
+            attribute's values, organized by bucket
+        attributeValues (list of strings) - a list of all possible values for the current protected attribute
+    '''
     def modifyData(self, columnName, medianDistribution, bucketList, attributeValues):
         df = self.dataSetCopy.dataFrame
 
@@ -92,6 +109,13 @@ class RepairData:
             bucket = self.getBucket(currentValue, indexForProtectedAttributeValue, bucketList)
             df.loc[[i], [columnName]] = medianDistribution[bucket]
 
+    '''
+    Finds the index of the pre-filled bucket containing the given value
+        value (float) - the value to find
+        indexForProtectedAttributeValue (int) - the index within bucketList for a given protected attribute
+        bucketList (list of list of list of floats) - a list of distributions of a protected 
+            attribute's values, organized by bucket
+    '''
     def getBucket(self, value, indexForProtectedAttributeValue, bucketList):
         bucketedDistribution = bucketList[indexForProtectedAttributeValue]
         #TODO: Note: this will be bad for big data sets
@@ -99,9 +123,45 @@ class RepairData:
             if value in bucket:
                 return bucketedDistribution.index(bucket)
 
+    '''
+    Creates a DataSet object
+         fileName (string) - a file name
+         protectedAttributes (list) - a list of the names of the protected attributes 
+         groundTruth (string) - a 1 or 0 indicating the ground truth of a particular row
+         noiseScale (float) - the standard deviation of the normal distribution used to add noise to the data
+    '''
+    def createDataSet(self, fileName, protectedAttributes, groundTruth, noiseScale):
+        data = DataSet()
+        data.loadData(fileName, protectedAttributes, groundTruth)
+        numericalColumns = data.getNumericalColumns()
+        for column in numericalColumns:
+            data.addRandomNoise(column, noiseScale)
+        self.setDataSetVariables(data)
 
-    #TODO: write runDataRepair or something that runs all of our good functions
-        #TODO: help we have multiple columns to do this on? Do we put this somewhere? idk?
-            #TODO: Suggestion: make bucketAssignments fn
+    '''
+    Repairs the data in a single column
+        columnName (string) - a column header
+    '''
+        #TODO: test this on its own (we didn't get to it last time :( )
+    def repairColumn(self, columnName):
+        distributions, attributeValues = self.makeDistributions(self.dataSetCopy.protectedAttributes, columnName)
+        bucketList = self.bucketize(distributions)
+        medianDistributions = self.findMedianDistribution(bucketList)
+        self.modifyData(columnName, medianDistributions, bucketList, attributeValues)
 
-    #TODO: make sure that the DataSet that goes into RepairData has noise already!
+    '''
+    Makes DataSet object from a file, then repairs the data
+         fileName (string) - a file name
+         protectedAttributes (list) - a list of the names of the protected attributes 
+         groundTruth (string) - a 1 or 0 indicating the ground truth of a particular row
+         noiseScale (float, optional) - the standard deviation of the normal distribution used to add noise to the data
+    '''
+    def runRepair(self, fileName, protectedAttributes, groundTruth, noiseScale=.01):
+        self.createDataSet(fileName, protectedAttributes, groundTruth, noiseScale)
+        numericalColumns = self.dataSetCopy.getNumericalColumns()
+        for column in numericalColumns:
+            self.repairColumn(column)
+
+    #TODO: current error: "AttributeError: 'DataFrame' object has no attribute 'unique'"
+
+    #TODO: save repaired data as a .csv
