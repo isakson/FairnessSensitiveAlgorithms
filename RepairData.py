@@ -8,7 +8,7 @@ class RepairData:
         pass
 
     '''
-    Sets the instance variables for a DataSet
+    Sets the instance variables for a DataSet. Also copies provided DataSet and saves it as dataSetCopy.
         dataSet (DataSet) - a DataSet object
     '''
     def setDataSetVariables(self, dataSet):
@@ -41,6 +41,9 @@ class RepairData:
 
         attributeDistributions = []
         attributeValues = []
+        print("prot att", protectedAttribute)
+        print("prot column", df[protectedAttribute])
+        # print("unique call", df[protectedAttribute])
         for value in df[protectedAttribute].unique():
             protectedDataFrame = df.loc[df[protectedAttribute] == value, [nonProtectedAttribute]]
             series = protectedDataFrame[nonProtectedAttribute].tolist()
@@ -131,11 +134,13 @@ class RepairData:
          noiseScale (float) - the standard deviation of the normal distribution used to add noise to the data
     '''
     def createDataSet(self, fileName, protectedAttributes, groundTruth, noiseScale):
+        #TODO: test this function too
         data = DataSet()
         data.loadData(fileName, protectedAttributes, groundTruth)
         numericalColumns = data.getNumericalColumns()
         for column in numericalColumns:
-            data.addRandomNoise(column, noiseScale)
+            if column != groundTruth:
+                data.addRandomNoise(column, noiseScale)
         self.setDataSetVariables(data)
 
     '''
@@ -144,7 +149,8 @@ class RepairData:
     '''
         #TODO: test this on its own (we didn't get to it last time :( )
     def repairColumn(self, columnName):
-        distributions, attributeValues = self.makeDistributions(self.dataSetCopy.protectedAttributes, columnName)
+        #TODO: Note: we are currently hard coding the first attribute in the list of protectedAttributes
+        distributions, attributeValues = self.makeDistributions(self.dataSetCopy.protectedAttributes[0], columnName)
         bucketList = self.bucketize(distributions)
         medianDistributions = self.findMedianDistribution(bucketList)
         self.modifyData(columnName, medianDistributions, bucketList, attributeValues)
@@ -161,7 +167,5 @@ class RepairData:
         numericalColumns = self.dataSetCopy.getNumericalColumns()
         for column in numericalColumns:
             self.repairColumn(column)
-
-    #TODO: current error: "AttributeError: 'DataFrame' object has no attribute 'unique'"
 
     #TODO: save repaired data as a .csv
