@@ -41,9 +41,6 @@ class RepairData:
 
         attributeDistributions = []
         attributeValues = []
-        print("prot att", protectedAttribute)
-        print("prot column", df[protectedAttribute])
-        # print("unique call", df[protectedAttribute])
         for value in df[protectedAttribute].unique():
             protectedDataFrame = df.loc[df[protectedAttribute] == value, [nonProtectedAttribute]]
             series = protectedDataFrame[nonProtectedAttribute].tolist()
@@ -61,7 +58,6 @@ class RepairData:
         bucketAssignments = []
         for i in range(len(distributions)):
             bucketAssignments.append(pd.qcut(distributions[i], self.maxBuckets, labels=False))
-        print(bucketAssignments)
 
         # A list of distributions of a protected attribute's values, organized by bucket
         bucketList = [[[] for i in range(self.maxBuckets)] for subList in bucketAssignments]
@@ -70,7 +66,6 @@ class RepairData:
             for j in range(len(bucketAssignments[i])):
                 # Use the bucket assignment to append the distribution value to the appropriate bucket
                 bucketList[i][bucketAssignments[i][j]].append(distributions[i][j])
-
 
         return bucketList
 
@@ -105,7 +100,7 @@ class RepairData:
         df = self.dataSetCopy.dataFrame
 
         for i in range(df.shape[0]):
-            # TODO: Note: this assumes that there is only one protected attribute
+            #TODO: Note: this assumes that there is only one protected attribute
             protectedAttributeValue = df.at[i, self.dataSetCopy.protectedAttributes[0]]
             indexForProtectedAttributeValue = attributeValues.index(protectedAttributeValue)
             currentValue = df.at[i, columnName]
@@ -134,20 +129,17 @@ class RepairData:
          noiseScale (float) - the standard deviation of the normal distribution used to add noise to the data
     '''
     def createDataSet(self, fileName, protectedAttributes, groundTruth, noiseScale):
-        #TODO: test this function too
         data = DataSet()
         data.loadData(fileName, protectedAttributes, groundTruth)
         numericalColumns = data.getNumericalColumns()
         for column in numericalColumns:
-            if column != groundTruth:
-                data.addRandomNoise(column, noiseScale)
+            data.addRandomNoise(column, noiseScale)
         self.setDataSetVariables(data)
 
     '''
     Repairs the data in a single column
         columnName (string) - a column header
     '''
-        #TODO: test this on its own (we didn't get to it last time :( )
     def repairColumn(self, columnName):
         #TODO: Note: we are currently hard coding the first attribute in the list of protectedAttributes
         distributions, attributeValues = self.makeDistributions(self.dataSetCopy.protectedAttributes[0], columnName)
@@ -167,5 +159,3 @@ class RepairData:
         numericalColumns = self.dataSetCopy.getNumericalColumns()
         for column in numericalColumns:
             self.repairColumn(column)
-
-    #TODO: save repaired data as a .csv
