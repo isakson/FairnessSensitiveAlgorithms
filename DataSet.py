@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import pickle
 
 '''
 An object representing a data set pulled from a csv file. It contains:
@@ -56,26 +57,19 @@ class DataSet:
         newDataSet.trueLabels = self.trueLabels
         newDataSet.headers = self.headers
         newDataSet.numAttributes = self.numAttributes
-        newDataSet.hasGroundTruth = self.hasGroundTruth
         return newDataSet
 
     '''
-    Changes the values in the DataSet's dataFrame ground truth column to be ***s
-    Also sets hasGroundTruth to false.
-    '''
-    def stripOfGroundTruth(self):
-        self.dataFrame[self.trueLabels] = "***"
-        self.hasGroundTruth = False
-
-    '''
     Returns a list of all column headers with strictly numerical data.
+    Note: the column containing ground truth values is not returned in this list
     '''
     def getNumericalColumns(self):
         numericalColumns = []
         for i in range(len(self.headers)):
             dataType = self.dataFrame[self.headers[i]].dtype
-            if dataType == 'float64' or dataType == 'int64':
-                numericalColumns.append(self.headers[i])
+            column = self.headers[i]
+            if column != self.trueLabels and (dataType == 'float64' or dataType == 'int64'):
+                numericalColumns.append(column)
         return numericalColumns
 
     '''
@@ -88,3 +82,21 @@ class DataSet:
             return True
         else:
             return False
+
+    '''
+    Saves the dataFrame as a .csv file. All objects will be saved to the folder dataCSVs.
+        fileName (string) - the desired output file name (note: should end in .csv, otherwise it saves as a textfile but is still comma-separated)
+    '''
+    def saveToCsv(self, fileName="dataFrame.csv"):
+        path = "dataCSVs/" + fileName
+        self.dataFrame.to_csv(path)
+
+    '''
+    Saves the current DataSet object as a pickle. All objects will be saved to the folder pickledObjects.
+        fileName (string) - The DataSet object to pickle
+    '''
+    def savePickle(self, fileName="pickledDataSet"):
+        path = "pickledObjects/" + fileName
+        file = open(path, 'wb')
+        pickle.dump(self, file)
+        file.close()
