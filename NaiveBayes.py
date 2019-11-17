@@ -5,69 +5,80 @@ import operator
 class NaiveBayes(Bayes):
 
 	def __init__(self):
-		#we need to handle the fact that when we remove the case where ground truth = attribute we remove this probability so the indeces aren't going to match
 		self.model = [] 
-		# dictionary of arrays of dictionaries
-		# outermost dict = keys: each possible classification, value: probabilistic model for that classification (array)
-		# array = list of the attribute dictionaries
-		# inner dict = key: particular attribute category, value = probability of (a|C)
-		# inner dict (numerical)= key: "mean" or "std", value = mean or std
 
-		#outermost array of all the attributes, each of which points to a dictionary
-		#outermost dictionary = {attributeCategory : {<C+, probability>, <C_, probability>} }}
+	'''Create model filled as such:
+		self.model = array of attributes (e.g. race, position, etc.) where each index points to a dictionary
+			attrDict (categorical) { key =  attribute category (e.g. white, black, hispanic), value = probability dictionary}
+				probabilityDict = { key = classification (e.g. gets loan, differed, doesn't get loan), value = P(attrCategory|classification)}
 
-
+		attrDict (numerical) { key = "mean" or "std", value = meanDict or stdDict}
+			meanDict = {key = classification, value = conditional mean given this classification}
+			stdDict = {key = classification, value = conditional std given this classification}'''
 	def train(self, dataSet):
 
 		dataFrame = dataSet.dataFrame
-		groundTruth = dataSet.trueLabels[0]
+		groundTruth = dataSet.trueLabels
+		classificationList = dataFrame[groundTruth].unique()
 
+		#make sure that model has not been classified already 
 		if not(dataSet.hasGroundTruth):
 			print("Error: Dataset has no ground truth. Cannot train.")
 			pass
+		#to ensure that we don't train twice
 		if bool(self.model):
 			print("Error: Model not empty.")
 			pass
 
 		#for each of the attributes in the datset (a1...an)
-
 		for attribute in dataSet.headers:
 		
+			#create outermost dictionary of the model (key = attribute category, value = another dictionary)
 			attrDict = {}
 
+			#if numerical type data
 			if(attribute in dataSet.getNumericalColumns()):
-				attrCategories = self.getAttributeCategories(dataFrame, attribute)
-				#for each of the possible categorizations of an attribute
-				for attrCategory in attrCategories:
-					meanDict = {}
-					stdDict = {}
 
-					#for each of the possible classifiactions possible (i.e. lieutenant, captain, etc.)
-					for category in dataFrame[groundTruth].unique():
-						if(groundTruth == attribute):
-							continue
+				#for each numerical attribute create dict to hold mean and standard deviation
+				meanDict = {}
+				stdDict = {}
 
-						mean = self.calculateConditionalMean(dataFrame, attribute, groundTruth, category)
-						std = self.calculateConditionalStandardDeviation(dataFrame, attribute, groundTruth, category)
-						meanDict[category] = mean
-						stdDict[category] = std
-					attrDict["mean"] = meanDict
-					attrDict["std"] = stdDict
+				#for each of the possible classifications possible (i.e. lieutenant, captain, etc.)
+				for classification in classificationList:
+					#skip this case
+					if(groundTruth == attribute):
+						continue
+					#calculate the conditional mean and standard deviation based on each classification
+					mean = self.calculateConditionalMean(dataFrame, attribute, groundTruth, classification)
+					std = self.calculateConditionalStandardDeviation(dataFrame, attribute, groundTruth, classification)
+					meanDict[classification] = mean
+					stdDict[classification] = std
+				#append it to the outer dictionary
+				attrDict["mean"] = meanDict
+				attrDict["std"] = stdDict
 
-			
+			#categorical type data
 			else:
+
+				#array of the unique values for the given attribute
 				attrCategories = self.getAttributeCategories(dataFrame, attribute)
+
 				for attrCategory in attrCategories:
+
+					#key = classification, value = probability of P(attr|classification)
 					probabilityDict = {}
 
-					#for each of the possible classifiactions possible (i.e. lieutenant, captain, etc.)
-					
-					for category in dataFrame[groundTruth].unique():
+					#for each of the possible classifications possible (i.e. lieutenant, captain, etc.)
+					for classification in classificationList:
+						#skip this case
 						if(groundTruth == attribute):
 							continue
-						categoryProb = self.calculateCrossAttributeProbability(dataFrame, groundTruth, category, attribute, attrCategory)
-						probabilityDict[attrCategory] = categoryProb
 
+						#the value part of the dictionary: P(a|C)
+						crossAttributeProbability = self.calculateCrossAttributeProbability(dataFrame, groundTruth, classification, attribute, attrCategory)
+						probabilityDict[classification] = crossAttributeProbability
+
+					#outermost dictionary
 					attrDict[attrCategory] = probabilityDict
 			
 					
@@ -77,33 +88,24 @@ class NaiveBayes(Bayes):
 		self.printModel(dataSet)
 
 
-	'''a function for testing that prints out the model generated '''
+	'''Pretty prints out the Bayesian model '''
 	def printModel(self, dataSet):
-
 		for i in range(len(self.model)):
 			print("Attribute: ", dataSet.headers[i])
-
 			for attrCategory in self.model[i].keys():
 				print("\t Attribute Category: ", attrCategory)
-
 				for classification in self.model[i][attrCategory].keys():
 					print("\t \t Classification & Probability: ", classification, ", ", self.model[i][attrCategory][classification])
 
 
+	'''Given the attributes of an entry in an dataset and our trained model, it calculates the P(classification|attributes) for every
+	   possible classification and then appends a classification to dataset based on those probabilities. Appending a new column of classifications
+	   to the dataset under the header "Bayes Classification" '''
 	def classify(self, dataSet):
 
 		dataFrame = dataSet.dataFrame
-		groundTruth = dataSet.trueLabels[0]
-
-		#update data set
-		if dataSet.hasGroundTruth:
-			print("Error: Dataset already is classified.")
-			pass
-			#Dont think pass is what we want for an error (because pass doesn't do anything)
-
-
-			#should we remove the true labels 0 index
-
+		groundTruth = dataSet.trueLabels
+		classificationList = dataFrame[groundTruth].unique()
 
 		#make a new column for the data frame where our classifications are going to go
 		classificationColumn = []
@@ -111,55 +113,49 @@ class NaiveBayes(Bayes):
 		#for each of the rows (people) in the dataset
 		for row in dataFrame.iterrows():
 
-			classCategories = {}
+			#dictionary {key = classification, value = complete bayesian probability}
+			bayesianDict = {}
+			#dictionary {key = classification, value = numerator probability}
+			numeratorDict = {}
 
-			#iterate through the model array
-			for j, attribute in enumerate(self.model):
+			denominatorSum = 0 #reset it for every row
 
-				#print(dataSet.headers[j])
-				print (j)
-				print(row[1])
-				print("series index", row[1].iloc[j])
-				#loc is for label based indexing
+			#iterate through the possible outcomes of the class variable
+			for classification in classificationList:
 
-				#if we run into the blank ground truth column, skip this row
-				if(row[1].iloc[j] == '***'):
-					continue
+				numeratorDict[classification] = 1
 
-				denominatorSum = 0
-				probabilityDict = {} #key = class category, value = numerator (p(d|h)* p(h))
+				#loop through outer array of the model
+				for j, attributeDict in enumerate(self.model):
+					#if we run into the blank ground truth column, skip this row
+					if(dataSet.headers[j] == dataSet.trueLabels):
+						continue
 
-				if(attribute in dataSet.getNumericalColumns()): #numerical
+					#value for the current row of the given attribute
+					attrValue = row[1].iloc[j]
 
-					meanDict = atttribute["mean"]
-					stdDict = attribute["std"]
-					for classCategory in meanDict.keys():
-						P = self.caclulateGaussianProbability(meanDict[classCategory], stdDict[classCategory], row[j]) * self.attributeCategoryProbability(dataFrame, trueLabels[0], classCategory)
-						probabilityDict[classCategory] = P
-						denominatorSum += P
+					if(dataSet.headers[j] in dataSet.getNumericalColumns()): #numerical
+						meanDict = attributeDict["mean"]
+						stdDict = attributeDict["std"]
+						#P(person|classification) * P(classification)
+						bayesNumerator = self.calculateGaussianProbability(meanDict[classification], stdDict[classification], row[1].iloc[j]) * self.attributeCategoryProbability(dataFrame, dataSet.trueLabels, classification)
+						numeratorDict[classification] *= bayesNumerator
+					else:
+						bayesNumerator = attributeDict[attrValue][classification] * self.attributeCategoryProbability(dataFrame, dataSet.trueLabels, classification)
+						numeratorDict[classification] *= bayesNumerator
 
-				else:
-					currDict = row[1].iloc[j]
+			for key in numeratorDict.keys():
+				denominatorSum += numeratorDict[key]
+			#currently just adding dictionary of all probabilities given all classifications but eventually want to be adding the max of these (the final classification)
+			for key in numeratorDict.keys():
+				bayesianDict[key] = round(numeratorDict[key] / denominatorSum, 2)
 
-					for classCategory in currDict.keys():
-						P = currDict[classCategory] * self.attributeCategoryProbability(dataFrame, trueLabels[0], classCategory)
-						probabilityDict[classCategory] = P
-						denominatorSum += P
-				
-				for numerator in probabilityDict.keys():
-
-					#if it's the first time we're seeing this classification
-					if not numerator in classCategories:
-						classCategories[numerator] = 1
-
-					classCategories[numerator] *= probabilityDict[numerator] / denominatorSum 
-
-			print("cat", classCategories)
-
-			classificationColumn.append(max(classCategories, key = classCategories.get))
+			classificationColumn.append(bayesianDict)
 		
 		#sets new column equal to the array of classifications
-		dataFrame["classification"] = classificationColumn
+
+		dataFrame["Bayes Classification"] = classificationColumn
+		print(dataFrame.to_string())
 		return dataFrame
 
 

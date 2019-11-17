@@ -51,6 +51,6 @@ class Bayes:
 
 		zscore = ((value - mean) * (value - mean)) / ((2*(std*std)))
 
-		gaussian = (1 / sqrt(2*math.pi*(std * std)) ) * (math.e **(-zscore))
+		gaussian = (1 / math.sqrt(2*math.pi*(std * std)) ) * (math.e **(-zscore))
 		
 		return gaussian

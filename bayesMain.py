@@ -5,11 +5,10 @@ import pandas as pd
 def main():
 
 	ds = DataSet()
-	ds.loadData("RicciData.csv", ["Race"], ["Position"])
+	ds.loadData("RicciData.csv", ["Race"], "Position")
 	nb = NaiveBayes()
 	nb.train(ds)
 
-	ds.stripOfGroundTruth()
 	nb.classify(ds)
 
 
