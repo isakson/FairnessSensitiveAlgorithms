@@ -11,7 +11,6 @@ An object representing a data set pulled from a csv file. It contains:
         stripped of ground truth
     headers (array of strings) - the names of all of the columns
     numAttributes (int) - the number of columns (or attributes) in the DataFrame
-    hasGroundTruth (bool) - whether or not the DataFrame has a column with ground truth values
 '''
 class DataSet:
     def __init__(self):
@@ -31,7 +30,6 @@ class DataSet:
         self.trueLabels = trueLabels
         self.headers = list(self.dataFrame.columns.values)
         self.numAttributes = len(self.headers)
-        self.hasGroundTruth = True
 
     '''
     Adds random noise to a column in the DataFrame according to the provided scale
