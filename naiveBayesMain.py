@@ -5,7 +5,7 @@ import pandas as pd
 def main():
 
 	ds = DataSet()
-	ds.loadData("RicciData.csv", ["Race"], "Position")
+	ds.loadData("RicciDataBinary.csv", ["Race"], "Position")
 	nb = NaiveBayes()
 	nb.train(ds)
 
