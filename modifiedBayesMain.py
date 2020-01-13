@@ -9,7 +9,7 @@ def main():
 
 	ds = DataSet()
 
-	mb = ModifiedBayes(ds, "RicciDataBinary.csv", "Race", "Position")
+	mb = ModifiedBayes(ds, "income-subset.csv", "sex", "income")
 	mb.modify(ds)
 
 
