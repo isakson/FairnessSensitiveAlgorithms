@@ -7,7 +7,7 @@ class Metrics:
 	Calculates basic accuracy for a classified DataSet. Basic accuracy is defined as the number of classifications 
 	that match the known ground truth values.
 		dataSet (DataSet) - the classified DataSet to calculate accuracy for
-	Note: This function assumes that the column header for Bayes classifications is "bayesClassification"
+	Note: This function assumes that the column header for Bayes classifications is "Bayes Classification"
 	'''
 	def calculateAccuracy(self, dataSet):
 		numCorrect = 0
@@ -15,7 +15,7 @@ class Metrics:
 
 		for i in range(dataFrame.shape[0]):
 			groundTruth = dataFrame.at[i, dataSet.trueLabels]
-			bayesClassification = dataFrame.at[i, "bayesClassification"]
+			bayesClassification = dataFrame.at[i, "Bayes Classification"]
 
 			if groundTruth == bayesClassification:
 				numCorrect += 1
@@ -29,11 +29,11 @@ class Metrics:
 		dataSet (DataSet) - the classified DataSet to calculate true positive or negative rate for
 		truePosOrNeg (int or string) - the true positive value or true negative value
 	Note: this function currently only supports classifications with two possible outcomes (e.g. 0 or 1).
-	This function also assumes that the column header for Bayes classifications is "bayesClassification"
+	This function also assumes that the column header for Bayes classifications is "Bayes Classification"
 	'''
 	def truePosOrNeg(self, dataSet, truePosOrNeg):
 		dataFrame = dataSet.dataFrame
-		possibleClassifications = dataFrame["bayesClassification"].unique()
+		possibleClassifications = dataFrame["Bayes Classification"].unique()
 		if len(possibleClassifications) != 2:
 			return "Cannot calculate true positive or negative rate for nonbinary classifications"
 		else:
@@ -42,7 +42,7 @@ class Metrics:
 
 			for i in range(dataFrame.shape[0]):
 				groundTruth = dataFrame.at[i, dataSet.trueLabels]
-				bayesClassification = dataFrame.at[i, "bayesClassification"]
+				bayesClassification = dataFrame.at[i, "Bayes Classification"]
 
 				if bayesClassification == truePosOrNeg and groundTruth == truePosOrNeg:
 					bothPosOrNeg +=1
