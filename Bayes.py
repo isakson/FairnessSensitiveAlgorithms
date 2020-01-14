@@ -9,7 +9,10 @@ class Bayes:
 
 	'''counts the number of rows that have both a1Val and a2Val'''
 	def countIntersection(self, dataFrame, a1, a1Val, a2, a2Val):
-		return (len(dataFrame.groupby([a1, a2]).get_group((a1Val, a2Val))))
+		try:
+			return (len(dataFrame.groupby([a1, a2]).get_group((a1Val, a2Val))))
+		except:
+			return 0
 
 	'''returns the probability of a specific attribute category's probability (# +category/# people total)
 	   gives a value between 0-1 '''

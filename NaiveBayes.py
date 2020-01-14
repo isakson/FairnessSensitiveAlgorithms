@@ -197,7 +197,7 @@ class NaiveBayes(Bayes):
 		#sets new column equal to the array of classifications
 
 		dataFrame["Bayes Classification"] = classificationColumn
-		#print(dataFrame.to_string())
+		print(dataFrame.to_string())
 		return dataFrame
 
 
