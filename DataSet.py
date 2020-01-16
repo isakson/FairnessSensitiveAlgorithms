@@ -6,7 +6,7 @@ import pickle
 An object representing a data set pulled from a csv file. It contains:
     fileName (string) - the name of the csv file containing the data
     dataFrame (pandas DataFrame) - the DataFrame containing the data
-    protectedAttributes (array of strings) - the names of the columns containing protected attributes
+    protectedAttribute (string) - the name of the column containing protected attribute
     trueLabels (string) - the name of the column containing the ground truth; may be None if data has been
         stripped of ground truth
     headers (array of strings) - the names of all of the columns
@@ -19,14 +19,14 @@ class DataSet:
     '''
     Loads data into dataFrame of DataSet; sets all object instance variables
         fileName (string) - the name of the file to import
-        protectedAttributes (array of strings) - the names of the column headers for the protected
-            attributes
+        protectedAttribute (string) - the name of the column header for the protected
+            attribute
         trueLabels (string) - the column header for the ground truth in the data
     '''
-    def loadData(self, fileName, protectedAttributes, trueLabels):
+    def loadData(self, fileName, protectedAttribute, trueLabels):
         self.fileName = fileName
         self.dataFrame = pd.read_csv(fileName, sep=",")
-        self.protectedAttributes = protectedAttributes
+        self.protectedAttribute = protectedAttribute
         self.trueLabels = trueLabels
         self.headers = list(self.dataFrame.columns.values)
         self.numAttributes = len(self.headers)
@@ -51,7 +51,7 @@ class DataSet:
         newDataSet = DataSet()
         newDataSet.fileName = self.fileName
         newDataSet.dataFrame = self.dataFrame.copy()
-        newDataSet.protectedAttributes = self.protectedAttributes
+        newDataSet.protectedAttribute = self.protectedAttribute
         newDataSet.trueLabels = self.trueLabels
         newDataSet.headers = self.headers
         newDataSet.numAttributes = self.numAttributes

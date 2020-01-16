@@ -21,14 +21,10 @@ class RepairData:
     Finds the protected attribute value with the fewest individuals and returns the count of those individuals
     '''
     def getMaxBuckets(self):
-        protectedAttributes = self.dataSetOriginal.protectedAttributes
+        protectedAttribute = self.dataSetOriginal.protectedAttribute
         df = self.dataSetOriginal.dataFrame
 
-        valueCounts = []
-        for attribute in protectedAttributes:
-            valueCounts.append(min(df[attribute].value_counts()))
-
-        return min(valueCounts)
+        return min(df[protectedAttribute].value_counts())
 
     '''
     Finds all unique attribute values in our protected attributes and then finds the distributions attached to
@@ -36,8 +32,9 @@ class RepairData:
         protectedAttribute (string) - the name of the protected attribute we want to use to make the distributions
         nonProtectedAttribute (string) - the name of the numerical, non-protected attribute that we want to get a distribution for
     '''
-    def makeDistributions(self, protectedAttribute, nonProtectedAttribute):
+    def makeDistributions(self, nonProtectedAttribute):
         df = self.dataSetOriginal.dataFrame
+        protectedAttribute = self.dataSetOriginal.protectedAttribute
 
         attributeDistributions = []
         attributeValues = []
@@ -100,8 +97,7 @@ class RepairData:
         df = self.dataSetCopy.dataFrame
 
         for i in range(df.shape[0]):
-            #TODO: Note: this assumes that there is only one protected attribute
-            protectedAttributeValue = df.at[i, self.dataSetCopy.protectedAttributes[0]]
+            protectedAttributeValue = df.at[i, self.dataSetCopy.protectedAttribute]
             indexForProtectedAttributeValue = attributeValues.index(protectedAttributeValue)
             currentValue = df.at[i, columnName]
             bucket = self.getBucket(currentValue, indexForProtectedAttributeValue, bucketList)
@@ -117,6 +113,7 @@ class RepairData:
     def getBucket(self, value, indexForProtectedAttributeValue, bucketList):
         bucketedDistribution = bucketList[indexForProtectedAttributeValue]
         #TODO: Note: this will be bad for big data sets
+        #TODO: Binary search maybe???
         for bucket in bucketedDistribution:
             if value in bucket:
                 return bucketedDistribution.index(bucket)
@@ -124,13 +121,13 @@ class RepairData:
     '''
     Creates a DataSet object
          fileName (string) - a file name
-         protectedAttributes (list) - a list of the names of the protected attributes 
+         protectedAttribute (string) - the name of the protected attribute 
          groundTruth (string) - a 1 or 0 indicating the ground truth of a particular row
          noiseScale (float) - the standard deviation of the normal distribution used to add noise to the data
     '''
-    def createDataSet(self, fileName, protectedAttributes, groundTruth, noiseScale):
+    def createDataSet(self, fileName, protectedAttribute, groundTruth, noiseScale):
         data = DataSet()
-        data.loadData(fileName, protectedAttributes, groundTruth)
+        data.loadData(fileName, protectedAttribute, groundTruth)
         numericalColumns = data.getNumericalColumns()
         for column in numericalColumns:
             data.addRandomNoise(column, noiseScale)
@@ -141,8 +138,7 @@ class RepairData:
         columnName (string) - a column header
     '''
     def repairColumn(self, columnName):
-        #TODO: Note: we are currently hard coding the first attribute in the list of protectedAttributes
-        distributions, attributeValues = self.makeDistributions(self.dataSetCopy.protectedAttributes[0], columnName)
+        distributions, attributeValues = self.makeDistributions(self.dataSetCopy.protectedAttribute, columnName)
         bucketList = self.bucketize(distributions)
         medianDistributions = self.findMedianDistribution(bucketList)
         self.modifyData(columnName, medianDistributions, bucketList, attributeValues)
@@ -150,12 +146,12 @@ class RepairData:
     '''
     Makes DataSet object from a file, then repairs the data
          fileName (string) - a file name
-         protectedAttributes (list) - a list of the names of the protected attributes 
+         protectedAttribute (string) - the name of the protected attribute 
          groundTruth (string) - a 1 or 0 indicating the ground truth of a particular row
          noiseScale (float, optional) - the standard deviation of the normal distribution used to add noise to the data
     '''
-    def runRepair(self, fileName, protectedAttributes, groundTruth, noiseScale=.01):
-        self.createDataSet(fileName, protectedAttributes, groundTruth, noiseScale)
+    def runRepair(self, fileName, protectedAttribute, groundTruth, noiseScale=.01):
+        self.createDataSet(fileName, protectedAttribute, groundTruth, noiseScale)
         numericalColumns = self.dataSetCopy.getNumericalColumns()
         for column in numericalColumns:
             self.repairColumn(column)
