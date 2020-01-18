@@ -3,7 +3,9 @@ from DataSet import DataSet
 
 def main():
     ds = DataSet()
-    ds.loadData("testRepairWithClassifications.csv", ["Gender"], "Truth")
+    ds.loadData("ClassifiedRicciData.csv", ["Race"], "Class")
+
+
     math = DImath(ds)
     #male0s = math.calculateConditionalProb("Gender", "M", 0)
     ber = math.calculateBER("Classifier", "Gender")
