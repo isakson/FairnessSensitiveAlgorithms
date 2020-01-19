@@ -92,7 +92,17 @@ class Metrics:
 		return organizedDataSetList, possibleGroups
 
 
-	#TODO: write this comment
+	'''
+	Performs a chi square test.
+		truePosByAttribute (dict) - dictionary containing keys of protected attribute values and values of true 
+			positive counts for that particular protected attribute value
+		trueNegByAttribute (dict) - dictionary containing keys of protected attribute values and values of true 
+			negative counts for that particular protected attribute value
+		TPTotal (int) - total number of true positives
+		TNTotal (int) - total number of true negatives
+	
+	return: chi square value (float)
+	'''
 
 	def chiSquare(self, truePosByAttribute, trueNegByAttribute, TPTotal, TNTotal):
 		keys = truePosByAttribute.keys()
@@ -118,11 +128,11 @@ class Metrics:
 
 	'''
 	Equality of Opportunity is the metric that stipulates that the true positive rate for each protected attribute should
-	be the same or similar within reason (NOTE WE WILL FIGURE THAT SHIT OUT LATER). Returns a dictionary of the true positive
-	rate for each protected attribute value (where the protected attribute value is the key and the true positive rate is the value).
+	be the same or similar within reason.
 		dataSet (DataSet) - the overarching DataSet NOTE WE'RE PROBABLY GETTING RID OF THIS PART WHEN WE MAKE IT AN INSTANCE VARIABLE
+		
+	return: the p value (float) and whether or not the p value implies that the statistic is significant (bool).
 	'''
-	#TODO: test this lol
 	def runEquOfOpportunity(self, dataset):
 		groupDataSets, possibleGroups = self.determineGroups(dataset)
 		truePosByAttribute = {}
@@ -141,12 +151,13 @@ class Metrics:
 			trueNegByAttribute[possibleGroups[i]] = trueNegCount
 			TNTotal += trueNegCount
 
+		keys = truePosByAttribute.keys()
 		chiSquareVal = self.chiSquare(truePosByAttribute, trueNegByAttribute, TPTotal, TNTotal)
 
-		#to find degreeOfFreedom, multiply rows - 1 by columns - 1, num rows is always 2, thus this is just columns - 1
+		# to find degreeOfFreedom, multiply rows - 1 by columns - 1, num rows is always 2, thus this is just columns - 1
 		degreeOfFreedom = len(keys) - 1
 
-		#finds p value using the cumulative distribution function
+		# finds p value using the cumulative distribution function
 		pValue = 1 - stats.chi2.cdf(chiSquareVal, degreeOfFreedom)
 
 		EquOfOpp = False
@@ -154,5 +165,28 @@ class Metrics:
 			EquOfOpp = True
 
 		return pValue, EquOfOpp
+
+	#TODO: write comment
+	def counterfactualMeasures(self, dataSet, trainedBayes):
+		dataSetCopy = dataSet.copyDataSet()
+		dataFrame = dataSetCopy.dataFrame
+		# TODO: change the protectedAttributes parts later
+		possibleAttributeValues = dataFrame[dataSetCopy.protectedAttributes[0]].unique()
+
+		if len(possibleAttributeValues) != 2:
+			return "Cannot calculate counterfactual measures for nonbinary protected attributes."
+
+		for i in range(dataFrame.shape[0]):
+			protectedAttributeValue = dataFrame.at[i, dataSetCopy.protectedAttributes[0]]
+			if protectedAttributeValue == possibleAttributeValues[0]:
+				dataFrame.loc[[i], [dataSetCopy.protectedAttributes[0]]] = possibleAttributeValues[1]
+
+			else:
+				dataFrame.loc[[i], [dataSetCopy.protectedAttributes[0]]] = possibleAttributeValues[0]
+
+		# TODO: Run trainedBayes on dataSetCopy
+		# TODO: Figure out how the cross-validation part will work with which part of the dataset we use (since we're not retraining)
+
+
 
 
