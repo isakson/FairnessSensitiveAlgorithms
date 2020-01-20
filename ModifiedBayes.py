@@ -14,24 +14,33 @@ class ModifiedBayes(Bayes):
 	def calculateDiscriminationScore(self, CHigherSHigher, CHigherSLower):
 		return CHigherSHigher - CHigherSLower
 
-	def modify(self, dataSet):
+	'''A test function to compute the # of values that have changed from the original dataset'''
+	def testVals(self, dataSet, CPlus, CMinus, SPlus, SMinus):
+		print("c+s+ count original: ", self.countIntersection(dataSet.dataFrame, dataSet.trueLabels, CPlus, dataSet.protectedAttributes[0], SPlus ))
+		print("c-s+ count original: ", self.countIntersection(dataSet.dataFrame, dataSet.trueLabels, CMinus, dataSet.protectedAttributes[0], SPlus ))
+		print("c-s- count original: ", self.countIntersection(dataSet.dataFrame, dataSet.trueLabels, CMinus, dataSet.protectedAttributes[0], SMinus ))
+		print("c+s- count original: ", self.countIntersection(dataSet.dataFrame, dataSet.trueLabels, CPlus, dataSet.protectedAttributes[0], SMinus ))
+
+		print("new number C+S+:", self.countIntersection(dataSet.dataFrame, "Bayes Classification", CPlus, dataSet.protectedAttributes[0], SPlus ))
+		print("new number C-S+:", self.countIntersection(dataSet.dataFrame, "Bayes Classification", CMinus, dataSet.protectedAttributes[0], SPlus ))
+		print("new number C-S-:", self.countIntersection(dataSet.dataFrame, "Bayes Classification", CMinus, dataSet.protectedAttributes[0], SMinus))
+		print("new number C+S-:", self.countIntersection(dataSet.dataFrame, "Bayes Classification", CPlus, dataSet.protectedAttributes[0], SMinus ))
+
+
+	def modify(self, dataSet, CHigher):
 
 		dataFrame = dataSet.dataFrame
 		self.nb.train(dataSet)
 		dataFrame = self.nb.classify(dataSet)
 		print("original naive bayes classifications")
 
-		print(dataFrame.to_string())
-
 		protected = dataSet.protectedAttributes[0]
 		groundTruth = dataSet.trueLabels
 
-		#figure out which of the two possible classifications should be C+ and C-
+		#assign dictionary values  based on CHigher parameter
 		classesList = self.getAttributeCategories(dataFrame, dataSet.trueLabels)
 		higherOrLowerClassificationDict = {}
-		Cx = dataFrame.loc[dataFrame[groundTruth] == classesList[0], groundTruth].count()
-		Cy = dataFrame.loc[dataFrame[groundTruth] == classesList[1], groundTruth].count()
-		if (Cx > Cy):
+		if (str(classesList[0]) == CHigher):
 			higherOrLowerClassificationDict["higher"] = classesList[0]
 			higherOrLowerClassificationDict["lower"] = classesList[1]
 		else:
@@ -55,33 +64,44 @@ class ModifiedBayes(Bayes):
 			higherOrLowerSensitiveAttributeDict["lower"] = sensitiveAttrCatList[0]
 
 
+		print(higherOrLowerClassificationDict)
+		print(higherOrLowerSensitiveAttributeDict)
 		#We need to know which index the sensitive attribute is located at in the model
 		#Good news is that we're only going to have to do this once - we could potentially ask the data team to add this feature
 		for i in range (len(self.nb.model) -1):
 			if(dataSet.headers[i] == dataSet.protectedAttributes[0]):
 				sensitiveAttributeModelIndex = i #save this index
-
-
-		#Calculate the preliminary/baseline discrimination score
-		#   disc = P(C+ | S+) - P(C+ | S-) 
-		CHigherSHigher = self.nb.model[sensitiveAttributeModelIndex][higherOrLowerSensitiveAttributeDict["higher"]][higherOrLowerClassificationDict["higher"]]
-		CHigherSLower = self.nb.model[sensitiveAttributeModelIndex][higherOrLowerSensitiveAttributeDict["lower"]][higherOrLowerClassificationDict["higher"]]
-		disc = self.calculateDiscriminationScore(CHigherSHigher, CHigherSLower)
-		print("Original discrimination score: ", disc)
+		
 
 		CHigherSLowerCount = self.countIntersection(dataFrame, protected, higherOrLowerSensitiveAttributeDict["lower"], "Bayes Classification", higherOrLowerClassificationDict["higher"])
 		CLowerSHigherCount = self.countIntersection(dataFrame, protected, higherOrLowerSensitiveAttributeDict["higher"], "Bayes Classification" , higherOrLowerClassificationDict["lower"])
-		CHigherSLowerCount = self.countIntersection(dataFrame, protected, higherOrLowerSensitiveAttributeDict["lower"], "Bayes Classification", higherOrLowerClassificationDict["higher"])
-		CLowerSHigherCount = self.countIntersection(dataFrame, protected, higherOrLowerSensitiveAttributeDict["higher"], "Bayes Classification", higherOrLowerClassificationDict["lower"])
+		CHigherSHigherCount = self.countIntersection(dataFrame, protected, higherOrLowerSensitiveAttributeDict["higher"], "Bayes Classification", higherOrLowerClassificationDict["higher"])
+		CLowerSLowerCount = self.countIntersection(dataFrame, protected, higherOrLowerSensitiveAttributeDict["lower"], "Bayes Classification", higherOrLowerClassificationDict["lower"])
+
+		CHigherSLower = CHigherSLowerCount / self.countAttr(dataFrame, protected, higherOrLowerSensitiveAttributeDict["lower"])
+		CLowerSLower = CLowerSLowerCount / self.countAttr(dataFrame, protected, higherOrLowerSensitiveAttributeDict["lower"])
+		CLowerSHigher = CLowerSHigherCount / self.countAttr(dataFrame, protected, higherOrLowerSensitiveAttributeDict["higher"])
+		CHigherSHigher = CHigherSHigherCount / self.countAttr(dataFrame, protected, higherOrLowerSensitiveAttributeDict["higher"])
+
+		#Calculate the preliminary/baseline discrimination score
+		#   disc = P(C+ | S+) - P(C+ | S-)
+		disc = self.calculateDiscriminationScore(CHigherSHigher, CHigherSLower)
+		print("Original discrimination score: ", disc)
+		
+		print("original counts")
+		print("c+s- count:", CHigherSLowerCount)
+		print("c-s- count:", CLowerSLowerCount)
+		print("c+s+ count:", CHigherSHigherCount)
+		print("c-s+ count:", CLowerSHigherCount)
 		
 		while (disc > 0.0):
 
-			#every time we get into an iteration of the while loop we want to grab these values from the model so we have the updated probabilities
-			#also because for the first iteration we want it to grab the original probabilities
-			CLowerSHigher = self.nb.model[sensitiveAttributeModelIndex][higherOrLowerSensitiveAttributeDict["higher"]][higherOrLowerClassificationDict["lower"]]
-			CHigherSLower = self.nb.model[sensitiveAttributeModelIndex][higherOrLowerSensitiveAttributeDict["lower"]][higherOrLowerClassificationDict["higher"]]
-			CLowerSLower = self.nb.model[sensitiveAttributeModelIndex][higherOrLowerSensitiveAttributeDict["lower"]][higherOrLowerClassificationDict["lower"]]
-			CHigherSHigher = self.nb.model[sensitiveAttributeModelIndex][higherOrLowerSensitiveAttributeDict["higher"]][higherOrLowerClassificationDict["higher"]]
+			# #every time we get into an iteration of the while loop we want to grab these values from the model so we have the updated probabilities
+			# #also because for the first iteration we want it to grab the original probabilities
+			# CLowerSHigher = self.nb.model[sensitiveAttributeModelIndex][higherOrLowerSensitiveAttributeDict["higher"]][higherOrLowerClassificationDict["lower"]]
+			# CHigherSLower = self.nb.model[sensitiveAttributeModelIndex][higherOrLowerSensitiveAttributeDict["lower"]][higherOrLowerClassificationDict["higher"]]
+			# CLowerSLower = self.nb.model[sensitiveAttributeModelIndex][higherOrLowerSensitiveAttributeDict["lower"]][higherOrLowerClassificationDict["lower"]]
+			# CHigherSHigher = self.nb.model[sensitiveAttributeModelIndex][higherOrLowerSensitiveAttributeDict["higher"]][higherOrLowerClassificationDict["higher"]]
 
 			print(" ")
 			print("C-S+", CLowerSHigher)
@@ -93,43 +113,39 @@ class ModifiedBayes(Bayes):
 			numPos = dataFrame.loc[dataFrame["Bayes Classification"] == higherOrLowerClassificationDict["higher"], "Bayes Classification"].count()
 			print("numPos is:", numPos)
 			
-			weightOfChange = 0.1
+			weightOfChange = 0.03
+
+			print("c+s- count:", CHigherSLowerCount)
+			print("c-s- count:", CLowerSLowerCount)
+			print("c+s+ count:", CHigherSHigherCount)
+			print("c-s+ count:", CLowerSHigherCount)
 
 			#print("model at the beginning of the while loop iteration")
 			#self.nb.printModel(dataSet)
 
 			if (numPos < actualNumPos): #We have more positive labels we can assign
-
-				# CHigherSLowerCount = self.countIntersection(dataFrame, protected, higherOrLowerSensitiveAttributeDict["lower"], "Bayes Classification", higherOrLowerClassificationDict["higher"])
-				# CLowerSHigherCount = self.countIntersection(dataFrame, protected, higherOrLowerSensitiveAttributeDict["higher"], "Bayes Classification" , higherOrLowerClassificationDict["lower"])
-				print("c+s- count:", CHigherSLowerCount)
-				print("c-s+ count:", CLowerSHigherCount)
+				countTemp = CHigherSLowerCount
 				
 				CHigherSLowerCount = CHigherSLowerCount + (weightOfChange * CLowerSHigherCount)
-				CLowerSLowerCount = CHigherSLowerCount - (weightOfChange * CLowerSHigherCount)
-				print("c+s- count:", CHigherSLowerCount)
-				print("c-s- count:", CLowerSLowerCount)
+				CLowerSLowerCount = countTemp - (weightOfChange * CLowerSHigherCount)
 
-				CHigherSLower = (CHigherSLowerCount / len(dataFrame.index)) / self.attributeCategoryProbability(dataFrame, groundTruth, higherOrLowerClassificationDict["higher"])
-				CLowerSLower = (CLowerSLowerCount / len(dataFrame.index)) / self.attributeCategoryProbability(dataFrame, groundTruth, higherOrLowerClassificationDict["lower"])
-				
-				print("new probability chigherslower", CHigherSLower)
-				print("new probability clowerslower", CLowerSLower)
+				CHigherSLower = CHigherSLowerCount / self.countAttr(dataFrame, protected, higherOrLowerSensitiveAttributeDict["lower"])
+				CLowerSLower = CLowerSLowerCount / self.countAttr(dataFrame, protected, higherOrLowerSensitiveAttributeDict["lower"])
+
 
 				#model[attribute][S+ or S-][C- or C+]
 				self.nb.model[sensitiveAttributeModelIndex][higherOrLowerSensitiveAttributeDict["lower"]][higherOrLowerClassificationDict["higher"]] = CHigherSLower #C+S-
 				self.nb.model[sensitiveAttributeModelIndex][higherOrLowerSensitiveAttributeDict["lower"]][higherOrLowerClassificationDict["lower"]] = CLowerSLower #C-S-
 
 			else: #we have assigned more positive labels than we should be
-				# CHigherSLowerCount = self.countIntersection(dataFrame, protected, higherOrLowerSensitiveAttributeDict["lower"], "Bayes Classification", higherOrLowerClassificationDict["higher"])
-				# CLowerSHigherCount = self.countIntersection(dataFrame, protected, higherOrLowerSensitiveAttributeDict["higher"], "Bayes Classification", higherOrLowerClassificationDict["lower"])
 
+				countTemp = CLowerSHigherCount
+			
 				CLowerSHigherCount = CLowerSHigherCount + (weightOfChange * CHigherSLowerCount)
-				CHigherSHigherCount = CLowerSHigherCount - (weightOfChange * CHigherSLowerCount)
+				CHigherSHigherCount = countTemp - (weightOfChange * CHigherSLowerCount)
 
-				CLowerSHigher = (CLowerSHigherCount / len(dataFrame.index)) / self.attributeCategoryProbability(dataFrame, groundTruth, higherOrLowerClassificationDict["lower"])
-				CHigherSHigher = (CHigherSHigherCount / len(dataFrame.index)) / self.attributeCategoryProbability(dataFrame, groundTruth, higherOrLowerClassificationDict["higher"])
-
+				CLowerSHigher = CLowerSHigherCount / self.countAttr(dataFrame, protected, higherOrLowerSensitiveAttributeDict["higher"])
+				CHigherSHigher = CHigherSHigherCount / self.countAttr(dataFrame, protected, higherOrLowerSensitiveAttributeDict["higher"])
 				
 				self.nb.model[sensitiveAttributeModelIndex][higherOrLowerSensitiveAttributeDict["higher"]][higherOrLowerClassificationDict["lower"]] = CLowerSHigher #C-S+
 				self.nb.model[sensitiveAttributeModelIndex][higherOrLowerSensitiveAttributeDict["higher"]][higherOrLowerClassificationDict["higher"]] = CHigherSHigher #C+S+
@@ -146,13 +162,9 @@ class ModifiedBayes(Bayes):
 		print("finished")
 		#print out the final classifications
 		print(dataFrame.to_string())
-				
-		#Important questions
-		'''the two things that we are modifiying in each case are not the things that should sum to 1, therefore, should we be also modifying the other 2, 
-	   	   not by increasing/decreasing probabilities, but just by calculating the cross attribute probability of the two? - otherwise things will not necessarily be adding to 1.
-	       This is because the two things that are supposed to add to 1 are based on the classifications (S+C- and S-C- should add to 1) - is this the same for 
-	       C-S+ and C-S-?
-		'''		
+		print("COMPARING RESULTS:\n")
+		self.testVals(dataSet, higherOrLowerClassificationDict["higher"], higherOrLowerClassificationDict["lower"], higherOrLowerSensitiveAttributeDict["higher"], higherOrLowerSensitiveAttributeDict["lower"])
+
 
 
 

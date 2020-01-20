@@ -133,7 +133,6 @@ class ModifiedNaive(Bayes):
 			print("\t Classification: ", Cx)
 			print("\t Probability: ", classificationProbs[Cx])
 
-
 	'''Given the attributes of an entry in an dataset and our trained model, it calculates the P(classification|attributes) for every
 	   possible classification and then appends a classification to dataset based on those probabilities. Appending a new column of classifications
 	   to the dataset under the header "Bayes Classification" '''
@@ -162,7 +161,7 @@ class ModifiedNaive(Bayes):
 			#iterate through the possible outcomes of the class variable
 			for classification in classificationList.keys():
 
-				numeratorDict[classification] = 1
+				numeratorDict[classification] = classificationList[classification]
 
 				#loop through outer array of the model (but we stop at second to last element of array)
 				for j, attributeDict in enumerate(self.model):
@@ -185,10 +184,10 @@ class ModifiedNaive(Bayes):
 						#### New classify() additions below --->  ####
 						#Now instead of calling the attributeCategoryProbability() function we're just accessing the classification value from the model
 
-						bayesNumerator = self.calculateGaussianProbability(meanDict[classification], stdDict[classification], row[1].iloc[j]) * classificationList[classification]
+						bayesNumerator = self.calculateGaussianProbability(meanDict[classification], stdDict[classification], row[1].iloc[j])
 						numeratorDict[classification] *= bayesNumerator
 					else:
-						bayesNumerator = attributeDict[attrValue][classification] * classificationList[classification]
+						bayesNumerator = attributeDict[attrValue][classification]
 						numeratorDict[classification] *= bayesNumerator
 
 			for key in numeratorDict.keys():
@@ -197,11 +196,28 @@ class ModifiedNaive(Bayes):
 			for key in numeratorDict.keys():
 				bayesianDict[key] = round(numeratorDict[key] / denominatorSum, 2)
 
-			classificationColumn.append(max(bayesianDict))
+			maxClassification = max(bayesianDict.items(), key=operator.itemgetter(1))[0]
+			classificationColumn.append(maxClassification)
 		
 		#sets new column equal to the array of classifications
 
 		dataFrame["Bayes Classification"] = classificationColumn
+
+		"""
+		print("c+s+ count after training: ", self.countIntersection(dataSet.dataFrame, dataSet.protectedAttributes[0], " Male", dataSet.trueLabels, ">50K." ))
+		print("c-s+ count after training: ", self.countIntersection(dataSet.dataFrame, dataSet.protectedAttributes[0], " Male", dataSet.trueLabels, "<=50K." ))
+		print("c-s- count after training: ", self.countIntersection(dataSet.dataFrame, dataSet.protectedAttributes[0], " Female", dataSet.trueLabels, "<=50K." ))
+		print("c+s- count after training: ", self.countIntersection(dataSet.dataFrame, dataSet.protectedAttributes[0], " Female", dataSet.trueLabels, ">50K." ))
+
+		print("num males", self.countAttr(dataSet.dataFrame, dataSet.protectedAttributes[0], " Male"))
+		print("num females", self.countAttr(dataSet.dataFrame, dataSet.protectedAttributes[0], " Female"))
+
+		print("C+s+ probs: ", self.countIntersection(dataSet.dataFrame, dataSet.protectedAttributes[0], " Male", "Bayes Classification", ">50K.") / self.countAttr(dataSet.dataFrame, dataSet.protectedAttributes[0], " Male"))
+		print("C-s+ probs: ",  self.countIntersection(dataSet.dataFrame, dataSet.protectedAttributes[0], " Male", "Bayes Classification", "<=50K." ) / self.countAttr(dataSet.dataFrame, dataSet.protectedAttributes[0], " Male"))
+		print("C-s- probs: ", self.countIntersection(dataSet.dataFrame, dataSet.protectedAttributes[0], " Female", "Bayes Classification", "<=50K." ) / self.countAttr(dataSet.dataFrame, dataSet.protectedAttributes[0], " Female"))
+		print("C+s- probs: ", self.countIntersection(dataSet.dataFrame, dataSet.protectedAttributes[0], " Female", "Bayes Classification", ">50K." ) / self.countAttr(dataSet.dataFrame, dataSet.protectedAttributes[0], " Female"))
+
+		"""
 		#print(dataFrame.to_string())
 		return dataFrame
 

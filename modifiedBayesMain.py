@@ -8,9 +8,8 @@ import pandas as pd
 def main():
 
 	ds = DataSet()
-
-	mb = ModifiedBayes(ds, "income-subset.csv", "sex", "income")
-	mb.modify(ds)
+	mb = ModifiedBayes(ds, "income-bracket-data.csv", "sex", "income")
+	mb.modify(ds, ">50k")
 
 
 if __name__== "__main__":

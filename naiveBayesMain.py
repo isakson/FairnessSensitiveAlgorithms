@@ -5,7 +5,7 @@ import pandas as pd
 def main():
 
 	ds = DataSet()
-	ds.loadData("income-subset.csv", "sex", "income")
+	ds.loadData("income-bracket-data.csv", "sex", "income")
 	nb = NaiveBayes()
 	nb.train(ds)
 

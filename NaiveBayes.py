@@ -7,6 +7,17 @@ class NaiveBayes(Bayes):
 	def __init__(self):
 		self.model = [] 
 
+	def testVals(self, dataSet, CPlus, CMinus, SPlus, SMinus):
+		print("c+s+ count original: ", self.countIntersection(dataSet.dataFrame, dataSet.trueLabels, CPlus, dataSet.protectedAttributes[0], SPlus ))
+		print("c-s+ count original: ", self.countIntersection(dataSet.dataFrame, dataSet.trueLabels, CMinus, dataSet.protectedAttributes[0], SPlus ))
+		print("c-s- count original: ", self.countIntersection(dataSet.dataFrame, dataSet.trueLabels, CMinus, dataSet.protectedAttributes[0], SMinus ))
+		print("c+s- count original: ", self.countIntersection(dataSet.dataFrame, dataSet.trueLabels, CPlus, dataSet.protectedAttributes[0], SMinus ))
+
+		print("new number C+S+:", self.countIntersection(dataSet.dataFrame, "Bayes Classification", CPlus, dataSet.protectedAttributes[0], SPlus ))
+		print("new number C-S+:", self.countIntersection(dataSet.dataFrame, "Bayes Classification", CMinus, dataSet.protectedAttributes[0], SPlus ))
+		print("new number C-S-:", self.countIntersection(dataSet.dataFrame, "Bayes Classification", CMinus, dataSet.protectedAttributes[0], SMinus))
+		print("new number C+S-:", self.countIntersection(dataSet.dataFrame, "Bayes Classification", CPlus, dataSet.protectedAttributes[0], SMinus ))
+
 	'''Create model filled as such:
 		self.model = array of attributes (e.g. race, position, etc.) where each index points to a dictionary
 			attrDict (categorical) { key =  attribute category (e.g. white, black, hispanic), value = probability dictionary}
@@ -16,6 +27,8 @@ class NaiveBayes(Bayes):
 			meanDict = {key = classification, value = conditional mean given this classification}
 			stdDict = {key = classification, value = conditional std given this classification}'''
 	def train(self, dataSet):
+
+		print("NEWEST VERSION")
 
 		dataFrame = dataSet.dataFrame
 		groundTruth = dataSet.trueLabels
@@ -157,7 +170,7 @@ class NaiveBayes(Bayes):
 			#iterate through the possible outcomes of the class variable
 			for classification in classificationList.keys():
 
-				numeratorDict[classification] = 1
+				numeratorDict[classification] = classificationList[classification]
 
 				#loop through outer array of the model (but we stop at second to last element of array)
 				for j, attributeDict in enumerate(self.model):
@@ -180,10 +193,10 @@ class NaiveBayes(Bayes):
 						#### New classify() additions below --->  ####
 						#Now instead of calling the attributeCategoryProbability() function we're just accessing the classification value from the model
 
-						bayesNumerator = self.calculateGaussianProbability(meanDict[classification], stdDict[classification], row[1].iloc[j]) * classificationList[classification]
+						bayesNumerator = self.calculateGaussianProbability(meanDict[classification], stdDict[classification], row[1].iloc[j])
 						numeratorDict[classification] *= bayesNumerator
 					else:
-						bayesNumerator = attributeDict[attrValue][classification] * classificationList[classification]
+						bayesNumerator = attributeDict[attrValue][classification]
 						numeratorDict[classification] *= bayesNumerator
 
 			for key in numeratorDict.keys():
@@ -192,12 +205,15 @@ class NaiveBayes(Bayes):
 			for key in numeratorDict.keys():
 				bayesianDict[key] = round(numeratorDict[key] / denominatorSum, 2)
 
-			classificationColumn.append(max(bayesianDict))
+			maxClassification = max(bayesianDict.items(), key=operator.itemgetter(1))[0]
+			classificationColumn.append(maxClassification)
 		
 		#sets new column equal to the array of classifications
 
 		dataFrame["Bayes Classification"] = classificationColumn
 		print(dataFrame.to_string())
+		dataFrame.to_csv(index=False)
+		self.testVals(dataSet, ">50K.", "<=50K.", " Male", " Female")
 		return dataFrame
 
 

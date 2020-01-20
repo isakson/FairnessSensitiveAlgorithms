@@ -14,6 +14,17 @@ class Bayes:
 		except:
 			return 0
 
+	'''counts the number of rows that have both a1Val and a2Val'''
+	def countIntersectionE(self, dataFrame, a1, a1Val, a2, a2Val):
+		return (len(dataFrame.groupby([a1, a2]).get_group((a1Val, a2Val))))
+
+	'''counts the number of rows that have aVal'''
+	def countAttr(self, dataFrame, a, aVal):
+		try:
+			return dataFrame.loc[dataFrame[a] == aVal, a].count()
+		except:
+			return 0
+
 	'''returns the probability of a specific attribute category's probability (# +category/# people total)
 	   gives a value between 0-1 '''
 	def attributeCategoryProbability(self, dataFrame, a, value):
@@ -41,16 +52,9 @@ class Bayes:
 		return dataFrame.groupby([groundTruth]).get_group(gTValue)[a].std()
 
 	
-	''' Probability of (a | groundTruth)'''
-	def calculateCrossAttributeProbability(self, dataFrame, groundTruth, gTValue, a, aValue):
-		#try-except in case there's no instances of the particular attribute pair
-		try:
-			inSameRowProb = (len(dataFrame.groupby([a, groundTruth]).get_group((aValue, gTValue)))) / len(dataFrame.index)
-			aProb = self.attributeCategoryProbability(dataFrame, a, aValue)
-			CAP = inSameRowProb / aProb
-			return CAP
-		except:
-			return 0
+	''' Probability of (a | b)'''
+	def calculateCrossAttributeProbability(self, dataFrame, b, bValue, a, aValue):
+		return self.countIntersection(dataFrame, a, aValue, b, bValue) / self.countAttr(dataFrame, b, bValue)
 
 
 	def calculateGaussianProbability(self, mean, std, value):
