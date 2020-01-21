@@ -212,8 +212,8 @@ class NaiveBayes(Bayes):
 
 		dataFrame["Bayes Classification"] = classificationColumn
 		print(dataFrame.to_string())
-		dataFrame.to_csv(index=False)
-		self.testVals(dataSet, ">50K.", "<=50K.", " Male", " Female")
+		#dataFrame.to_csv('out.csv', sep='\t', encoding='utf-8')
+		#self.testVals(dataSet, ">50K.", "<=50K.", " Male", " Female")
 		return dataFrame
 
 
