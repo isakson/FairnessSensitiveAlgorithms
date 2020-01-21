@@ -35,11 +35,17 @@ def classify(train_test, trainClassifications, testClassifications):
     classifier.fit(train_test[0], trainClassifications)
     return classifier.predict(train_test[1])
 
+'''
+Computes the balanced error rate (BER) for the classifier results.
+'''
 def computeBER(train_test, classifierCol, classifierResults):
     bsr = balanced_accuracy_score(train_test[1][classifierCol], classifierResults)
     ber = 1 - bsr
     return ber
 
+'''
+Computes the parameter Beta for the algorithm.
+'''
 def computeBeta(train_test, classifierCol, classifierResults):
     confusionMatrix = confusion_matrix(train_test[1][classifierCol], classifierResults)
     beta = confusionMatrix[0, 1] / (confusionMatrix[0, 0] + confusionMatrix[0, 1])
@@ -59,6 +65,8 @@ else:
 
 
 '''
+#The lines of code below use PyML instead of sklearn
+
 # -*- coding: utf-8 -*-
 
 import numpy as np
