@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import pickle
+import sklearn
 
 '''
 An object representing a data set pulled from a csv file. It contains:
@@ -32,6 +33,17 @@ class DataSet:
         self.headers = list(self.dataFrame.columns.values)
         self.numAttributes = len(self.headers)
         self.hasGroundTruth = True
+
+    '''
+    Split data into training and test sets
+    NOTE: This function DOES NOT WORK and needs testing!!
+    '''
+    def crossValidate(self, numFolds):
+        kf = sklearn.cross_validation.KFold(self.dataFrame.shape[0], numFolds, shuffle=False)
+        for train_index, test_index in kf:
+            trainData, testData = self.dataFrame[train_index], self.dataFrame[test_index]
+        return trainData, testData
+
 
     '''
     Adds random noise to a column in the DataFrame according to the provided scale
