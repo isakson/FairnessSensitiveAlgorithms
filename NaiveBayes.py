@@ -1,6 +1,7 @@
 from Bayes import Bayes
 import pandas as pd
 import operator
+from Metrics import Metrics
 
 class NaiveBayes(Bayes):
 

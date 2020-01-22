@@ -2,6 +2,7 @@ from Bayes import Bayes
 from modifiedNaive import ModifiedNaive
 import pandas as pd
 import operator
+from Metrics import Metrics
 
 class ModifiedBayes(Bayes):
 
@@ -162,7 +163,8 @@ class ModifiedBayes(Bayes):
 		#print out the final classifications
 		print(dataFrame.to_string())
 		print("COMPARING RESULTS:\n")
-		self.testVals(dataSet, higherOrLowerClassificationDict["higher"], higherOrLowerClassificationDict["lower"], higherOrLowerSensitiveAttributeDict["higher"], higherOrLowerSensitiveAttributeDict["lower"])
+		
+		#self.testVals(dataSet, higherOrLowerClassificationDict["higher"], higherOrLowerClassificationDict["lower"], higherOrLowerSensitiveAttributeDict["higher"], higherOrLowerSensitiveAttributeDict["lower"])
 		dataFrame.to_csv('modifiedBayesClassification.csv', sep='\t', encoding='utf-8')
 
 
