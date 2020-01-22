@@ -82,7 +82,24 @@ class DataSet:
             return True
         else:
             return False
+    ''''
+    In place
+    NOT dummified
+    '''
+    def makeNumerical(self, column):
+        uniqueValues = self.dataFrame[column].unique()
+        numericalValues = []
+        for i in range(len(uniqueValues)):
+            numericalValues.append(i)
+        self.dataFrame[column].replace(uniqueValues, numericalValues, inplace=True)
 
+
+    def dummify(self):
+        columns = []
+        for column in self.headers:
+            if not (self.isNumerical(column) or column == self.protectedAttributes[0]):
+                columns.append(column)
+        return pd.get_dummies(self.dataFrame, columns=columns)
     '''
     Saves the dataFrame as a .csv file. All objects will be saved to the folder dataCSVs.
         fileName (string) - the desired output file name (note: should end in .csv, otherwise it saves as a textfile but is still comma-separated)

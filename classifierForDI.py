@@ -3,9 +3,6 @@ from sklearn.svm import SVC
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import balanced_accuracy_score, confusion_matrix
 
-ds = DataSet()
-ds.loadData("BinaryClassifiedRicciData.csv", ["Race"], "Class")
-dataFrame = ds.dataFrame
 
 '''
 Splits data into training and test sets by shuffling the order of the rows and splitting into 
@@ -20,7 +17,6 @@ two DataFrames according to the ratios provided.
 
 def splitDataIntoTrainTest(dataFrame, fractionTrain, fractionTest, classifierCol):
     train_test = train_test_split(dataFrame, train_size=fractionTrain, test_size=fractionTest, shuffle=True)
-    print(train_test)
 
     trainClassifications = train_test[0][classifierCol]
     testClassifications = train_test[1][classifierCol]
@@ -51,68 +47,22 @@ def computeBeta(train_test, classifierCol, classifierResults):
     beta = confusionMatrix[0, 1] / (confusionMatrix[0, 0] + confusionMatrix[0, 1])
     return beta
 
-classifierCol = "Race"
-data_split = splitDataIntoTrainTest(dataFrame, .8, .2, classifierCol)
-classifications = classify(data_split[0], data_split[1], data_split[2])
-ber = computeBER(data_split[0], classifierCol, classifications)
-beta = computeBeta(data_split[0], classifierCol, classifications)
-epsilonPrime = 1 / 2 - beta / 8  # allowable BER threshold
-if epsilonPrime < ber:
-    print("No disparate impact.")
-else:
-    print("Possible disparate impact.")
+def detectDI(dataSet):
+    copy = dataSet.copyDataSet()
+    copy.makeNumerical(copy.protectedAttributes[0]) #TODO: remove [0] once it's pushed onto master
+    dummified = copy.dummify()
 
-
-
-'''
-#The lines of code below use PyML instead of sklearn
-
-# -*- coding: utf-8 -*-
-
-import numpy as np
-import matplotlib.pyplot as plt
-import pandas as pd
-#from PyML import *
-
-def main():
-    # ds = DataSet()
-    # ds.loadData("ClassifiedRicciData.csv", ["Race"], "Class")
-
-    df = pd.DataFrame(np.random.randn(100, 2))
-
-    # df = ds.dataFrame
-    msk = np.random.rand(len(df)) < 0.8
-    train = df[msk]
-    test = df[~msk]
-
-    classifier = SVM()
-    print "completed SVM"
-
-    classifier.train(train)
-    r = classifier.test(test)
-    ber = 1 - r.getBalancedSuccessRate()
-    epsilon = ber
-
-    confusionMatrix = r.getConfusionMatrix()
-
-    beta = confusionMatrix[0, 1] / (confusionMatrix[0, 0] + confusionMatrix[0, 1])
+    classifierCol = copy.protectedAttributes[0] #TODO also change
+    data_split = splitDataIntoTrainTest(dummified, .8, .2, classifierCol)
+    classifications = classify(data_split[0], data_split[1], data_split[2])
+    ber = computeBER(data_split[0], classifierCol, classifications)
+    beta = computeBeta(data_split[0], classifierCol, classifications)
     epsilonPrime = 1 / 2 - beta / 8  # allowable BER threshold
+    if epsilonPrime < ber:
+        return "No disparate impact."
+    else:
+        return "Possible disparate impact."
 
-    # We want to check whether epsilonPrime < epsilon. If so, then no DI
-
-
-if __name__ == "__main__":
-    main()
-'''
-
-
-# n_estimators = 400 #TODO: Consider n_estimators later?
-#
-# X, y = datasets.make_hastie_10_2(n_samples=12000, random_state=1)
-#
-# X_test, y_test = X[2000:], y[2000:]
-# X_train, y_train = X[:2000], y[:2000]
-#
-# ada_real = AdaBoostClassifier(
-#     algorithm="SAMME.R")
-# print(ada_real.fit(X_train, y_train))
+ds = DataSet()
+ds.loadData("ClassifiedRicciData.csv", ["Race"], "Class")
+print(detectDI(ds))
