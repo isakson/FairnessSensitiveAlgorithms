@@ -4,7 +4,8 @@ from scipy import stats
 
 class Metrics:
 
-	#TODO: Maybe make the DataSet be an instance variable?
+	# TODO: Maybe make the DataSet be an instance variable?
+	# TODO: Write function to run all metrics
 
 	def __init__(self):
 		pass
@@ -91,7 +92,6 @@ class Metrics:
 
 		return organizedDataSetList, possibleGroups
 
-
 	'''
 	Performs a chi square test.
 		truePosByAttribute (dict) - dictionary containing keys of protected attribute values and values of true 
@@ -103,7 +103,6 @@ class Metrics:
 	
 	return: chi square value (float)
 	'''
-
 	def chiSquare(self, truePosByAttribute, trueNegByAttribute, TPTotal, TNTotal):
 		keys = truePosByAttribute.keys()
 		totalDict = {}
@@ -166,11 +165,34 @@ class Metrics:
 
 		return pValue, EquOfOpp
 
-	#TODO: write comment
+	# TODO: train vs test part of dataset? help?
+	'''
+	Computes the fairness of trainedBayes according to counterfactual measures by running Bayes on the original data, then
+	swapping the protected attribute values and reclassifying (without retraining). Then, to compute accuracy, it treats the
+	original classifications as if they were true.
+		dataSet (DataSet) - the original dataset
+		trainedBayes (Bayes object) - the trained Bayes model
+		
+	return: accuracy
+	'''
 	def counterfactualMeasures(self, dataSet, trainedBayes):
+		swappedDataSet = self.swapProtectedAttributes(dataSet)
+
+		# TODO: Run trainedBayes on dataSetCopy
+		# TODO: Figure out how the cross-validation part will work with which part of the dataset we use (since we're not retraining)
+
+	# TODO: dealing with nonbinary protected attributes
+	'''
+	Copies the dataset, then swaps the protected attribute values in the copy.
+		dataSet (DataSet) - the original dataset
+		
+	returns: a copy of dataSet with the protected attribute values swapped.
+	'''
+	def swapProtectedAttributes(self, dataSet):
+		# TODO: change the protectedAttributes parts later
 		dataSetCopy = dataSet.copyDataSet()
 		dataFrame = dataSetCopy.dataFrame
-		# TODO: change the protectedAttributes parts later
+
 		possibleAttributeValues = dataFrame[dataSetCopy.protectedAttributes[0]].unique()
 
 		if len(possibleAttributeValues) != 2:
@@ -184,8 +206,67 @@ class Metrics:
 			else:
 				dataFrame.loc[[i], [dataSetCopy.protectedAttributes[0]]] = possibleAttributeValues[0]
 
-		# TODO: Run trainedBayes on dataSetCopy
-		# TODO: Figure out how the cross-validation part will work with which part of the dataset we use (since we're not retraining)
+		return dataSetCopy
+
+	# TODO: make this nonbinary; currently only works for binary protected attributes :/
+	'''
+	Counts the total number of preferred outcomes for a particular protected attribute class 
+		dataset (DataSet) - the original dataset
+		
+	returns: a dictionary where the keys are protected attribute values and the values are the number of positive
+		outcomes that protected attribute group received.
+	'''
+	def countPositiveOutcomes(self, dataSet):
+		dataFrame = dataSet.dataFrame
+		possibleAttributes = dataFrame[dataSet.protectedAttributes[0]].unique()
+
+		posOutcomes0 = 0
+		posOutcomes1 = 0
+		for i in range(dataFrame.shape[0]):
+			bayesClassification = dataFrame.at[i, "Bayes Classification"]
+			protectedAttribute = dataFrame.at[i, dataSet.protectedAttributes[0]]
+
+			if bayesClassification == 1 and protectedAttribute == possibleAttributes[0]:
+				posOutcomes0 += 1
+			elif bayesClassification == 1 and protectedAttribute == possibleAttributes[1]:
+				posOutcomes1 += 1
+
+		posOutcomesDict = {possibleAttributes[0]: posOutcomes0, possibleAttributes[1]: posOutcomes1}
+
+		return posOutcomesDict
+
+	# TODO: Finish this function
+	'''
+	Calculates whether or not a particular classification algorithm gives preferred treatment for a particular group
+		dataSet (DataSet) - the original dataset
+		trainedBayes (trained Bayes model) - the trained Bayes model
+		typeOfBayes (string) - the name of the type of Bayes algorithm used ("naive", "modified", or "two")
+		
+	returns: a boolean
+	'''
+	def preferredTreatment(self, dataSet, trainedBayes, typeOfBayes):
+		if typeOfBayes != "two":
+			return True
+
+		else:
+			# Count the amount of positive outcomes each protected attribute value group receives in the original dataset
+			originalPosOutcomes = self.countPositiveOutcomes(dataSet)
+			dataSetCopy = dataSet.copyDataSet()
+			# Change which Bayes is being run on a particular protected attribute
+
+			# Count the amount of positive outcomes each protected attribute value group receives in the new dataset
+			swappedPosOutcomes = self.countPositiveOutcomes(dataSetCopy)
+			# Compare that to the original
+			# If swapped is worse than the original for all, return true; else return false
+			keys = originalPosOutcomes.keys()
+			listOfBools = []
+			for key in keys:
+				if originalPosOutcomes[key] >= swappedPosOutcomes[key]:
+					listOfBools.append(True)
+				else:
+					listOfBools.append(False)
+
+			return all(listOfBools)
 
 
 
