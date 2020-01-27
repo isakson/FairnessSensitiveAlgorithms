@@ -22,10 +22,6 @@ class ModifiedNaive(Bayes):
 		classificationList = dataFrame[groundTruth].unique()
 		protected = dataSet.protectedAttribute
 
-		#make sure that model has not been classified already 
-		#if not(dataSet.hasGroundTruth):
-			#print("Error: Dataset has no ground truth. Cannot train.")
-			#pass
 		#to ensure that we don't train twice
 		if bool(self.model):
 			print("Error: Model not empty.")
@@ -89,16 +85,13 @@ class ModifiedNaive(Bayes):
 					
 			self.model.append(attrDict)
 
-		#### New train() additions below ---> #### 
 		#Construct a dictionary that will hold the probability of each sensitive attribute S_x (e.g. male, female)
 		sensitiveProbabilitiesDict = {}
 		#for each of the sensitive attributes 
 		for Sx in dataFrame[dataSet.protectedAttribute].unique():
-			#probability of the particular sensitive attribute 
 			#P = (# people belonging to this sensitive group) / (total # of people)
 			probOfSx = self.attributeCategoryProbability(dataFrame, dataSet.protectedAttribute, Sx)
 			sensitiveProbabilitiesDict[Sx] = probOfSx
-
 		#append it to the end of the outermost model array
 		self.model.append(sensitiveProbabilitiesDict)
 
@@ -108,10 +101,8 @@ class ModifiedNaive(Bayes):
 
 
 	'''Pretty prints out the Bayesian model '''
-
 	def printModel(self, dataSet):
 		#Through the outermost model array, we loop up until the 2nd to last element
-		#The last element has the dictionary of classification probabilities
 		for i in range(0, len(self.model) - 1):
 			print("Attribute: ", dataSet.headers[i])
 			for attrCategory in self.model[i].keys():
@@ -141,10 +132,8 @@ class ModifiedNaive(Bayes):
 		dataFrame = dataSet.dataFrame
 		groundTruth = dataSet.trueLabels
 
-		#### NEW #####
 		classificationList = dataFrame[groundTruth].unique()
 		sensitiveList = self.model[-1] #variable that points to the dictionary of classification probabilities
-		##############
 
 		#make a new column for the data frame where our classifications are going to go
 		classificationColumn = []
@@ -180,21 +169,20 @@ class ModifiedNaive(Bayes):
 					#value for the current row of the given attribute
 					attrValue = row[1].iloc[j]
 
+					#NUMERATOR = the product of P(a1|C)...P(an|C)*P(S)
 					if(dataSet.headers[j] in dataSet.getNumericalColumns()): #numerical
 						meanDict = attributeDict["mean"]
 						stdDict = attributeDict["std"]
 
-						#NUMERATOR = the product of P(a1|C)...P(an|C)*P(S)
-						
 						bayesNumerator = self.calculateGaussianProbability(meanDict[classification], stdDict[classification], row[1].iloc[j])
 						numeratorDict[classification] *= bayesNumerator
 					else:
 						bayesNumerator = attributeDict[attrValue][classification]
 						numeratorDict[classification] *= bayesNumerator
 
+			#add together probabilities for each classification so we can divide each of them by the sum to normalize them
 			for key in numeratorDict.keys():
 				denominatorSum += numeratorDict[key]
-			#currently just adding dictionary of all probabilities given all classifications but eventually want to be adding the max of these (the final classification)
 			for key in numeratorDict.keys():
 				bayesianDict[key] = round(numeratorDict[key] / denominatorSum, 2)
 
@@ -202,9 +190,8 @@ class ModifiedNaive(Bayes):
 			classificationColumn.append(maxClassification)
 		
 		#sets new column equal to the array of classifications
-
 		dataFrame["Bayes Classification"] = classificationColumn
-
+		
 		#print(dataFrame.to_string())
 		return dataFrame
 

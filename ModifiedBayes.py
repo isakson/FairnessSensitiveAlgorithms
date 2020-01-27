@@ -102,7 +102,7 @@ class ModifiedBayes(Bayes):
 		print("Original probabilities calculated from 'Bayes Classification' column 1st modifiedNaive iteration: ")
 		self.printProbabilities(CHigherSLower, CLowerSLower, CHigherSHigher, CLowerSHigher)
 
-		#Should not be doing this
+		#Should not be doing this because it overwrites the original values from the model which makes the jump in numpos even worse for the first iteration
 		'''self.nb.model[sensitiveAttributeModelIndex][higherOrLowerSensitiveAttributeDict["lower"]][higherOrLowerClassificationDict["higher"]] = CHigherSLower
 		self.nb.model[sensitiveAttributeModelIndex][higherOrLowerSensitiveAttributeDict["lower"]][higherOrLowerClassificationDict["lower"]] = CLowerSLower
 		self.nb.model[sensitiveAttributeModelIndex][higherOrLowerSensitiveAttributeDict["higher"]][higherOrLowerClassificationDict["higher"]] = CHigherSHigher

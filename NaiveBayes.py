@@ -25,10 +25,6 @@ class NaiveBayes(Bayes):
 		groundTruth = dataSet.trueLabels
 		classificationList = dataFrame[groundTruth].unique()
 
-		#make sure that model has not been classified already 
-		#if not(dataSet.hasGroundTruth):
-		#	print("Error: Dataset has no ground truth. Cannot train.")
-			#pass
 		#to ensure that we don't train twice
 		if bool(self.model):
 			print("Error: Model not empty.")
