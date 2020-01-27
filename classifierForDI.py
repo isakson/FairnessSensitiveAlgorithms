@@ -39,10 +39,10 @@ Runs the full Feldman disparate impact detection algorithm.
 '''
 def detectDI(dataSet):
     copy = dataSet.copyDataSet()
-    copy.makeNumerical(copy.protectedAttributes[0]) #TODO: remove [0] once it's pushed onto master
+    copy.makeNumerical(copy.protectedAttribute)
     dummifiedData = copy.dummify()
 
-    classifierCol = copy.protectedAttributes[0] #TODO also change
+    classifierCol = copy.protectedAttribute
     classifications = classify(dummifiedData, dummifiedData[classifierCol])
     ber = computeBER(dummifiedData, classifierCol, classifications)
     beta = computeBeta(dummifiedData, classifierCol, classifications)
