@@ -8,9 +8,7 @@ class ModifiedBayes(Bayes):
 
 	'''Instance of modified bayes generates an instance of naive bayes that we 
 	   can call naiveBayes functions on. '''
-	def __init__(self, ds, fileName, protectedAttribute, trueLabel):
-		ds.loadData(fileName, protectedAttribute, trueLabel)
-		self.protectedAttribute = protectedAttribute
+	def __init__(self):
 		self.nb = ModifiedNaive()
 
 	'''Calculates the discrimination score by subtracting the probability of being in the privileged group
@@ -70,7 +68,7 @@ class ModifiedBayes(Bayes):
 	def modify(self, dataSet, CHigher):
 		#Variables 
 		dataFrame = dataSet.dataFrame
-		protected = self.protectedAttribute
+		protected = dataSet.protectedAttribute
 		groundTruth = dataSet.trueLabels
 		sensitiveAttributeModelIndex = dataSet.headers.index(protected) #need to know index of sensitive attribute in the model
 

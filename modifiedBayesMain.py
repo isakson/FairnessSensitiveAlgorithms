@@ -5,11 +5,12 @@ import pandas as pd
 from Metrics import Metrics
 
 
-'''Modified Bayes main takes in a dataset and calls the modifying functions '''
+'''create dataset object, load data to it, create modified bayes object (which creates a modified naive object) and modify it '''
 def main():
 
 	ds = DataSet()
-	mb = ModifiedBayes(ds, "income-subset.csv", "sex", "income")
+	ds.loadData("income-subset.csv", "sex", "income")
+	mb = ModifiedBayes()
 	mb.modify(ds, ">50k")
 	mt = Metrics()
 	mt.calculateAccuracy(ds)
