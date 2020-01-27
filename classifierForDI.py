@@ -1,4 +1,3 @@
-from DataSet import DataSet
 from sklearn.svm import SVC
 from sklearn.metrics import balanced_accuracy_score, confusion_matrix
 
