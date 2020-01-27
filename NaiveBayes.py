@@ -8,16 +8,6 @@ class NaiveBayes(Bayes):
 	def __init__(self):
 		self.model = [] 
 
-	def testVals(self, dataSet, CPlus, CMinus, SPlus, SMinus):
-		print("c+s+ count original: ", self.countIntersection(dataSet.dataFrame, dataSet.trueLabels, CPlus, dataSet.protectedAttributes[0], SPlus ))
-		print("c-s+ count original: ", self.countIntersection(dataSet.dataFrame, dataSet.trueLabels, CMinus, dataSet.protectedAttributes[0], SPlus ))
-		print("c-s- count original: ", self.countIntersection(dataSet.dataFrame, dataSet.trueLabels, CMinus, dataSet.protectedAttributes[0], SMinus ))
-		print("c+s- count original: ", self.countIntersection(dataSet.dataFrame, dataSet.trueLabels, CPlus, dataSet.protectedAttributes[0], SMinus ))
-
-		print("new number C+S+:", self.countIntersection(dataSet.dataFrame, "Bayes Classification", CPlus, dataSet.protectedAttributes[0], SPlus ))
-		print("new number C-S+:", self.countIntersection(dataSet.dataFrame, "Bayes Classification", CMinus, dataSet.protectedAttributes[0], SPlus ))
-		print("new number C-S-:", self.countIntersection(dataSet.dataFrame, "Bayes Classification", CMinus, dataSet.protectedAttributes[0], SMinus))
-		print("new number C+S-:", self.countIntersection(dataSet.dataFrame, "Bayes Classification", CPlus, dataSet.protectedAttributes[0], SMinus ))
 
 	'''Create model filled as such:
 		self.model = array of attributes (e.g. race, position, etc.) where each index points to a dictionary
@@ -36,9 +26,9 @@ class NaiveBayes(Bayes):
 		classificationList = dataFrame[groundTruth].unique()
 
 		#make sure that model has not been classified already 
-		if not(dataSet.hasGroundTruth):
-			print("Error: Dataset has no ground truth. Cannot train.")
-			pass
+		#if not(dataSet.hasGroundTruth):
+		#	print("Error: Dataset has no ground truth. Cannot train.")
+			#pass
 		#to ensure that we don't train twice
 		if bool(self.model):
 			print("Error: Model not empty.")
@@ -214,7 +204,6 @@ class NaiveBayes(Bayes):
 		dataFrame["Bayes Classification"] = classificationColumn
 		print(dataFrame.to_string())
 		#dataFrame.to_csv('out.csv', sep='\t', encoding='utf-8')
-		#self.testVals(dataSet, ">50K.", "<=50K.", " Male", " Female")
 		return dataFrame
 
 

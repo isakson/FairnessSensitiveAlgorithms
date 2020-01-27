@@ -20,12 +20,12 @@ class ModifiedNaive(Bayes):
 		dataFrame = dataSet.dataFrame
 		groundTruth = dataSet.trueLabels
 		classificationList = dataFrame[groundTruth].unique()
-		protected = dataSet.protectedAttributes[0]
+		protected = dataSet.protectedAttribute
 
 		#make sure that model has not been classified already 
-		if not(dataSet.hasGroundTruth):
-			print("Error: Dataset has no ground truth. Cannot train.")
-			pass
+		#if not(dataSet.hasGroundTruth):
+			#print("Error: Dataset has no ground truth. Cannot train.")
+			#pass
 		#to ensure that we don't train twice
 		if bool(self.model):
 			print("Error: Model not empty.")
@@ -93,10 +93,10 @@ class ModifiedNaive(Bayes):
 		#Construct a dictionary that will hold the probability of each sensitive attribute S_x (e.g. male, female)
 		sensitiveProbabilitiesDict = {}
 		#for each of the sensitive attributes 
-		for Sx in dataFrame[dataSet.protectedAttributes[0]].unique():
+		for Sx in dataFrame[dataSet.protectedAttribute].unique():
 			#probability of the particular sensitive attribute 
 			#P = (# people belonging to this sensitive group) / (total # of people)
-			probOfSx = self.attributeCategoryProbability(dataFrame, dataSet.protectedAttributes[0], Sx)
+			probOfSx = self.attributeCategoryProbability(dataFrame, dataSet.protectedAttribute, Sx)
 			sensitiveProbabilitiesDict[Sx] = probOfSx
 
 		#append it to the end of the outermost model array
@@ -159,7 +159,7 @@ class ModifiedNaive(Bayes):
 			denominatorSum = 0 #reset it for every row
 
 			#Get the person's sensitive group
-			ind = dataSet.headers.index(dataSet.protectedAttributes[0])
+			ind = dataSet.headers.index(dataSet.protectedAttribute)
 			sensitiveGroup = row[1].iloc[ind]
 
 			#iterate through the possible outcomes of the class variable

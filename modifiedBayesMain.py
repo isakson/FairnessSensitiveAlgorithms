@@ -9,7 +9,7 @@ from Metrics import Metrics
 def main():
 
 	ds = DataSet()
-	mb = ModifiedBayes(ds, "income-bracket-data.csv", "sex", "income")
+	mb = ModifiedBayes(ds, "income-subset.csv", "sex", "income")
 	mb.modify(ds, ">50k")
 	mt = Metrics()
 	mt.calculateAccuracy(ds)

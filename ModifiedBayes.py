@@ -9,7 +9,8 @@ class ModifiedBayes(Bayes):
 	'''Instance of modified bayes generates an instance of naive bayes that we 
 	   can call naiveBayes functions on. '''
 	def __init__(self, ds, fileName, protectedAttribute, trueLabel):
-		ds.loadData(fileName, [protectedAttribute], trueLabel)
+		ds.loadData(fileName, protectedAttribute, trueLabel)
+		self.protectedAttribute = protectedAttribute
 		self.nb = ModifiedNaive()
 
 	'''Calculates the discrimination score by subtracting the probability of being in the privileged group
@@ -31,9 +32,9 @@ class ModifiedBayes(Bayes):
 	   S+ ("higher") is the privileged group. We do this based on counts instead of as a manual parameter because there isn't an 'ideal' 
 	   sensitive attribute category like there is with classifications.'''
 	def assignSensitivity(self, dataSet, dataFrame, sensitivityDict):
-		sensitiveAttrCatList = self.getAttributeCategories(dataFrame, dataSet.protectedAttributes[0])
-		Sx = dataFrame.loc[dataFrame[dataSet.protectedAttributes[0]] == sensitiveAttrCatList[0], dataSet.protectedAttributes[0]].count()
-		Sy = dataFrame.loc[dataFrame[dataSet.protectedAttributes[0]] == sensitiveAttrCatList[1], dataSet.protectedAttributes[0]].count()
+		sensitiveAttrCatList = self.getAttributeCategories(dataFrame, dataSet.protectedAttribute)
+		Sx = dataFrame.loc[dataFrame[dataSet.protectedAttribute] == sensitiveAttrCatList[0], dataSet.protectedAttribute].count()
+		Sy = dataFrame.loc[dataFrame[dataSet.protectedAttribute] == sensitiveAttrCatList[1], dataSet.protectedAttribute].count()
 		if (Sx > Sy):
 			sensitivityDict["higher"] = sensitiveAttrCatList[0]
 			sensitivityDict["lower"] = sensitiveAttrCatList[1]
@@ -53,10 +54,10 @@ class ModifiedBayes(Bayes):
 		print("c-s- count:", CLowerSLowerCount)
 		print("c+s+ count:", CHigherSHigherCount)
 		print("c-s+ count:", CLowerSHigherCount)
-		print("bayes classification column c+s- count: ", self.countIntersection(dataFrame, dataSet.protectedAttributes[0], higherOrLowerSensitiveAttributeDict["lower"], "Bayes Classification", higherOrLowerClassificationDict["higher"]))
-		print("bayes classification column c-s- count: ", self.countIntersection(dataFrame, dataSet.protectedAttributes[0], higherOrLowerSensitiveAttributeDict["lower"], "Bayes Classification" , higherOrLowerClassificationDict["lower"]))
-		print("bayes classification column c+s+ count: ", self.countIntersection(dataFrame, dataSet.protectedAttributes[0], higherOrLowerSensitiveAttributeDict["higher"], "Bayes Classification", higherOrLowerClassificationDict["higher"]))
-		print("bayes classification column c-s+ count: ", self.countIntersection(dataFrame, dataSet.protectedAttributes[0], higherOrLowerSensitiveAttributeDict["higher"], "Bayes Classification", higherOrLowerClassificationDict["lower"]))
+		print("bayes classification column c+s- count: ", self.countIntersection(dataFrame, dataSet.protectedAttribute, higherOrLowerSensitiveAttributeDict["lower"], "Bayes Classification", higherOrLowerClassificationDict["higher"]))
+		print("bayes classification column c-s- count: ", self.countIntersection(dataFrame, dataSet.protectedAttribute, higherOrLowerSensitiveAttributeDict["lower"], "Bayes Classification" , higherOrLowerClassificationDict["lower"]))
+		print("bayes classification column c+s+ count: ", self.countIntersection(dataFrame, dataSet.protectedAttribute, higherOrLowerSensitiveAttributeDict["higher"], "Bayes Classification", higherOrLowerClassificationDict["higher"]))
+		print("bayes classification column c-s+ count: ", self.countIntersection(dataFrame, dataSet.protectedAttribute, higherOrLowerSensitiveAttributeDict["higher"], "Bayes Classification", higherOrLowerClassificationDict["lower"]))
 
 	'''Space saving function for modify() that prints out probabilities'''
 	def printProbabilities(self, CHigherSLower, CLowerSLower, CHigherSHigher, CLowerSHigher):
@@ -69,9 +70,9 @@ class ModifiedBayes(Bayes):
 	def modify(self, dataSet, CHigher):
 		#Variables 
 		dataFrame = dataSet.dataFrame
-		protected = dataSet.protectedAttributes[0]
+		protected = self.protectedAttribute
 		groundTruth = dataSet.trueLabels
-		sensitiveAttributeModelIndex = dataSet.headers.index(dataSet.protectedAttributes[0]) #need to know index of sensitive attribute in the model
+		sensitiveAttributeModelIndex = dataSet.headers.index(protected) #need to know index of sensitive attribute in the model
 
 		#train and classify for baseline values
 		self.nb.train(dataSet)
