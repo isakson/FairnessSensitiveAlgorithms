@@ -49,7 +49,6 @@ class RepairData:
     Takes the list of distributions from makeDistributions and puts the values into buckets.
         distributions (list of lists) - the values from a single column separated by a protectedAttribute value
     '''
-    # TODO: MAKE SURE MINMAXLIST LOOKS OKAY
     def bucketize(self, distributions):
         # bucketAssignments is a list containing the index values for the bucket that the distribution values should end up in
         # e.g. [0, 1, 2, 3, 0] assigns the first and last items to bucket 0, the second item to bucket 2, etc.
