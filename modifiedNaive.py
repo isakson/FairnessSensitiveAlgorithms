@@ -90,17 +90,17 @@ class ModifiedNaive(Bayes):
 			self.model.append(attrDict)
 
 		#### New train() additions below ---> #### 
-		#Construct a dictionary that will hold the probability of a particular classification C_x (e.g. lieutenant, captain)
-		classificationProbabilitiesDict = {}
-		#for each of the possible classfications 
-		for Cx in classificationList:
-			#probability of the particular classification 
-			#P = (# people with this particular classification) / (total # of people)
-			probOfCx = self.attributeCategoryProbability(dataFrame, dataSet.trueLabels, Cx)
-			classificationProbabilitiesDict[Cx] = probOfCx
+		#Construct a dictionary that will hold the probability of each sensitive attribute S_x (e.g. male, female)
+		sensitiveProbabilitiesDict = {}
+		#for each of the sensitive attributes 
+		for Sx in dataFrame[dataSet.protectedAttributes[0]].unique():
+			#probability of the particular sensitive attribute 
+			#P = (# people belonging to this sensitive group) / (total # of people)
+			probOfSx = self.attributeCategoryProbability(dataFrame, dataSet.protectedAttributes[0], Sx)
+			sensitiveProbabilitiesDict[Sx] = probOfSx
 
 		#append it to the end of the outermost model array
-		self.model.append(classificationProbabilitiesDict)
+		self.model.append(sensitiveProbabilitiesDict)
 
 		print("\nMODEL UPDATED... PRINTING MODEL...!\n")
 		self.printModel(dataSet)
@@ -142,8 +142,8 @@ class ModifiedNaive(Bayes):
 		groundTruth = dataSet.trueLabels
 
 		#### NEW #####
-		#classificationList = dataFrame[groundTruth].unique() --->this isn't going to work for the loop anymore
-		classificationList = self.model[-1] #variable that points to the dictionary of classification probabilities
+		classificationList = dataFrame[groundTruth].unique()
+		sensitiveList = self.model[-1] #variable that points to the dictionary of classification probabilities
 		##############
 
 		#make a new column for the data frame where our classifications are going to go
@@ -158,10 +158,14 @@ class ModifiedNaive(Bayes):
 			numeratorDict = {}
 			denominatorSum = 0 #reset it for every row
 
-			#iterate through the possible outcomes of the class variable
-			for classification in classificationList.keys():
+			#Get the person's sensitive group
+			ind = dataSet.headers.index(dataSet.protectedAttributes[0])
+			sensitiveGroup = row[1].iloc[ind]
 
-				numeratorDict[classification] = classificationList[classification]
+			#iterate through the possible outcomes of the class variable
+			for classification in classificationList:
+
+				numeratorDict[classification] = sensitiveList[sensitiveGroup]
 
 				#loop through outer array of the model (but we stop at second to last element of array)
 				for j, attributeDict in enumerate(self.model):
@@ -180,10 +184,8 @@ class ModifiedNaive(Bayes):
 						meanDict = attributeDict["mean"]
 						stdDict = attributeDict["std"]
 
-						#NUMERATOR = P(person|classification) * P(classification)
-						#### New classify() additions below --->  ####
-						#Now instead of calling the attributeCategoryProbability() function we're just accessing the classification value from the model
-
+						#NUMERATOR = the product of P(a1|C)...P(an|C)*P(S)
+						
 						bayesNumerator = self.calculateGaussianProbability(meanDict[classification], stdDict[classification], row[1].iloc[j])
 						numeratorDict[classification] *= bayesNumerator
 					else:
@@ -203,21 +205,6 @@ class ModifiedNaive(Bayes):
 
 		dataFrame["Bayes Classification"] = classificationColumn
 
-		"""
-		print("c+s+ count after training: ", self.countIntersection(dataSet.dataFrame, dataSet.protectedAttributes[0], " Male", dataSet.trueLabels, ">50K." ))
-		print("c-s+ count after training: ", self.countIntersection(dataSet.dataFrame, dataSet.protectedAttributes[0], " Male", dataSet.trueLabels, "<=50K." ))
-		print("c-s- count after training: ", self.countIntersection(dataSet.dataFrame, dataSet.protectedAttributes[0], " Female", dataSet.trueLabels, "<=50K." ))
-		print("c+s- count after training: ", self.countIntersection(dataSet.dataFrame, dataSet.protectedAttributes[0], " Female", dataSet.trueLabels, ">50K." ))
-
-		print("num males", self.countAttr(dataSet.dataFrame, dataSet.protectedAttributes[0], " Male"))
-		print("num females", self.countAttr(dataSet.dataFrame, dataSet.protectedAttributes[0], " Female"))
-
-		print("C+s+ probs: ", self.countIntersection(dataSet.dataFrame, dataSet.protectedAttributes[0], " Male", "Bayes Classification", ">50K.") / self.countAttr(dataSet.dataFrame, dataSet.protectedAttributes[0], " Male"))
-		print("C-s+ probs: ",  self.countIntersection(dataSet.dataFrame, dataSet.protectedAttributes[0], " Male", "Bayes Classification", "<=50K." ) / self.countAttr(dataSet.dataFrame, dataSet.protectedAttributes[0], " Male"))
-		print("C-s- probs: ", self.countIntersection(dataSet.dataFrame, dataSet.protectedAttributes[0], " Female", "Bayes Classification", "<=50K." ) / self.countAttr(dataSet.dataFrame, dataSet.protectedAttributes[0], " Female"))
-		print("C+s- probs: ", self.countIntersection(dataSet.dataFrame, dataSet.protectedAttributes[0], " Female", "Bayes Classification", ">50K." ) / self.countAttr(dataSet.dataFrame, dataSet.protectedAttributes[0], " Female"))
-
-		"""
 		#print(dataFrame.to_string())
 		return dataFrame
 
