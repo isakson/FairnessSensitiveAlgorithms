@@ -1,3 +1,4 @@
+from DataSet import DataSet
 from sklearn.svm import SVC
 from sklearn.metrics import balanced_accuracy_score, confusion_matrix
 
@@ -30,7 +31,7 @@ Computes the parameter Beta for the algorithm.
 '''
 def computeBeta(data, classifierCol, classifierResults):
     confusionMatrix = confusion_matrix(data[classifierCol], classifierResults)
-    beta = confusionMatrix[0, 1] / (confusionMatrix[0, 0] + confusionMatrix[0, 1])
+    beta = confusionMatrix[1, 1] / (confusionMatrix[1, 0] + confusionMatrix[1, 1])
     return beta
 
 '''
@@ -39,10 +40,10 @@ Runs the full Feldman disparate impact detection algorithm.
 '''
 def detectDI(dataSet):
     copy = dataSet.copyDataSet()
-    copy.makeNumerical(copy.protectedAttribute)
+    copy.makeNumerical(copy.protectedAttributes)
     dummifiedData = copy.dummify()
 
-    classifierCol = copy.protectedAttribute
+    classifierCol = copy.protectedAttributes
     classifications = classify(dummifiedData, dummifiedData[classifierCol])
     ber = computeBER(dummifiedData, classifierCol, classifications)
     beta = computeBeta(dummifiedData, classifierCol, classifications)
@@ -51,3 +52,4 @@ def detectDI(dataSet):
         return "No disparate impact."
     else:
         return "Possible disparate impact."
+
