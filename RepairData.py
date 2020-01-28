@@ -21,14 +21,10 @@ class RepairData:
     Finds the protected attribute value with the fewest individuals and returns the count of those individuals
     '''
     def getMaxBuckets(self):
-        protectedAttributes = self.dataSetOriginal.protectedAttributes
+        protectedAttribute = self.dataSetOriginal.protectedAttribute
         df = self.dataSetOriginal.dataFrame
 
-        valueCounts = []
-        for attribute in protectedAttributes:
-            valueCounts.append(min(df[attribute].value_counts()))
-
-        return min(valueCounts)
+        return min(df[protectedAttribute].value_counts())
 
     '''
     Finds all unique attribute values in our protected attributes and then finds the distributions attached to
@@ -36,8 +32,9 @@ class RepairData:
         protectedAttribute (string) - the name of the protected attribute we want to use to make the distributions
         nonProtectedAttribute (string) - the name of the numerical, non-protected attribute that we want to get a distribution for
     '''
-    def makeDistributions(self, protectedAttribute, nonProtectedAttribute):
+    def makeDistributions(self, nonProtectedAttribute):
         df = self.dataSetOriginal.dataFrame
+        protectedAttribute = self.dataSetOriginal.protectedAttribute
 
         attributeDistributions = []
         attributeValues = []
@@ -67,7 +64,16 @@ class RepairData:
                 # Use the bucket assignment to append the distribution value to the appropriate bucket
                 bucketList[i][bucketAssignments[i][j]].append(distributions[i][j])
 
-        return bucketList
+        minMaxList = []
+        for i in range(len(bucketList)):
+            distributionList = []
+            for j in range(len(bucketList[i])):
+                minimum = min(bucketList[i][j])
+                maximum = max(bucketList[i][j])
+                distributionList.append([minimum, maximum])
+            minMaxList.append(distributionList)
+
+        return bucketList, minMaxList
 
     '''
     Takes in bucketized values and returns a median distribution.
@@ -96,15 +102,14 @@ class RepairData:
             attribute's values, organized by bucket
         attributeValues (list of strings) - a list of all possible values for the current protected attribute
     '''
-    def modifyData(self, columnName, medianDistribution, bucketList, attributeValues):
+    def modifyData(self, columnName, medianDistribution, bucketList, minMaxList, attributeValues):
         df = self.dataSetCopy.dataFrame
 
         for i in range(df.shape[0]):
-            #TODO: Note: this assumes that there is only one protected attribute
-            protectedAttributeValue = df.at[i, self.dataSetCopy.protectedAttributes[0]]
+            protectedAttributeValue = df.at[i, self.dataSetCopy.protectedAttribute]
             indexForProtectedAttributeValue = attributeValues.index(protectedAttributeValue)
             currentValue = df.at[i, columnName]
-            bucket = self.getBucket(currentValue, indexForProtectedAttributeValue, bucketList)
+            bucket = self.getBucket(currentValue, indexForProtectedAttributeValue, bucketList, minMaxList)
             df.loc[[i], [columnName]] = medianDistribution[bucket]
 
     '''
@@ -113,24 +118,45 @@ class RepairData:
         indexForProtectedAttributeValue (int) - the index within bucketList for a given protected attribute
         bucketList (list of list of list of floats) - a list of distributions of a protected 
             attribute's values, organized by bucket
+        minMaxList (list of list of list of floats) - a list of lists of the minimum and maximum in each bucket
     '''
-    def getBucket(self, value, indexForProtectedAttributeValue, bucketList):
+    def getBucket(self, value, indexForProtectedAttributeValue, bucketList, minMaxList):
         bucketedDistribution = bucketList[indexForProtectedAttributeValue]
-        #TODO: Note: this will be bad for big data sets
-        for bucket in bucketedDistribution:
-            if value in bucket:
-                return bucketedDistribution.index(bucket)
+        minMaxSublist = minMaxList[indexForProtectedAttributeValue]
+
+        return self.getBucketHelper(value, 0, len(bucketedDistribution) - 1, bucketedDistribution, minMaxSublist)
+
+    '''
+    Helper function for getBucket binary search.
+        value (float) - the value to find
+        start (int) - the index of where to start searching
+        stop (int) - the index of where to stop searching
+        bucketedDistribution (list of list of floats) - a distribution of a protected attribute value, organized by bucket
+        minMaxSublist (list of list of floats) - a list of the minimum and maximum in each bucket
+    '''
+
+    def getBucketHelper(self, value, start, stop, bucketedDistribution, minMaxSublist):
+        middleIndex = (start + stop) // 2
+
+        if value > minMaxSublist[middleIndex][1]:
+            return self.getBucketHelper(value, middleIndex + 1, stop, bucketedDistribution, minMaxSublist)
+
+        elif value < minMaxSublist[middleIndex][0]:
+            return self.getBucketHelper(value, start, middleIndex, bucketedDistribution, minMaxSublist)
+
+        else:
+            return middleIndex
 
     '''
     Creates a DataSet object
          fileName (string) - a file name
-         protectedAttributes (list) - a list of the names of the protected attributes 
+         protectedAttribute (string) - the name of the protected attribute 
          groundTruth (string) - a 1 or 0 indicating the ground truth of a particular row
          noiseScale (float) - the standard deviation of the normal distribution used to add noise to the data
     '''
-    def createDataSet(self, fileName, protectedAttributes, groundTruth, noiseScale):
+    def createDataSet(self, fileName, protectedAttribute, groundTruth, noiseScale):
         data = DataSet()
-        data.loadData(fileName, protectedAttributes, groundTruth)
+        data.loadData(fileName, protectedAttribute, groundTruth)
         numericalColumns = data.getNumericalColumns()
         for column in numericalColumns:
             data.addRandomNoise(column, noiseScale)
@@ -141,21 +167,20 @@ class RepairData:
         columnName (string) - a column header
     '''
     def repairColumn(self, columnName):
-        #TODO: Note: we are currently hard coding the first attribute in the list of protectedAttributes
-        distributions, attributeValues = self.makeDistributions(self.dataSetCopy.protectedAttributes[0], columnName)
-        bucketList = self.bucketize(distributions)
+        distributions, attributeValues = self.makeDistributions(self.dataSetCopy.protectedAttribute, columnName)
+        bucketList, minMaxList = self.bucketize(distributions)
         medianDistributions = self.findMedianDistribution(bucketList)
-        self.modifyData(columnName, medianDistributions, bucketList, attributeValues)
+        self.modifyData(columnName, medianDistributions, bucketList, minMaxList, attributeValues)
 
     '''
     Makes DataSet object from a file, then repairs the data
          fileName (string) - a file name
-         protectedAttributes (list) - a list of the names of the protected attributes 
+         protectedAttribute (string) - the name of the protected attribute 
          groundTruth (string) - a 1 or 0 indicating the ground truth of a particular row
          noiseScale (float, optional) - the standard deviation of the normal distribution used to add noise to the data
     '''
-    def runRepair(self, fileName, protectedAttributes, groundTruth, noiseScale=.01):
-        self.createDataSet(fileName, protectedAttributes, groundTruth, noiseScale)
+    def runRepair(self, fileName, protectedAttribute, groundTruth, noiseScale=.01):
+        self.createDataSet(fileName, protectedAttribute, groundTruth, noiseScale)
         numericalColumns = self.dataSetCopy.getNumericalColumns()
         for column in numericalColumns:
             self.repairColumn(column)
