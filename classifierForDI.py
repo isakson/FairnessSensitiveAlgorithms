@@ -1,4 +1,3 @@
-from DataSet import DataSet
 from sklearn.svm import SVC
 from sklearn.metrics import balanced_accuracy_score, confusion_matrix
 
@@ -40,10 +39,10 @@ Runs the full Feldman disparate impact detection algorithm.
 '''
 def detectDI(dataSet):
     copy = dataSet.copyDataSet()
-    copy.makeNumerical(copy.protectedAttributes)
+    copy.makeNumerical(copy.protectedAttribute)
     dummifiedData = copy.dummify()
 
-    classifierCol = copy.protectedAttributes
+    classifierCol = copy.protectedAttribute
     classifications = classify(dummifiedData, dummifiedData[classifierCol])
     ber = computeBER(dummifiedData, classifierCol, classifications)
     beta = computeBeta(dummifiedData, classifierCol, classifications)
@@ -52,4 +51,3 @@ def detectDI(dataSet):
         return "No disparate impact."
     else:
         return "Possible disparate impact."
-

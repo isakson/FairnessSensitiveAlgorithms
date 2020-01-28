@@ -102,7 +102,7 @@ class DataSet:
     def dummify(self):
         columns = []
         for column in self.headers:
-            if not (self.isNumerical(column) or column == self.protectedAttributes[0]):
+            if not (self.isNumerical(column) or column == self.protectedAttribute):
                 columns.append(column)
         return pd.get_dummies(self.dataFrame, columns=columns)
 
