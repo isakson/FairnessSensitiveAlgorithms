@@ -72,7 +72,7 @@ class DataSet:
 
     '''
     Returns True if a column has numerical data; returns False otherwise
-    column (string) - the header for the column in question
+        column (string) - the header for the column in question
     '''
     def isNumerical(self, column):
         dataType = self.dataFrame[column].dtype
@@ -80,6 +80,31 @@ class DataSet:
             return True
         else:
             return False
+
+    ''''
+    Convert the values of a categorical variable to numbers, starting from 0. 
+    This function does NOT dummify the variable. It performs the conversion in place
+    (the DataSet's dataFrame object is modified directly; the function returns nothing)
+        column (string) - the header for the column to convert
+    '''
+    def makeNumerical(self, column):
+        uniqueValues = self.dataFrame[column].unique()
+        numericalValues = []
+        for i in range(len(uniqueValues)):
+            numericalValues.append(i)
+        self.dataFrame[column].replace(uniqueValues, numericalValues, inplace=True)
+
+    '''
+    Dummifies all non-numerical columns in the DataSet object's DataFrame EXCEPT the protected attribute 
+    column.
+    Returns the modified DataFrame object
+    '''
+    def dummify(self):
+        columns = []
+        for column in self.headers:
+            if not (self.isNumerical(column) or column == self.protectedAttribute):
+                columns.append(column)
+        return pd.get_dummies(self.dataFrame, columns=columns)
 
     '''
     Saves the dataFrame as a .csv file. All objects will be saved to the folder dataCSVs.
