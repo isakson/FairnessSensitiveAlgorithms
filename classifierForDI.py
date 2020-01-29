@@ -4,12 +4,14 @@ from sklearn.metrics import balanced_accuracy_score, confusion_matrix
 '''
 Runs an sklearn SVC SVM classifier on the specified data.
     data (DataFrame) - The DataFrame object whose data the classifier should use
-    classifications (column of DataFrame) - The true classifications for the data
+    classificationsHeader (string) - The header name for the classification column
 '''
-def classify(data, classifications):
+def classify(data, classificationsHeader):
+    dataWithoutSensitiveAttribute = data.drop(columns=classificationsHeader)
+
     classifier = SVC(class_weight='balanced')
-    classifier.fit(data, classifications)
-    return classifier.predict(data)
+    classifier.fit(dataWithoutSensitiveAttribute, data[classificationsHeader])
+    return classifier.predict(dataWithoutSensitiveAttribute)
 
 '''
 Computes the balanced error rate (BER) for the classifier results.
@@ -43,7 +45,7 @@ def detectDI(dataSet):
     dummifiedData = copy.dummify()
 
     classifierCol = copy.protectedAttribute
-    classifications = classify(dummifiedData, dummifiedData[classifierCol])
+    classifications = classify(dummifiedData, classifierCol)
     ber = computeBER(dummifiedData, classifierCol, classifications)
     beta = computeBeta(dummifiedData, classifierCol, classifications)
     epsilonPrime = 1 / 2 - beta / 8  # allowable BER threshold
