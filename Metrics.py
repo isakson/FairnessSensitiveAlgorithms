@@ -3,6 +3,7 @@ from DataSet import DataSet
 from scipy import stats
 from scipy import spatial
 from statistics import mean, stdev
+from matplotlib import pyplot
 
 class Metrics:
 
@@ -337,7 +338,16 @@ class Metrics:
 
 		return sameOutcome / (sameOutcome + difOutcome)
 
+	'''
+	Plots the distance distribution and its mean line.
+		distribution (list) - The distribution to plot.
+	'''
+	def plotDistanceDistribution(self, distribution, num_bins=10):
 
+		print(mean(distribution) - stdev(distribution))
 
+		n, bins, patches = pyplot.hist(distribution, num_bins)
+		pyplot.axvline(mean(distribution), color='k', linestyle='dashed', linewidth=1)
+		pyplot.show()
 
 
