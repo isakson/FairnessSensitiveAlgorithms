@@ -36,7 +36,7 @@ class Metrics:
 		dataSet (DataSet) - the classified DataSet to calculate true positive or negative rate for
 		truePosOrNeg (int or string) - the true positive value or true negative value
 	Note: this function currently only supports classifications with two possible outcomes (e.g. 0 or 1).
-	This function also assumes that the column header for Bayes classifications is "bayesClassification"
+	This function also assumes that the column header for Bayes classifications is "Bayes Classification"
 	'''
 	def truePosOrNeg(self, dataSet, truePosOrNeg):
 		dataFrame = dataSet.dataFrame
