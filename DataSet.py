@@ -96,15 +96,30 @@ class DataSet:
 
     '''
     Dummifies all non-numerical columns in the DataSet object's DataFrame EXCEPT the protected attribute 
-    column.
+        column when dummifyAll = False. Dummifies all non-numerical columns in the DataSet object's DataFrame
+        when dummifyAll = True. 
+        
     Returns the modified DataFrame object
     '''
-    def dummify(self):
+    def dummify(self, dummifyAll=False):
         columns = []
-        for column in self.headers:
-            if not (self.isNumerical(column) or column == self.protectedAttribute):
-                columns.append(column)
-        return pd.get_dummies(self.dataFrame, columns=columns)
+
+        if dummifyAll:
+            return pd.get_dummies(self.dataFrame)
+
+        else:
+            for column in self.headers:
+                if not (self.isNumerical(column) or column == self.protectedAttribute):
+                    columns.append(column)
+
+            return pd.get_dummies(self.dataFrame, columns=columns)
+
+    '''Resets the headers for the DataSet's DataFrame'''
+    def resetHeaders(self):
+        newHeaders = []
+        for header, content in self.dataFrame.items():
+            newHeaders.append(header)
+        self.headers = newHeaders
 
     '''
     Saves the dataFrame as a .csv file. All objects will be saved to the folder dataCSVs.

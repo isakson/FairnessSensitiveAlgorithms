@@ -1,6 +1,8 @@
 import pandas as pd
 from DataSet import DataSet
 from scipy import stats
+from scipy import spatial
+from statistics import mean, stdev
 
 class Metrics:
 
@@ -45,7 +47,7 @@ class Metrics:
 			return "Cannot calculate true positive or negative rate for nonbinary classifications"
 		else:
 			matchesLabel = 0
-			actualLabel = 0 #actual number of people with this classification in the DataSet
+			actualLabel = 0  # actual number of people with this classification in the DataSet
 
 			for i in range(dataFrame.shape[0]):
 				groundTruth = dataFrame.at[i, dataSet.trueLabels]
@@ -137,7 +139,6 @@ class Metrics:
 		truePosByAttribute = {}
 		TPTotal = 0
 		for i in range(len(groupDataSets)):
-			#TODO: for now we are hardcoding in a 1 since Equality of Opportunity requests true positive rate
 			truePosCount = self.truePosOrNeg(groupDataSets[i], 1)[0]
 			truePosByAttribute[possibleGroups[i]] = truePosCount
 			TPTotal += truePosCount
@@ -145,7 +146,6 @@ class Metrics:
 		TNTotal = 0
 		trueNegByAttribute = {}
 		for i in range(len(groupDataSets)):
-			# TODO: for now we are hardcoding in a 0 since Equality of Opportunity requests true positive rate
 			trueNegCount = self.truePosOrNeg(groupDataSets[i], 0)[0]
 			trueNegByAttribute[possibleGroups[i]] = trueNegCount
 			TNTotal += trueNegCount
@@ -175,11 +175,19 @@ class Metrics:
 		
 	return: accuracy
 	'''
+
+	# TODO: Run trainedBayes on dataSetCopy
 	def counterfactualMeasures(self, dataSet, trainedBayes):
 		swappedDataSet = self.swapProtectedAttributes(dataSet)
+		swappedDF = swappedDataSet.dataFrame
+		swappedDF.drop(columns=["Bayes Classification", swappedDataSet.trueLabels])
 
-		# TODO: Run trainedBayes on dataSetCopy
-		# TODO: Figure out how the cross-validation part will work with which part of the dataset we use (since we're not retraining)
+		trainedBayes.classify(swappedDataSet)
+		swappedDF = swappedDataSet.dataFrame
+
+		swappedDF[swappedDataSet.trueLabels] = dataSet.dataFrame["Bayes Classification"].astype(int)
+
+		return self.calculateAccuracy(swappedDataSet)
 
 	# TODO: dealing with nonbinary protected attributes
 	'''
@@ -235,7 +243,6 @@ class Metrics:
 
 		return posOutcomesDict
 
-	# TODO: Finish this function
 	'''
 	Calculates whether or not a particular classification algorithm gives preferred treatment for a particular group
 		dataSet (DataSet) - the original dataset
@@ -253,6 +260,7 @@ class Metrics:
 			originalPosOutcomes = self.countPositiveOutcomes(dataSet)
 			dataSetCopy = dataSet.copyDataSet()
 			# Change which Bayes is being run on a particular protected attribute
+			# TODO: Do this part
 
 			# Count the amount of positive outcomes each protected attribute value group receives in the new dataset
 			swappedPosOutcomes = self.countPositiveOutcomes(dataSetCopy)
@@ -267,6 +275,68 @@ class Metrics:
 					listOfBools.append(False)
 
 			return all(listOfBools)
+
+	'''
+	Calculates the probability of a positive outcome across each protected attribute value.
+		dataSet (DataSet) - the dataset
+		
+	returns: a dictionary where the keys are the protected attribute values and the values are the positive outcome rate
+		for that protected attribute value.
+	'''
+	def groupFairness(self, dataSet):
+		dataFrame = dataSet.dataFrame
+		posOutcomes = self.countPositiveOutcomes(dataSet)
+		keys = posOutcomes.keys()
+
+		probabilitiesDict = {}
+		totalsFrame = dataFrame[dataSet.protectedAttributes[0]].value_counts()
+
+		for key in keys:
+			probabilitiesDict[key] = posOutcomes[key] / totalsFrame.loc[key]
+
+		return probabilitiesDict
+
+	# TODO: write this comment
+	def makeEuclideanDistribution(self, dataSet):
+		df = dataSet.dummify(dummifyAll=True)
+		dataSet.dataFrame = df
+		dataSet.resetHeaders()
+
+		distribution = []
+		distAndOutcome = []
+		for i in range(df.shape[0] - 1):
+			for j in range(i + 1, df.shape[0]):
+				dist = spatial.distance.seuclidean(df.loc[i], df.loc[j], [1 for col in dataSet.headers])
+				distribution.append(dist)
+				outcome = df.at[i, "Bayes Classification"] == df.at[j, "Bayes Classification"]
+				distAndOutcome.append((dist, outcome))
+
+		return distribution, distAndOutcome
+
+	# TODO: write this comment
+	def findCutoff(self, distribution):
+		average = mean(distribution)
+		stanDev = stdev(distribution)
+
+		return average - stanDev
+
+	# TODO: write this comment
+	def individualFairness(self, dataSet):
+		distribution, distAndOutcome = self.makeEuclideanDistribution(dataSet)
+		cutoff = self.findCutoff(distribution)
+
+		sameOutcome = 0
+		difOutcome = 0
+		for item in distAndOutcome:
+			# if the difference is below the cutoff and the two rows have the same outcome
+			if item[0] < cutoff and item[1]:
+				sameOutcome += 1
+			# if the difference is below the cutoff and the two rows have different outcomes
+			elif item[0] < cutoff:
+				difOutcome += 1
+
+		return sameOutcome / (sameOutcome + difOutcome)
+
 
 
 
