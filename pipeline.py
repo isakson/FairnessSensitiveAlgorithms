@@ -2,6 +2,7 @@ from DataSet import DataSet
 from RepairData import RepairData
 from NaiveBayes import NaiveBayes
 from Metrics import Metrics
+from classifierForDI import detectDI
 
 
 #TODO: Finish comment
@@ -12,16 +13,16 @@ from Metrics import Metrics
 Parameters:
     feldman (bool)
     bayes (naive, modified, etc.)
-    DIDetector (bool)
 run all metrics all the time?
 #NOTE: may overwrite previous files
 '''
-def pipeline(fileName, protectedAttributes, trueLabels, DIDetector, feldman, bayes):
+def pipeline(fileName, protectedAttributes, trueLabels, feldman, bayes):
     # Load data into DataSet
     ds = DataSet()
     ds.loadData(fileName, protectedAttributes, trueLabels)
 
-    #TODO: Add DIDetector
+    DIresult = detectDI(ds)
+    print(DIresult)
 
     # Feldman repair algorithm
     currDataSet = ds
