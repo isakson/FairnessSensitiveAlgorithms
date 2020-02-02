@@ -8,9 +8,10 @@ def main():
 	ds = DataSet()
 	ds.loadData("income-subset.csv", "sex", "income")
 	tb = TwoBayes()
+	tb.train(ds)
 
 	mt = Metrics()
-	mt.calculateAccuracy(ds)
+#	mt.calculateAccuracy(ds)
 
 
 if __name__== "__main__":

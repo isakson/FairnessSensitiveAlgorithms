@@ -1,5 +1,6 @@
-import NaiveBayes
-import Bayes
+from NaiveBayes import NaiveBayes
+from Bayes import Bayes
+from DataSet import DataSet
 
 class TwoBayes(NaiveBayes):
 	
@@ -23,18 +24,39 @@ class TwoBayes(NaiveBayes):
 		else:
 			self.Sx = sensitiveAttrCatList[1]
 			self.Sy = sensitiveAttrCatList[0]
+			
+	def splitDataFrame(self, dataSet, sensitiveVal):
+		sensitiveAttr = dataSet.protectedAttribute
+		df = dataSet.dataFrame
+		ds = DataSet()
+		ds.fileName = dataSet.fileName
+		ds.protectedAttribute = sensitiveAttr
+		ds.trueLabels = dataSet.trueLabels
+		ds.headers = dataSet.headers
+		ds.numAttributes = dataSet.numAttributes
 
-	def trainTwo(self, dataSet):
-		self.assignSensitivity(dataSet)
-		#divide dataSet into two dataSets and call them dataSetX and dataSetY respectively
+		try:
+			ds.dataFrame = df.groupby([sensitiveAttr]).get_group(sensitiveVal)
+		except:
+			return 0
 		
-		self.train(dataSetX, self.modelX)
-		self.train(dataSetY, self.modelY)
+		return ds
+		
+
+	def train(self, dataSet):
+		self.assignSensitivity(dataSet)
+		dsX = self.splitDataFrame(dataSet, self.Sx)
+		dsY = self.splitDataFrame(dataSet, self.Sy)
+		
+		NaiveBayes.train(self, dsX, self.modelX)
+		NaiveBayes.train(self, dsY, self.modelY)
 		
 	def classify(self, dataSet):
 		#do same as naive classify, except with an if-statement for each row to use either X or Y
+		return 0
 		
 	def modify(self, dataSet, CHigher):
 		#do exactly as ModifiedBayes does except calling TwoBayes classify
+		return 0
 		
 	
