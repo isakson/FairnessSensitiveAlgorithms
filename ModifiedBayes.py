@@ -4,12 +4,13 @@ import pandas as pd
 import operator
 from Metrics import Metrics
 
-class ModifiedBayes(Bayes):
+class ModifiedBayes(ModifiedNaive):
 
 	'''Instance of modified bayes generates an instance of modified naive bayes that we 
 	   can call the train and classify functions on. '''
 	def __init__(self):
-		self.nb = ModifiedNaive()
+#		self.nb = ModifiedNaive()
+		ModifiedNaive.__init__(self)
 
 	'''Calculates the discrimination score by subtracting the probability of being in the privileged group
 	   with a C+ classification minus the probability of being in the underprivileged group in the C+ classification.'''
@@ -64,6 +65,13 @@ class ModifiedBayes(Bayes):
 		print("c+s+:", CHigherSHigher)
 		print("c-s+:", CLowerSHigher)
 
+		
+	def train(self, dataSet, CHigher):
+		ModifiedNaive.train(self, dataSet)
+		self.modify(dataSet, CHigher)
+		
+		
+		
 	'''Trains and classifies the dataset '''
 	def modify(self, dataSet, CHigher):
 		dataFrame = dataSet.dataFrame
@@ -71,9 +79,7 @@ class ModifiedBayes(Bayes):
 		groundTruth = dataSet.trueLabels
 		sensitiveAttributeModelIndex = dataSet.headers.index(protected) #need to know index of sensitive attribute in the model
 
-		#train and classify for baseline values
-		self.nb.train(dataSet)
-		dataFrame = self.nb.classify(dataSet)
+		dataFrame = self.classify(dataSet)
 
 		#Assign dictionary values based on CHigher parameter
 		classesList = self.getAttributeCategories(dataFrame, dataSet.trueLabels)
@@ -127,8 +133,8 @@ class ModifiedBayes(Bayes):
 				CLowerSLower = CLowerSLowerCount / self.countAttr(dataFrame, protected, higherOrLowerSensitiveAttributeDict["lower"])
 
 				#Overwrite the old probabilities in the model
-				self.nb.model[sensitiveAttributeModelIndex][higherOrLowerSensitiveAttributeDict["lower"]][higherOrLowerClassificationDict["higher"]] = CHigherSLower
-				self.nb.model[sensitiveAttributeModelIndex][higherOrLowerSensitiveAttributeDict["lower"]][higherOrLowerClassificationDict["lower"]] = CLowerSLower
+				self.model[sensitiveAttributeModelIndex][higherOrLowerSensitiveAttributeDict["lower"]][higherOrLowerClassificationDict["higher"]] = CHigherSLower
+				self.model[sensitiveAttributeModelIndex][higherOrLowerSensitiveAttributeDict["lower"]][higherOrLowerClassificationDict["lower"]] = CLowerSLower
 
 			else: #we have assigned more positive C+ labels than we should be
 			
@@ -141,12 +147,12 @@ class ModifiedBayes(Bayes):
 				CHigherSHigher = CHigherSHigherCount / self.countAttr(dataFrame, protected, higherOrLowerSensitiveAttributeDict["higher"])
 				
 				#Overwrite the old probabilities in the model
-				self.nb.model[sensitiveAttributeModelIndex][higherOrLowerSensitiveAttributeDict["higher"]][higherOrLowerClassificationDict["lower"]] = CLowerSHigher
-				self.nb.model[sensitiveAttributeModelIndex][higherOrLowerSensitiveAttributeDict["higher"]][higherOrLowerClassificationDict["higher"]] = CHigherSHigher
+				self.model[sensitiveAttributeModelIndex][higherOrLowerSensitiveAttributeDict["higher"]][higherOrLowerClassificationDict["lower"]] = CLowerSHigher
+				self.model[sensitiveAttributeModelIndex][higherOrLowerSensitiveAttributeDict["higher"]][higherOrLowerClassificationDict["higher"]] = CHigherSHigher
 
 			
 			#reclassify and recompute the new discrimination score
-			dataFrame = self.nb.classify(dataSet)
+			dataFrame = self.classify(dataSet)
 			disc = self.calculateDiscriminationScore(CHigherSHigher, CHigherSLower)
 			print("Discrimination score at the end of the iteration: ", disc)
 			print("Updated probabilities at the end of the iteration: ")
