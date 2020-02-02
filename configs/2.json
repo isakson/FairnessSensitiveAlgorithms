@@ -1,0 +1,9 @@
+{
+   "num": 2,
+   "dataset": "dataCSVs/CleanedClassifiedData/student-por-mod.csv",
+   "filename": "Portuguese_NB_F",
+   "protectedAttribute": "sex",
+   "groundTruth": "G3",
+   "feldman": "Yes",
+   "bayes": "Naive Bayes"
+ }
