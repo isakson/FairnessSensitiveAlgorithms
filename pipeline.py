@@ -6,7 +6,6 @@ from classifierForDI import detectDI
 
 
 #TODO: Finish comment
-#TODO: add DIDetector
 #TODO: add modified Bayes
 #TODO: add "run all metrics" function
 '''
@@ -16,10 +15,10 @@ Parameters:
 run all metrics all the time?
 #NOTE: may overwrite previous files
 '''
-def pipeline(fileName, protectedAttributes, trueLabels, feldman, bayes):
+def pipeline(fileName, nameForFiles, protectedAttribute, trueLabels, feldman, bayes):
     # Load data into DataSet
     ds = DataSet()
-    ds.loadData(fileName, protectedAttributes, trueLabels)
+    ds.loadData(fileName, protectedAttribute, trueLabels)
 
     DIresult = detectDI(ds)
     print(DIresult)
@@ -28,10 +27,10 @@ def pipeline(fileName, protectedAttributes, trueLabels, feldman, bayes):
     currDataSet = ds
     if feldman:
         repair = RepairData()
-        repair.runRepair(ds.fileName, ds.protectedAttributes, ds.trueLabels, noiseScale=.01)
+        repair.runRepair(ds.fileName, ds.protectedAttribute, ds.trueLabels, noiseScale=.01)
         # Pickle the Feldman-repaired data
-        repair.dataSetCopy.savePickle(str(fileName + "_feldman"))
-        repair.dataSetCopy.saveToCsv(str(fileName + "_feldman"))
+        repair.dataSetCopy.savePickle(str(nameForFiles + "_feldman"))
+        repair.dataSetCopy.saveToCsv(str(nameForFiles + "_feldman"))
         currDataSet = repair.dataSetCopy
 
     if bayes == "naive":
@@ -43,8 +42,8 @@ def pipeline(fileName, protectedAttributes, trueLabels, feldman, bayes):
         pass
 
 
-    currDataSet.savePickle(str(fileName + "_" + bayes))
-    currDataSet.saveToCsv(str(fileName + "_" + bayes))
+    currDataSet.savePickle(str(nameForFiles + "_" + bayes))
+    currDataSet.saveToCsv(str(nameForFiles + "_" + bayes))
 
     # Metrics
     metrics = Metrics()
@@ -52,8 +51,4 @@ def pipeline(fileName, protectedAttributes, trueLabels, feldman, bayes):
     metrics.calculateAccuracy(currDataSet)
 
 
-pipeline("income-subset.csv", ["sex"], "income", False, True, "naive")
-
-
-
-
+# pipeline("income-subset.csv", "filename", "sex", "income", True, "naive")
