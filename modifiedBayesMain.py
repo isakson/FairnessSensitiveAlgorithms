@@ -11,7 +11,7 @@ def main():
 	ds = DataSet()
 	ds.loadData("income-subset.csv", "sex", "income")
 	mb = ModifiedBayes()
-	mb.train(ds, ">50k")
+	mb.train(ds, ">50K.")
 	mt = Metrics()
 	mt.calculateAccuracy(ds)
 

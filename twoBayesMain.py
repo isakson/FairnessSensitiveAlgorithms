@@ -8,7 +8,7 @@ def main():
 	ds = DataSet()
 	ds.loadData("income-subset.csv", "sex", "income")
 	tb = TwoBayes()
-	tb.train(ds)
+	tb.train(ds, ">50K.")
 
 	mt = Metrics()
 #	mt.calculateAccuracy(ds)
