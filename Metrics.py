@@ -3,10 +3,10 @@ from DataSet import DataSet
 from scipy import stats
 from scipy import spatial
 from statistics import mean, stdev
+from scipy.stats import zscore
 
 class Metrics:
 
-	# TODO: Maybe make the DataSet be an instance variable?
 	# TODO: Write function to run all metrics
 
 	def __init__(self):
@@ -176,7 +176,7 @@ class Metrics:
 	return: accuracy
 	'''
 
-	# TODO: Run trainedBayes on dataSetCopy
+	# TODO: Test this
 	def counterfactualMeasures(self, dataSet, trainedBayes):
 		swappedDataSet = self.swapProtectedAttributes(dataSet)
 		swappedDF = swappedDataSet.dataFrame
@@ -189,7 +189,6 @@ class Metrics:
 
 		return self.calculateAccuracy(swappedDataSet)
 
-	# TODO: dealing with nonbinary protected attributes
 	'''
 	Copies the dataset, then swaps the protected attribute values in the copy.
 		dataSet (DataSet) - the original dataset
@@ -197,26 +196,24 @@ class Metrics:
 	returns: a copy of dataSet with the protected attribute values swapped.
 	'''
 	def swapProtectedAttributes(self, dataSet):
-		# TODO: change the protectedAttributes parts later
 		dataSetCopy = dataSet.copyDataSet()
 		dataFrame = dataSetCopy.dataFrame
 
-		possibleAttributeValues = dataFrame[dataSetCopy.protectedAttributes[0]].unique()
+		possibleAttributeValues = dataFrame[dataSetCopy.protectedAttribute].unique()
 
 		if len(possibleAttributeValues) != 2:
 			return "Cannot calculate counterfactual measures for nonbinary protected attributes."
 
 		for i in range(dataFrame.shape[0]):
-			protectedAttributeValue = dataFrame.at[i, dataSetCopy.protectedAttributes[0]]
+			protectedAttributeValue = dataFrame.at[i, dataSetCopy.protectedAttribute]
 			if protectedAttributeValue == possibleAttributeValues[0]:
-				dataFrame.loc[[i], [dataSetCopy.protectedAttributes[0]]] = possibleAttributeValues[1]
+				dataFrame.loc[[i], [dataSetCopy.protectedAttribute]] = possibleAttributeValues[1]
 
 			else:
-				dataFrame.loc[[i], [dataSetCopy.protectedAttributes[0]]] = possibleAttributeValues[0]
+				dataFrame.loc[[i], [dataSetCopy.protectedAttribute]] = possibleAttributeValues[0]
 
 		return dataSetCopy
 
-	# TODO: make this nonbinary; currently only works for binary protected attributes :/
 	'''
 	Counts the total number of preferred outcomes for a particular protected attribute class 
 		dataset (DataSet) - the original dataset
@@ -296,11 +293,22 @@ class Metrics:
 
 		return probabilitiesDict
 
-	# TODO: write this comment
+	'''
+	Dummifies the categorical data and then finds the distance between each row and every other row.
+		dataSet (DataSet) - the dataset.
+		
+	returns: a distribution of all distances (list), the distances and whether or not the pair had the same outcome (list of tuples)
+	'''
 	def makeEuclideanDistribution(self, dataSet):
 		df = dataSet.dummify(dummifyAll=True)
 		dataSet.dataFrame = df
 		dataSet.resetHeaders()
+		print(dataSet.dataFrame)
+		for header in dataSet.headers:
+			zscores = zscore(df[header], ddof=1)
+			df.loc[:, header] = zscores
+
+		print(dataSet.dataFrame)
 
 		distribution = []
 		distAndOutcome = []
@@ -313,16 +321,24 @@ class Metrics:
 
 		return distribution, distAndOutcome
 
-	# TODO: write this comment
-	def findCutoff(self, distribution):
-		average = mean(distribution)
-		stanDev = stdev(distribution)
+	'''
+	Finds the cutoff point to determine whether or not rows are considered similar
+		distribution (list) - a distribution of all distances
+		quantile (float) - a value between 0 and 1 indicating the quantile
+	returns: a cutoff point (float)
+	'''
+	def findCutoff(self, distribution, quantile=.1):
+		return distribution.quantile(quantile)
 
-		return average - stanDev
-
-	# TODO: write this comment
+	'''
+	Computes individual fairness metric
+		dataSet (DataSet) - the dataset
+	returns: the proportion of similar pairs with the same outcome over the total number of similar pairs
+	'''
 	def individualFairness(self, dataSet):
-		distribution, distAndOutcome = self.makeEuclideanDistribution(dataSet)
+		dataSetCopy = dataSet.copyDataSet()
+		dataSetCopy.dataFrame.drop(dataSetCopy.protectedAttribute, axis=1)
+		distribution, distAndOutcome = self.makeEuclideanDistribution(dataSetCopy)
 		cutoff = self.findCutoff(distribution)
 
 		sameOutcome = 0
