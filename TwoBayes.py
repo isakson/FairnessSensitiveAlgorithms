@@ -2,6 +2,7 @@ from NaiveBayes import NaiveBayes
 from Bayes import Bayes
 from DataSet import DataSet
 from ModifiedBayes import ModifiedBayes
+import operator
 
 class TwoBayes(NaiveBayes, ModifiedBayes):
 	
@@ -41,8 +42,7 @@ class TwoBayes(NaiveBayes, ModifiedBayes):
 		except:
 			return 0
 		
-		return ds
-		
+		return ds	
 
 	def train(self, dataSet, CHigher):
 		self.assignSensitivity(dataSet)
@@ -85,7 +85,6 @@ class TwoBayes(NaiveBayes, ModifiedBayes):
 
 				#loop through outer array of the model (but we stop at second to last element of array)
 				for j, attributeDict in enumerate(currModel):
-
 					#skip the last element because this isn't an attribute -- it's the classification probabilities dictionary
 					if(j == len(currModel) - 1):
 						continue
@@ -95,6 +94,8 @@ class TwoBayes(NaiveBayes, ModifiedBayes):
 
 					#value for the current row of the given attribute
 					attrValue = row[1].iloc[j]
+					if not attrValue in attributeDict:
+						continue
 
 					if(dataSet.headers[j] in dataSet.getNumericalColumns()): #numerical
 						meanDict = attributeDict["mean"]
@@ -114,8 +115,12 @@ class TwoBayes(NaiveBayes, ModifiedBayes):
 
 			maxClassification = max(bayesianDict.items(), key=operator.itemgetter(1))[0]
 			classificationColumn.append(maxClassification)
-		#do same as naive classify, except with an if-statement for each row to use either X or Y
-		return 0
+			
+		#sets new column equal to the array of classifications
+
+		dataFrame["Bayes Classification"] = classificationColumn
+		#dataFrame.to_csv('out.csv', sep='\t', encoding='utf-8')
+		return dataFrame
 		
 	def modify(self, dataSet, CHigher):
 		#do exactly as ModifiedBayes does except calling TwoBayes classify
@@ -127,9 +132,24 @@ class TwoBayes(NaiveBayes, ModifiedBayes):
 		dataFrame = self.classify(dataSet)
 
 		#Assign dictionary values based on CHigher parameter
+		print(dataSet.trueLabels)
 		classesList = self.getAttributeCategories(dataFrame, dataSet.trueLabels)
 		higherOrLowerClassificationDict = {}
 		self.assignClassifications(higherOrLowerClassificationDict, CHigher, classesList)
+		
+		
+		#Compute counts for C+S-,C-S+,C+S+,and C-S- based on counts from the original groundTruth column
+		print("original counts")
+		print("c+s- count: ", self.countIntersection(dataFrame, protected, self.Sy, groundTruth, higherOrLowerClassificationDict["higher"]))
+		print("c-s+ count: ", self.countIntersection(dataFrame, protected, self.Sx, groundTruth, higherOrLowerClassificationDict["lower"]))
+		print("c+s+ count: ", self.countIntersection(dataFrame, protected, self.Sx, groundTruth, higherOrLowerClassificationDict["higher"]))
+		print("c-s- count: ", self.countIntersection(dataFrame, protected, self.Sy, groundTruth, higherOrLowerClassificationDict["lower"]))
+		#Compute counts for C+S-,C-S+,C+S+,and C-S- based on counts from the original groundTruth column
+		print("not original counts")
+		print("c+s- count: ", self.countIntersection(dataFrame, protected, self.Sy, "Bayes Classification", higherOrLowerClassificationDict["higher"]))
+		print("c-s+ count: ", self.countIntersection(dataFrame, protected, self.Sx, "Bayes Classification", higherOrLowerClassificationDict["lower"]))
+		print("c+s+ count: ", self.countIntersection(dataFrame, protected, self.Sx,"Bayes Classification", higherOrLowerClassificationDict["higher"]))
+		print("c-s- count: ", self.countIntersection(dataFrame, protected, self.Sy, "Bayes Classification", higherOrLowerClassificationDict["lower"]))
 
 		#calculate the number of people in the dataset that are actually classified as C+ (in the ground truth column - the real number from the data)
 		actualNumPos = self.calculateNumPos(dataFrame, groundTruth, higherOrLowerClassificationDict)

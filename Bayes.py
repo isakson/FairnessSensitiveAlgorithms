@@ -35,7 +35,7 @@ class Bayes:
 	'''Returns an array of the unique categories (strings) in a column 
 	   a - name of attribute'''
 	def getAttributeCategories(self, dataFrame, a):
-		return dataFrame[a].unique() 
+		return dataFrame[a].unique()
 
 	'''Compute the non conditional mean of attribute a '''
 	def calculateMean(self, dataFrame, a):
