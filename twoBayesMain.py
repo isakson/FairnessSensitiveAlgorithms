@@ -6,9 +6,9 @@ from Metrics import Metrics
 def main():
 
 	ds = DataSet()
-	ds.loadData("income-bracket-data.csv", "sex", "income")
+	ds.loadData("ClassifiedRicciDataA.csv", "Race", "Class")
 	tb = TwoBayes()
-	tb.train(ds, ">50K.")
+	tb.train(ds, "a")
 
 	mt = Metrics()
 #	mt.calculateAccuracy(ds)
