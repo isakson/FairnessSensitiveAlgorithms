@@ -3,6 +3,7 @@ from Bayes import Bayes
 from DataSet import DataSet
 from ModifiedBayes import ModifiedBayes
 import operator
+from modifiedNaive import ModifiedNaive
 
 class TwoBayes(NaiveBayes, ModifiedBayes):
 	
@@ -76,7 +77,7 @@ class TwoBayes(NaiveBayes, ModifiedBayes):
 			sensitiveGroup = row[1].iloc[ind]
 			currModel = self.modelY
 			if (sensitiveGroup == self.Sx):
-				model = self.modelX
+				currModel = self.modelX
 
 			#iterate through the possible outcomes of the class variable
 			for classification in classificationList.keys():
@@ -94,8 +95,9 @@ class TwoBayes(NaiveBayes, ModifiedBayes):
 
 					#value for the current row of the given attribute
 					attrValue = row[1].iloc[j]
-					if not attrValue in attributeDict:
-						continue
+					# if not attrValue in attributeDict:
+					# 	print(dataSet.headers[j], attrValue)
+					# 	continue
 
 					if(dataSet.headers[j] in dataSet.getNumericalColumns()): #numerical
 						meanDict = attributeDict["mean"]

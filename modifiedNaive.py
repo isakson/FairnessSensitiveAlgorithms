@@ -17,14 +17,14 @@ class ModifiedNaive(Bayes):
 			stdDict = {key = classification, value = conditional std given this classification}
 
 		self.model[-1] = dictionary {key = sensitive attribute (S+ or S-) (e.g. 'Female'): value = P(S)}'''
-	def train(self, dataSet):
+	def train(self, dataSet, model):
 		dataFrame = dataSet.dataFrame
 		groundTruth = dataSet.trueLabels
 		classificationList = dataFrame[groundTruth].unique()
 		protected = dataSet.protectedAttribute
 
 		#to ensure that we don't train twice
-		if bool(self.model):
+		if bool(model):
 			print("Error: Model not empty.")
 			pass
 
@@ -84,7 +84,7 @@ class ModifiedNaive(Bayes):
 					attrDict[attrCategory] = probabilityDict
 			
 					
-			self.model.append(attrDict)
+			model.append(attrDict)
 
 		#Construct a dictionary that will hold the probability of each sensitive attribute S_x (e.g. male, female)
 		sensitiveProbabilitiesDict = {}
@@ -94,33 +94,33 @@ class ModifiedNaive(Bayes):
 			probOfSx = self.attributeCategoryProbability(dataFrame, dataSet.protectedAttribute, Sx)
 			sensitiveProbabilitiesDict[Sx] = probOfSx
 		#append it to the end of the outermost model array
-		self.model.append(sensitiveProbabilitiesDict)
+		model.append(sensitiveProbabilitiesDict)
 
 		print("\nMODEL UPDATED... PRINTING MODEL...!\n")
-		self.printModel(dataSet)
+		self.printModel(dataSet, model)
 		print("\n FINISHED PRINTING MODEL. \n")
 
 
 	'''Pretty prints out the Bayesian model '''
-	def printModel(self, dataSet):
+	def printModel(self, dataSet, model):
 		#Through the outermost model array, we loop up until the 2nd to last element
-		for i in range(0, len(self.model) - 1):
+		for i in range(0, len(model) - 1):
 			print("Attribute: ", dataSet.headers[i])
-			for attrCategory in self.model[i].keys():
+			for attrCategory in model[i].keys():
 				if(attrCategory == 'mean' or attrCategory == 'std'): #numerical type
 					if(attrCategory == 'mean'):
 						print("\t Numerical Data: Conditional mean")
 					elif(attrCategory == 'std'):
 						print("\t Numerical Data: Condition standard deviation")
-					for classification in self.model[i][attrCategory].keys():
-						print("\t \t Classification and mean/std: ", classification, ", ", self.model[i][attrCategory][classification])
+					for classification in model[i][attrCategory].keys():
+						print("\t \t Classification and mean/std: ", classification, ", ", model[i][attrCategory][classification])
 				else: #categorical type
 					print("\t Attribute Category: ", attrCategory)
-					for classification in self.model[i][attrCategory].keys():
-						print("\t \t Classification & Probability: ", classification, ", ", self.model[i][attrCategory][classification])
+					for classification in model[i][attrCategory].keys():
+						print("\t \t Classification & Probability: ", classification, ", ", model[i][attrCategory][classification])
 
 		print("Classification Probabilities: ")
-		classificationProbs = self.model[-1]
+		classificationProbs = model[-1]
 		for Cx in classificationProbs.keys():
 			print("\t Classification: ", Cx)
 			print("\t Probability: ", classificationProbs[Cx])

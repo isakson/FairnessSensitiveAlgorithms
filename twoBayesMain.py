@@ -6,12 +6,12 @@ from Metrics import Metrics
 def main():
 
 	ds = DataSet()
-	ds.loadData("ClassifiedRicciDataA.csv", "Race", "Class")
+	ds.loadData("income-bracket-data.csv", "sex", "income")
 	tb = TwoBayes()
-	tb.train(ds, "a")
+	tb.train(ds, ">50K.")
 
 	mt = Metrics()
-#	mt.calculateAccuracy(ds)
+	mt.calculateAccuracy(ds)
 
 
 if __name__== "__main__":

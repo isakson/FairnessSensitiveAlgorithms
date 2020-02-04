@@ -67,7 +67,7 @@ class ModifiedBayes(ModifiedNaive):
 
 		
 	def train(self, dataSet, CHigher):
-		ModifiedNaive.train(self, dataSet)
+		ModifiedNaive.train(self, dataSet, self.model)
 		self.modify(dataSet, CHigher)
 		
 		

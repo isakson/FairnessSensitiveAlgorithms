@@ -6,7 +6,7 @@ from Metrics import Metrics
 def main():
 
 	ds = DataSet()
-	ds.loadData("ClassifiedRicciDataA.csv", "Race", "Class")
+	ds.loadData("income-bracket-data.csv", "Race", "Class")
 	nb = NaiveBayes()
 	nb.train(ds, nb.model)
 
