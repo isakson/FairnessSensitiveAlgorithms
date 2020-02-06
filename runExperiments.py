@@ -1,4 +1,5 @@
 import json
+import sys
 from pipeline import pipeline
 
 '''
@@ -31,7 +32,7 @@ Parameters:
     end (int) - The last experiment to run (NOT inclusive)
 '''
 def runExperimentSeries(start, end):
-    for i in range(start, end):
+    for i in range(int(start), int(end)):
         config = parseConfig(i)
         pipeline(config[0], config[1], config[2], config[3], config[4], config[5])
 
@@ -45,4 +46,20 @@ def runExperiments(list):
         config = parseConfig(num)
         pipeline(config[0], config[1], config[2], config[3], config[4], config[5])
 
-# TODO: add command-line arguments
+'''
+Command line arguments:
+    You can call runExperimentSeries and runExperiment from the command line.
+    To call runExperimentSeries:
+        Enter the argument runExperimentSeries followed by the start and end of the series you would like to run.
+        For example, to run experiments 1-4:
+            python3 runExperiments.py runExperimentSeries 1 5
+    To call runExperiment:
+        Enter a single integer parameter after the call to runExperiments.py
+        For example, to run experiment 7:
+            python3 runExperiments.py 7
+'''
+if len(sys.argv) > 1:
+    if sys.argv[1] == "runExperimentSeries":
+        runExperimentSeries(sys.argv[2], sys.argv[3])
+    else:
+        runExperiment(sys.argv[1])
