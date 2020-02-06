@@ -65,7 +65,7 @@ class NaiveBayes(Bayes):
 					#key = classification, value = probability of P(attr|classification)
 					probabilityDict = {}
 
-					#for each of the possible classifications possible (i.e. lieutenant, captain, etc.)
+					#for each of the possible classifications (i.e. 1 or 0)
 					for classification in classificationList:
 						#skip this case
 						if(groundTruth == attribute):
@@ -81,7 +81,6 @@ class NaiveBayes(Bayes):
 					
 			model.append(attrDict)
 
-		#### New train() additions below ---> #### 
 		#Construct a dictionary that will hold the probability of a particular classification C_x (e.g. lieutenant, captain)
 		classificationProbabilitiesDict = {}
 		#for each of the possible classfications 
@@ -154,6 +153,7 @@ class NaiveBayes(Bayes):
 			#iterate through the possible outcomes of the class variable
 			for classification in classificationList.keys():
 
+				#start the numerator product with the value of P(C) for the current classification (we will be multiplying this by all the other attribute probabilities)
 				numeratorDict[classification] = classificationList[classification]
 
 				#loop through outer array of the model (but we stop at second to last element of array)
@@ -187,7 +187,7 @@ class NaiveBayes(Bayes):
 				denominatorSum += numeratorDict[key]
 			#currently just adding dictionary of all probabilities given all classifications but eventually want to be adding the max of these (the final classification)
 			for key in numeratorDict.keys():
-				bayesianDict[key] = round(numeratorDict[key] / denominatorSum, 2)
+				bayesianDict[key] = numeratorDict[key] / denominatorSum
 
 			maxClassification = max(bayesianDict.items(), key=operator.itemgetter(1))[0]
 			classificationColumn.append(maxClassification)

@@ -29,7 +29,6 @@ class Bayes:
 	   gives a value between 0-1.
 	   a - name of attribute, value - particular attribute category '''
 	def attributeCategoryProbability(self, dataFrame, a, value):
-		#P(x2) where x2 is in a
 		return dataFrame.loc[dataFrame[a] == value, a].count() / len(dataFrame.index)
 
 	'''Returns an array of the unique categories (strings) in a column 

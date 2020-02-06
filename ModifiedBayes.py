@@ -60,10 +60,10 @@ class ModifiedBayes(ModifiedNaive):
 
 	'''Space saving function for modify() that prints out probabilities'''
 	def printProbabilities(self, CHigherSLower, CLowerSLower, CHigherSHigher, CLowerSHigher):
-		print("c+s-:", CHigherSLower)
-		print("c-s-:", CLowerSLower)
-		print("c+s+:", CHigherSHigher)
-		print("c-s+:", CLowerSHigher)
+		print("c+s- prob:", CHigherSLower)
+		print("c-s- prob:", CLowerSLower)
+		print("c+s+ prob:", CHigherSHigher)
+		print("c-s+ prob:", CLowerSHigher)
 
 		
 	def train(self, dataSet, CHigher):
@@ -104,7 +104,6 @@ class ModifiedBayes(ModifiedNaive):
 		CHigherSHigher = CHigherSHigherCount / self.countAttr(dataFrame, protected, higherOrLowerSensitiveAttributeDict["higher"])
 		CLowerSLower = CLowerSLowerCount / self.countAttr(dataFrame, protected, higherOrLowerSensitiveAttributeDict["lower"])
 		CLowerSHigher = CLowerSHigherCount / self.countAttr(dataFrame, protected, higherOrLowerSensitiveAttributeDict["higher"])
-		print("Original probabilities calculated from 'Bayes Classification' column 1st modifiedNaive iteration: ")
 		self.printProbabilities(CHigherSLower, CLowerSLower, CHigherSHigher, CLowerSHigher)
 		
 		#Calculate the preliminary discrimination score -- disc = P(C+ | S+) - P(C+ | S-)
