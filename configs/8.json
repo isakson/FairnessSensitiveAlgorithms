@@ -1,0 +1,10 @@
+{
+   "num": 8,
+   "dataset": "Restaurant",
+   "filePath": "originalData/EditedClassifiedData/editedRestaurants.csv",
+   "filename": "restaurant_NB_F",
+   "protectedAttribute": "borough",
+   "groundTruth": "score",
+   "feldman": "yes",
+   "bayes": "naive"
+ }

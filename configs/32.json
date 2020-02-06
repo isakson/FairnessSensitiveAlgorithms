@@ -1,0 +1,10 @@
+{
+   "num": 32,
+   "dataset": "German",
+   "filePath": "originalData/EditedClassifiedData/germanCreditData.csv",
+   "filename": "german_NB_F",
+   "protectedAttribute": "sex",
+   "groundTruth": "creditQuality",
+   "feldman": "yes",
+   "bayes": "naive"
+ }

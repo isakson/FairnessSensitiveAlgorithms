@@ -1,0 +1,10 @@
+{
+   "num": 16,
+   "dataset": "Credit",
+   "filePath": "originalData/EditedClassifiedData/CreditCardClients.csv",
+   "filename": "credit_MB_F",
+   "protectedAttribute": "education",
+   "groundTruth": "default",
+   "feldman": "yes",
+   "bayes": "modified"
+ }
