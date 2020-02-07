@@ -1,0 +1,10 @@
+{
+   "num": 22,
+   "dataset": "Jury",
+   "filePath": "originalData/EditedClassifiedData/APM_DougEvansCases.csv",
+   "filename": "jury_MB_F",
+   "protectedAttribute": "race",
+   "groundTruth": "struck_state",
+   "feldman": "yes",
+   "bayes": "modified"
+ }

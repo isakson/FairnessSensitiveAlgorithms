@@ -1,0 +1,10 @@
+{
+   "num": 27,
+   "dataset": "Income",
+   "filePath": "originalData/EditedClassifiedData/adultIncomeData.csv",
+   "filename": "income_MB_NF",
+   "protectedAttribute": "education",
+   "groundTruth": "income",
+   "feldman": "no",
+   "bayes": "modified"
+ }

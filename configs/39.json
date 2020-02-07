@@ -1,0 +1,10 @@
+{
+   "num": 39,
+   "dataset": "Ricci",
+   "filePath": "originalData/EditedClassifiedData/ClassifiedRicciData.csv",
+   "filename": "ricci_MB_NF",
+   "protectedAttribute": "Race",
+   "groundTruth": "Class",
+   "feldman": "no",
+   "bayes": "modified"
+ }

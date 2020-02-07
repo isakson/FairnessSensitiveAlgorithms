@@ -110,16 +110,14 @@ class DataSet:
     Saves the dataFrame as a .csv file. All objects will be saved to the folder dataCSVs.
         fileName (string) - the desired output file name (note: should end in .csv, otherwise it saves as a textfile but is still comma-separated)
     '''
-    def saveToCsv(self, fileName="dataFrame.csv"):
-        path = "dataCSVs/" + fileName
+    def saveToCsv(self, path="dataFrame.csv"):
         self.dataFrame.to_csv(path)
 
     '''
     Saves the current DataSet object as a pickle. All objects will be saved to the folder pickledObjects.
         fileName (string) - The DataSet object to pickle
     '''
-    def savePickle(self, fileName="pickledDataSet"):
-        path = "pickledObjects/" + fileName
+    def savePickle(self, path="pickledDataSet"):
         file = open(path, 'wb')
         pickle.dump(self, file)
         file.close()
