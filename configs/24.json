@@ -4,7 +4,7 @@
    "filePath": "originalData/EditedClassifiedData/APM_DougEvansCases.csv",
    "filename": "jury_TB_F",
    "protectedAttribute": "race",
-   "groundTruth": "struck_by",
+   "groundTruth": "struck_state",
    "feldman": "yes",
    "bayes": "two"
  }
