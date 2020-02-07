@@ -1,14 +1,11 @@
-import pandas as pd
 from DataSet import DataSet
+import numpy as np
 from scipy import stats
 from scipy import spatial
-from statistics import mean, stdev
 from scipy.stats import zscore
 from matplotlib import pyplot
 
 class Metrics:
-
-	# TODO: Write function to run all metrics
 
 	def __init__(self):
 		pass
@@ -75,15 +72,15 @@ class Metrics:
 	'''
 	def determineGroups(self, dataSet):
 		df = dataSet.dataFrame
-		possibleGroups = df[dataSet.protectedAttributes[0]].unique()
+		possibleGroups = df[dataSet.protectedAttribute].unique()
 
 		organizedDataSetList = []
 		for value in possibleGroups:
 			# Setting up the group as a new DataSet
 			newDataSet = DataSet()
 			newDataSet.fileName = dataSet.fileName
-			newDataSet.dataFrame = df[df[dataSet.protectedAttributes[0]] == value]
-			newDataSet.protectedAttributes = dataSet.protectedAttributes
+			newDataSet.dataFrame = df[df[dataSet.protectedAttribute] == value]
+			newDataSet.protectedAttribute = dataSet.protectedAttribute
 			newDataSet.trueLabels = dataSet.trueLabels
 			newDataSet.headers = dataSet.headers
 			newDataSet.numAttributes = dataSet.numAttributes
@@ -96,7 +93,8 @@ class Metrics:
 		return organizedDataSetList, possibleGroups
 
 	'''
-	Performs a chi square test.
+	Performs a chi square test, which tests whether there is a statistically significant difference between the real and 
+	predicted values.
 		truePosByAttribute (dict) - dictionary containing keys of protected attribute values and values of true 
 			positive counts for that particular protected attribute value
 		trueNegByAttribute (dict) - dictionary containing keys of protected attribute values and values of true 
@@ -166,7 +164,6 @@ class Metrics:
 
 		return pValue, EquOfOpp
 
-	# TODO: train vs test part of dataset? help?
 	'''
 	Computes the fairness of trainedBayes according to counterfactual measures by running Bayes on the original data, then
 	swapping the protected attribute values and reclassifying (without retraining). Then, to compute accuracy, it treats the
@@ -176,8 +173,6 @@ class Metrics:
 		
 	return: accuracy
 	'''
-
-	# TODO: Test this
 	def counterfactualMeasures(self, dataSet, trainedBayes):
 		swappedDataSet = self.swapProtectedAttributes(dataSet)
 		swappedDF = swappedDataSet.dataFrame
@@ -224,13 +219,15 @@ class Metrics:
 	'''
 	def countPositiveOutcomes(self, dataSet):
 		dataFrame = dataSet.dataFrame
-		possibleAttributes = dataFrame[dataSet.protectedAttributes[0]].unique()
+		possibleAttributes = dataFrame[dataSet.protectedAttribute].unique()
 
+		# posOutcomes0 is the number of positive classifications for cases with the 0th protected attribute value
+		# posOutcomes1 is the number of positive classifications for cases with the 1st protected attribute value
 		posOutcomes0 = 0
 		posOutcomes1 = 0
 		for i in range(dataFrame.shape[0]):
 			bayesClassification = dataFrame.at[i, "Bayes Classification"]
-			protectedAttribute = dataFrame.at[i, dataSet.protectedAttributes[0]]
+			protectedAttribute = dataFrame.at[i, dataSet.protectedAttribute]
 
 			if bayesClassification == 1 and protectedAttribute == possibleAttributes[0]:
 				posOutcomes0 += 1
@@ -287,7 +284,9 @@ class Metrics:
 		keys = posOutcomes.keys()
 
 		probabilitiesDict = {}
-		totalsFrame = dataFrame[dataSet.protectedAttributes[0]].value_counts()
+		# totalsFrame is a DataFrame where the row indices are the protected attribute values and the values in the
+		# 	first column are the counts of rows from the original DataFrame with that protected attribute value
+		totalsFrame = dataFrame[dataSet.protectedAttribute].value_counts()
 
 		for key in keys:
 			probabilitiesDict[key] = posOutcomes[key] / totalsFrame.loc[key]
@@ -329,7 +328,7 @@ class Metrics:
 	returns: a cutoff point (float)
 	'''
 	def findCutoff(self, distribution, quantile=.1):
-		return distribution.quantile(quantile)
+		return np.quantile(distribution, quantile)
 
 	'''
 	Computes individual fairness metric
@@ -351,7 +350,6 @@ class Metrics:
 			# if the difference is below the cutoff and the two rows have different outcomes
 			elif item[0] < cutoff:
 				difOutcome += 1
-
 		return sameOutcome / (sameOutcome + difOutcome)
 
 	'''
