@@ -368,9 +368,10 @@ class Metrics:
 		pyplot.axvline(mean(distribution), color='k', linestyle='dashed', linewidth=1)
 		pyplot.show()
 
-	def runAllMetrics(self, dataSet, typeOfBayes, trainedBayes):
+	def runAllMetrics(self, file, dataSet, typeOfBayes, trainedBayes):
+
 		dataSet = dataSet.copyDataSet
-		print("Accuracy: ", self.calculateAccuracy(dataSet))
+		file.write("Accuracy: ", self.calculateAccuracy(dataSet))
 		matchesLabel, actualLabel = self.truePosOrNeg(dataSet, 1)
 		print("True positive rate: ", self.truePosOrNegRate(matchesLabel, actualLabel))
 		matchesLabel, actualLabel = self.truePosOrNeg(dataSet, 0)
