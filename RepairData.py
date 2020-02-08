@@ -29,10 +29,10 @@ class RepairData:
     '''
     Finds all unique attribute values in our protected attributes and then finds the distributions attached to
     those values. Also returns a list of all possible values for the current protected attribute.
-        protectedAttribute (string) - the name of the protected attribute we want to use to make the distributions
         nonProtectedAttribute (string) - the name of the numerical, non-protected attribute that we want to get a distribution for
     '''
     def makeDistributions(self, nonProtectedAttribute):
+        print(nonProtectedAttribute)
         df = self.dataSetOriginal.dataFrame
         protectedAttribute = self.dataSetOriginal.protectedAttribute
 
@@ -167,7 +167,7 @@ class RepairData:
         columnName (string) - a column header
     '''
     def repairColumn(self, columnName):
-        distributions, attributeValues = self.makeDistributions(self.dataSetCopy.protectedAttribute)
+        distributions, attributeValues = self.makeDistributions(columnName)
         print(distributions)
         print(attributeValues)
         bucketList, minMaxList = self.bucketize(distributions)
