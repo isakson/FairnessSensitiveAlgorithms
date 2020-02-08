@@ -46,12 +46,17 @@ def pipeline(fileName, nameForFiles, protectedAttribute, trueLabels, feldman, ba
         currDataSet = repair.dataSetCopy
 
     if bayes == "naive":
-        nb = NaiveBayes()
-        nb.train(currDataSet)
-        nb.classify(currDataSet)
+        bayesObject = NaiveBayes()
+        bayesObject.train(currDataSet)
+        bayesObject.classify(currDataSet)
 
     elif bayes == "modified":
-        mb = 
+        bayesObject = ModifiedBayes()
+        bayesObject.train(currDataSet, 1)
+
+    else:
+        bayesObject = TwoBayes()
+        bayesObject.train(currDataSet, 1)
 
 
     currDataSet.savePickle("pickledObjects/classifiedData/" + nameForFiles)
