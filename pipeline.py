@@ -1,6 +1,8 @@
 from DataSet import DataSet
 from RepairData import RepairData
 from NaiveBayes import NaiveBayes
+from ModifiedBayes import ModifiedBayes
+from TwoBayes import TwoBayes
 from Metrics import Metrics
 from classifierForDI import detectDI
 
@@ -49,7 +51,7 @@ def pipeline(fileName, nameForFiles, protectedAttribute, trueLabels, feldman, ba
         nb.classify(currDataSet)
 
     elif bayes == "modified":
-        pass
+        mb = 
 
 
     currDataSet.savePickle("pickledObjects/classifiedData/" + nameForFiles)
