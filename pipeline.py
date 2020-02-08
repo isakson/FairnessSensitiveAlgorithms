@@ -61,6 +61,6 @@ def pipeline(fileName, nameForFiles, protectedAttribute, trueLabels, feldman, ba
 
     # Metrics
     metrics = Metrics()
-    metrics.calculateAccuracy(currDataSet)
+    metrics.runAllMetrics(f, currDataSet, bayes, bayesObject)
 
     f.close()
