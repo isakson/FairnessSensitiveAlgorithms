@@ -368,6 +368,13 @@ class Metrics:
 		pyplot.axvline(mean(distribution), color='k', linestyle='dashed', linewidth=1)
 		pyplot.show()
 
+	'''
+	Runs all metrics and writes their outputs to a file.
+		file (file) - an open file
+		dataSet (DataSet) - a dataset
+		typeOfBayes (string) - the type of Bayes being used, e.g. "Naive"
+		trainedBayes (trained Bayes model) - the trained Bayes model
+	'''
 	def runAllMetrics(self, file, dataSet, typeOfBayes, trainedBayes):
 
 		dataSet = dataSet.copyDataSet
