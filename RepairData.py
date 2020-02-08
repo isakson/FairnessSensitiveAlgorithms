@@ -167,7 +167,7 @@ class RepairData:
         columnName (string) - a column header
     '''
     def repairColumn(self, columnName):
-        distributions, attributeValues = self.makeDistributions(self.dataSetCopy.protectedAttribute, columnName)
+        distributions, attributeValues = self.makeDistributions(self.dataSetCopy.protectedAttribute)
         bucketList, minMaxList = self.bucketize(distributions)
         medianDistributions = self.findMedianDistribution(bucketList)
         self.modifyData(columnName, medianDistributions, bucketList, minMaxList, attributeValues)

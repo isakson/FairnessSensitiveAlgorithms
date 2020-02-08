@@ -2,7 +2,6 @@ from Bayes import Bayes
 from modifiedNaive import ModifiedNaive
 import pandas as pd
 import operator
-from Metrics import Metrics
 
 class ModifiedBayes(ModifiedNaive):
 
