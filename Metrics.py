@@ -368,4 +368,17 @@ class Metrics:
 		pyplot.axvline(mean(distribution), color='k', linestyle='dashed', linewidth=1)
 		pyplot.show()
 
+	def runAllMetrics(self, dataSet, typeOfBayes, trainedBayes):
+		dataSet = dataSet.copyDataSet
+		print("Accuracy: ", self.calculateAccuracy(dataSet))
+		matchesLabel, actualLabel = self.truePosOrNeg(dataSet, 1)
+		print("True positive rate: ", self.truePosOrNegRate(matchesLabel, actualLabel))
+		matchesLabel, actualLabel = self.truePosOrNeg(dataSet, 0)
+		print("True positive rate: ", self.truePosOrNegRate(matchesLabel, actualLabel))
+		print("Equality of Opportunity: ", self.runEquOfOpportunity(dataset))
+		print("Counterfactual Measures: ", self.counterfactualMeasures(dataSet, trainedBayes))
+		print("Preferred Treatment: ", self.preferredTreatment(dataSet, trainedBayes, typeOfBayes))
+		print("Group Fairness: ", self.groupFairness(dataSet))
+		print("Individual Fairness: ", self.individualFairness(dataSet))
+
 
