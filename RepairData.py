@@ -168,6 +168,8 @@ class RepairData:
     '''
     def repairColumn(self, columnName):
         distributions, attributeValues = self.makeDistributions(self.dataSetCopy.protectedAttribute)
+        print(distributions)
+        print(attributeValues)
         bucketList, minMaxList = self.bucketize(distributions)
         medianDistributions = self.findMedianDistribution(bucketList)
         self.modifyData(columnName, medianDistributions, bucketList, minMaxList, attributeValues)
