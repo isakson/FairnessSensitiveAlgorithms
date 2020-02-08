@@ -1,4 +1,5 @@
 from DataSet import DataSet
+from TwoBayes import TwoBayes
 import numpy as np
 from scipy import stats
 from scipy import spatial
@@ -242,11 +243,12 @@ class Metrics:
 	Calculates whether or not a particular classification algorithm gives preferred treatment for a particular group
 		dataSet (DataSet) - the original dataset
 		trainedBayes (trained Bayes model) - the trained Bayes model
+		privilegedValue (String) - the protected attribute value of the privileged group
 		typeOfBayes (string) - the name of the type of Bayes algorithm used ("naive", "modified", or "two")
 		
 	returns: a boolean
 	'''
-	def preferredTreatment(self, dataSet, trainedBayes, typeOfBayes):
+	def preferredTreatment(self, dataSet, trainedBayes, privilegedValue, typeOfBayes):
 		if typeOfBayes != "two":
 			return True
 
@@ -254,9 +256,11 @@ class Metrics:
 			# Count the amount of positive outcomes each protected attribute value group receives in the original dataset
 			originalPosOutcomes = self.countPositiveOutcomes(dataSet)
 			dataSetCopy = dataSet.copyDataSet()
-			# Change which Bayes is being run on a particular protected attribute
-			# TODO: Do this part
-
+			# Change which Bayes is being run on a particular protected attribute by swapping the models
+			tempModelX = trainedBayes.modelY
+			trainedBayes.modelY = trainedBayes.modelX
+			trainedBayes.modelX = tempModelX
+			trainedBayes.modify(dataSetCopy, privilegedValue)
 			# Count the amount of positive outcomes each protected attribute value group receives in the new dataset
 			swappedPosOutcomes = self.countPositiveOutcomes(dataSetCopy)
 			# Compare that to the original
