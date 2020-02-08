@@ -6,9 +6,6 @@ from TwoBayes import TwoBayes
 from Metrics import Metrics
 from classifierForDI import detectDI
 
-
-#TODO: add modified Bayes
-#TODO: add "run all metrics" function
 '''
 Parameters:
     fileName (string) - The path to the file whose data should be loaded
@@ -64,7 +61,6 @@ def pipeline(fileName, nameForFiles, protectedAttribute, trueLabels, feldman, ba
 
     # Metrics
     metrics = Metrics()
-    # NOTE: this function just prints the accuracy, change to run all metrics later
     metrics.calculateAccuracy(currDataSet)
 
     f.close()
