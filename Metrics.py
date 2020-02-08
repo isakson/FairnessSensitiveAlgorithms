@@ -1,4 +1,5 @@
 from DataSet import DataSet
+from TwoBayes import TwoBayes
 import numpy as np
 from scipy import stats
 from scipy import spatial
@@ -242,11 +243,12 @@ class Metrics:
 	Calculates whether or not a particular classification algorithm gives preferred treatment for a particular group
 		dataSet (DataSet) - the original dataset
 		trainedBayes (trained Bayes model) - the trained Bayes model
+		privilegedValue (String) - the protected attribute value of the privileged group
 		typeOfBayes (string) - the name of the type of Bayes algorithm used ("naive", "modified", or "two")
 		
 	returns: a boolean
 	'''
-	def preferredTreatment(self, dataSet, trainedBayes, typeOfBayes):
+	def preferredTreatment(self, dataSet, trainedBayes, privilegedValue, typeOfBayes):
 		if typeOfBayes != "two":
 			return True
 
@@ -254,9 +256,11 @@ class Metrics:
 			# Count the amount of positive outcomes each protected attribute value group receives in the original dataset
 			originalPosOutcomes = self.countPositiveOutcomes(dataSet)
 			dataSetCopy = dataSet.copyDataSet()
-			# Change which Bayes is being run on a particular protected attribute
-			# TODO: Do this part
-
+			# Change which Bayes is being run on a particular protected attribute by swapping the models
+			tempModelX = trainedBayes.modelY
+			trainedBayes.modelY = trainedBayes.modelX
+			trainedBayes.modelX = tempModelX
+			trainedBayes.modify(dataSetCopy, privilegedValue)
 			# Count the amount of positive outcomes each protected attribute value group receives in the new dataset
 			swappedPosOutcomes = self.countPositiveOutcomes(dataSetCopy)
 			# Compare that to the original
@@ -363,5 +367,26 @@ class Metrics:
 		n, bins, patches = pyplot.hist(distribution, num_bins)
 		pyplot.axvline(mean(distribution), color='k', linestyle='dashed', linewidth=1)
 		pyplot.show()
+
+	'''
+	Runs all metrics and writes their outputs to a file.
+		file (file) - an open file
+		dataSet (DataSet) - a dataset
+		typeOfBayes (string) - the type of Bayes being used, e.g. "Naive"
+		trainedBayes (trained Bayes model) - the trained Bayes model
+	'''
+	def runAllMetrics(self, file, dataSet, typeOfBayes, trainedBayes):
+
+		dataSet = dataSet.copyDataSet
+		file.write("Accuracy: ", self.calculateAccuracy(dataSet))
+		matchesLabel, actualLabel = self.truePosOrNeg(dataSet, 1)
+		file.write("True positive rate: ", self.truePosOrNegRate(matchesLabel, actualLabel))
+		matchesLabel, actualLabel = self.truePosOrNeg(dataSet, 0)
+		file.write("True positive rate: ", self.truePosOrNegRate(matchesLabel, actualLabel))
+		file.write("Equality of Opportunity: ", self.runEquOfOpportunity(dataset))
+		file.write("Counterfactual Measures: ", self.counterfactualMeasures(dataSet, trainedBayes))
+		file.write("Preferred Treatment: ", self.preferredTreatment(dataSet, trainedBayes, typeOfBayes))
+		file.write("Group Fairness: ", self.groupFairness(dataSet))
+		file.write("Individual Fairness: ", self.individualFairness(dataSet))
 
 
