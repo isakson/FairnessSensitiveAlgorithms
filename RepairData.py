@@ -32,7 +32,6 @@ class RepairData:
         nonProtectedAttribute (string) - the name of the numerical, non-protected attribute that we want to get a distribution for
     '''
     def makeDistributions(self, nonProtectedAttribute):
-        print(nonProtectedAttribute)
         df = self.dataSetOriginal.dataFrame
         protectedAttribute = self.dataSetOriginal.protectedAttribute
 
@@ -168,8 +167,6 @@ class RepairData:
     '''
     def repairColumn(self, columnName):
         distributions, attributeValues = self.makeDistributions(columnName)
-        print(distributions)
-        print(attributeValues)
         bucketList, minMaxList = self.bucketize(distributions)
         medianDistributions = self.findMedianDistribution(bucketList)
         self.modifyData(columnName, medianDistributions, bucketList, minMaxList, attributeValues)

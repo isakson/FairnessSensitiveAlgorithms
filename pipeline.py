@@ -44,7 +44,7 @@ def pipeline(fileName, nameForFiles, protectedAttribute, trueLabels, feldman, ba
 
     if bayes == "naive":
         bayesObject = NaiveBayes()
-        bayesObject.train(currDataSet)
+        bayesObject.train(currDataSet, bayesObject)
         bayesObject.classify(currDataSet)
 
     elif bayes == "modified":
