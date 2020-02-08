@@ -373,13 +373,13 @@ class Metrics:
 		dataSet = dataSet.copyDataSet
 		file.write("Accuracy: ", self.calculateAccuracy(dataSet))
 		matchesLabel, actualLabel = self.truePosOrNeg(dataSet, 1)
-		print("True positive rate: ", self.truePosOrNegRate(matchesLabel, actualLabel))
+		file.write("True positive rate: ", self.truePosOrNegRate(matchesLabel, actualLabel))
 		matchesLabel, actualLabel = self.truePosOrNeg(dataSet, 0)
-		print("True positive rate: ", self.truePosOrNegRate(matchesLabel, actualLabel))
-		print("Equality of Opportunity: ", self.runEquOfOpportunity(dataset))
-		print("Counterfactual Measures: ", self.counterfactualMeasures(dataSet, trainedBayes))
-		print("Preferred Treatment: ", self.preferredTreatment(dataSet, trainedBayes, typeOfBayes))
-		print("Group Fairness: ", self.groupFairness(dataSet))
-		print("Individual Fairness: ", self.individualFairness(dataSet))
+		file.write("True positive rate: ", self.truePosOrNegRate(matchesLabel, actualLabel))
+		file.write("Equality of Opportunity: ", self.runEquOfOpportunity(dataset))
+		file.write("Counterfactual Measures: ", self.counterfactualMeasures(dataSet, trainedBayes))
+		file.write("Preferred Treatment: ", self.preferredTreatment(dataSet, trainedBayes, typeOfBayes))
+		file.write("Group Fairness: ", self.groupFairness(dataSet))
+		file.write("Individual Fairness: ", self.individualFairness(dataSet))
 
 
