@@ -127,12 +127,12 @@ class TwoBayes(NaiveBayes, ModifiedBayes):
 		
 	def modify(self, dataSet, CHigher):
 		#do exactly as ModifiedBayes does except calling TwoBayes classify
+		self.classify(dataSet)
+
 		dataFrame = dataSet.dataFrame
 		protected = dataSet.protectedAttribute
 		groundTruth = dataSet.trueLabels
 		sensitiveAttributeModelIndex = dataSet.headers.index(protected) #need to know index of sensitive attribute in the model
-
-		dataFrame = self.classify(dataSet)
 
 		#Assign dictionary values based on CHigher parameter
 		print(dataSet.trueLabels)
@@ -220,6 +220,7 @@ class TwoBayes(NaiveBayes, ModifiedBayes):
 			
 			#reclassify and recompute the new discrimination score
 			self.classify(dataSet)
+			dataFrame = dataSet.dataFrame
 			disc = self.calculateDiscriminationScore(CHigherSHigher, CHigherSLower)
 			print("Discrimination score at the end of the iteration: ", disc)
 			print("Updated probabilities at the end of the iteration: ")
