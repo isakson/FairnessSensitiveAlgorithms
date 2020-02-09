@@ -10,13 +10,13 @@ from classifierForDI import detectDI
 Parameters:
     fileName (string) - The path to the file whose data should be loaded
     nameForFiles (string) - The name to assign to files written by the pipeline
-    protectedAttribute (string) - The header name for the column containing the 
+    protectedAttribute (string) - The header name for the column containing the
         protectedAttribute data in the dataset
     trueLabels (string) - The header name for the column containing the true classifications
         in the dataset
     feldman (bool) - If True, run Feldman repair algorithm. If False, do not run Feldman repair algorithm.
     bayes (string) - If "naive", run Naive Bayes. If "modified", run Modified Bayes. If "two", run Two Bayes
-Notes: 
+Notes:
     Results (e.g. DI detector, metrics results) will be written to the results/ directory
     Pickled objects will be written to the pickledObjects/ directory
     CSVs of data will be written to the dataCSVs/ directory
@@ -29,12 +29,12 @@ def pipeline(fileName, nameForFiles, protectedAttribute, trueLabels, feldman, ba
     # Open a file for writing results
     f = open("results/" + nameForFiles + ".txt", "w")
 
-    DIresult = detectDI(ds)
-    f.write("DI results: " + DIresult)
+    #DIresult = detectDI(ds)
+    #f.write("DI results: " + DIresult)
 
     # Feldman repair algorithm
     currDataSet = ds
-    if feldman:
+    if feldman == "yes":
         repair = RepairData()
         repair.runRepair(ds.fileName, ds.protectedAttribute, ds.trueLabels, noiseScale=.01)
         # Pickle the Feldman-repaired data
