@@ -382,7 +382,7 @@ class Metrics:
 		matchesLabel, actualLabel = self.truePosOrNeg(dataSet, 1)
 		file.write("True positive rate: " + str(self.truePosOrNegRate(matchesLabel, actualLabel)))
 		matchesLabel, actualLabel = self.truePosOrNeg(dataSet, 0)
-		file.write("True positive rate: " + str(self.truePosOrNegRate(matchesLabel, actualLabel)))
+		file.write("True negative rate: " + str(self.truePosOrNegRate(matchesLabel, actualLabel)))
 		file.write("Equality of Opportunity: " + str(self.runEquOfOpportunity(dataSet)))
 		file.write("Counterfactual Measures: " + str(self.counterfactualMeasures(dataSet, trainedBayes)))
 		file.write("Preferred Treatment: " + str(self.preferredTreatment(dataSet, trainedBayes, typeOfBayes)))
