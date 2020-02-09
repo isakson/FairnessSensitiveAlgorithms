@@ -176,6 +176,7 @@ class Metrics:
 	'''
 	def counterfactualMeasures(self, dataSet, trainedBayes):
 		swappedDataSet = self.swapProtectedAttributes(dataSet)
+		print(swappedDataSet)
 		swappedDF = swappedDataSet.dataFrame
 		swappedDF.drop(columns=["Bayes Classification", swappedDataSet.trueLabels])
 
@@ -208,7 +209,6 @@ class Metrics:
 
 			else:
 				dataFrame.loc[[i], [dataSetCopy.protectedAttribute]] = possibleAttributeValues[0]
-
 		return dataSetCopy
 
 	'''
@@ -248,7 +248,7 @@ class Metrics:
 		
 	returns: a boolean
 	'''
-	def preferredTreatment(self, dataSet, trainedBayes, privilegedValue, typeOfBayes):
+	def preferredTreatment(self, dataSet, trainedBayes, typeOfBayes):
 		if typeOfBayes != "two":
 			return True
 
@@ -260,7 +260,7 @@ class Metrics:
 			tempModelX = trainedBayes.modelY
 			trainedBayes.modelY = trainedBayes.modelX
 			trainedBayes.modelX = tempModelX
-			trainedBayes.modify(dataSetCopy, privilegedValue)
+			trainedBayes.modify(dataSetCopy, 1)
 			# Count the amount of positive outcomes each protected attribute value group receives in the new dataset
 			swappedPosOutcomes = self.countPositiveOutcomes(dataSetCopy)
 			# Compare that to the original
@@ -377,16 +377,16 @@ class Metrics:
 	'''
 	def runAllMetrics(self, file, dataSet, typeOfBayes, trainedBayes):
 
-		dataSet = dataSet.copyDataSet
-		file.write("Accuracy: ", self.calculateAccuracy(dataSet))
+		dataSet = dataSet.copyDataSet()
+		file.write("Accuracy: " + str(self.calculateAccuracy(dataSet)))
 		matchesLabel, actualLabel = self.truePosOrNeg(dataSet, 1)
-		file.write("True positive rate: ", self.truePosOrNegRate(matchesLabel, actualLabel))
+		file.write("True positive rate: " + str(self.truePosOrNegRate(matchesLabel, actualLabel)))
 		matchesLabel, actualLabel = self.truePosOrNeg(dataSet, 0)
-		file.write("True positive rate: ", self.truePosOrNegRate(matchesLabel, actualLabel))
-		file.write("Equality of Opportunity: ", self.runEquOfOpportunity(dataset))
-		file.write("Counterfactual Measures: ", self.counterfactualMeasures(dataSet, trainedBayes))
-		file.write("Preferred Treatment: ", self.preferredTreatment(dataSet, trainedBayes, typeOfBayes))
-		file.write("Group Fairness: ", self.groupFairness(dataSet))
-		file.write("Individual Fairness: ", self.individualFairness(dataSet))
+		file.write("True positive rate: " + str(self.truePosOrNegRate(matchesLabel, actualLabel)))
+		file.write("Equality of Opportunity: " + str(self.runEquOfOpportunity(dataSet)))
+		file.write("Counterfactual Measures: " + str(self.counterfactualMeasures(dataSet, trainedBayes)))
+		file.write("Preferred Treatment: " + str(self.preferredTreatment(dataSet, trainedBayes, typeOfBayes)))
+		file.write("Group Fairness: " + str(self.groupFairness(dataSet)))
+		file.write("Individual Fairness: " + str(self.individualFairness(dataSet)))
 
 
