@@ -1,0 +1,1 @@
+Accuracy: 100.0True positive rate: 100.0True negative rate: 100.0Equality of Opportunity: (0.0, True)
