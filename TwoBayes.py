@@ -6,7 +6,7 @@ import operator
 from modifiedNaive import ModifiedNaive
 
 class TwoBayes(NaiveBayes, ModifiedBayes):
-	
+
 	def __init__(self):
 		self.modelX = []
 		self.modelY = []
@@ -14,7 +14,7 @@ class TwoBayes(NaiveBayes, ModifiedBayes):
 		self.Sy = ""
 
 	'''Assigns the keys "higher" and "lower" to the two possible sensitive attribute values based on which of the two has a higher count.
-   S+ ("higher") is the privileged group. We do this based on counts instead of as a manual parameter because there isn't an 'ideal' 
+   S+ ("higher") is the privileged group. We do this based on counts instead of as a manual parameter because there isn't an 'ideal'
    sensitive attribute category like there is with classifications.'''
 	def assignSensitivity(self, dataSet):
 		dataFrame = dataSet.dataFrame
@@ -27,7 +27,7 @@ class TwoBayes(NaiveBayes, ModifiedBayes):
 		else:
 			self.Sx = sensitiveAttrCatList[1]
 			self.Sy = sensitiveAttrCatList[0]
-			
+
 	def splitDataFrame(self, dataSet, sensitiveVal):
 		sensitiveAttr = dataSet.protectedAttribute
 		df = dataSet.dataFrame
@@ -42,19 +42,19 @@ class TwoBayes(NaiveBayes, ModifiedBayes):
 			ds.dataFrame = df.groupby([sensitiveAttr]).get_group(sensitiveVal)
 		except:
 			return 0
-		
-		return ds	
+
+		return ds
 
 	def train(self, dataSet, CHigher):
 		self.assignSensitivity(dataSet)
 		dsX = self.splitDataFrame(dataSet, self.Sx)
 		dsY = self.splitDataFrame(dataSet, self.Sy)
-		
+
 		NaiveBayes.train(self, dsX, self.modelX)
 		NaiveBayes.train(self, dsY, self.modelY)
-		
+
 		self.modify(dataSet, CHigher)
-		
+
 	def classify(self, dataSet):
 		dataFrame = dataSet.dataFrame
 		groundTruth = dataSet.trueLabels
@@ -94,9 +94,6 @@ class TwoBayes(NaiveBayes, ModifiedBayes):
 
 					#value for the current row of the given attribute
 					attrValue = row[1].iloc[j]
-					# if not attrValue in attributeDict:
-					# 	print(dataSet.headers[j], attrValue)
-					# 	continue
 
 					if(dataSet.headers[j] in dataSet.getNumericalColumns()): #numerical
 						meanDict = attributeDict["mean"]
@@ -119,12 +116,12 @@ class TwoBayes(NaiveBayes, ModifiedBayes):
 
 			maxClassification = max(bayesianDict.items(), key=operator.itemgetter(1))[0]
 			classificationColumn.append(maxClassification)
-			
+
 		#sets new column equal to the array of classifications
 
 		dataFrame["Bayes Classification"] = classificationColumn
 		#dataFrame.to_csv('out.csv', sep='\t', encoding='utf-8')
-		
+
 	def modify(self, dataSet, CHigher):
 		#do exactly as ModifiedBayes does except calling TwoBayes classify
 		self.classify(dataSet)
@@ -139,8 +136,8 @@ class TwoBayes(NaiveBayes, ModifiedBayes):
 		classesList = self.getAttributeCategories(dataFrame, dataSet.trueLabels)
 		higherOrLowerClassificationDict = {}
 		self.assignClassifications(higherOrLowerClassificationDict, CHigher, classesList)
-		
-		
+
+
 		#Compute counts for C+S-,C-S+,C+S+,and C-S- based on counts from the original groundTruth column
 		print("original counts")
 		print("c+s- count: ", self.countIntersection(dataFrame, protected, self.Sy, groundTruth, higherOrLowerClassificationDict["higher"]))
@@ -170,7 +167,7 @@ class TwoBayes(NaiveBayes, ModifiedBayes):
 		CLowerSHigher = CLowerSHigherCount / self.countAttr(dataFrame, protected, self.Sx)
 		print("Original probabilities calculated from 'Bayes Classification' column 1st modifiedNaive iteration: ")
 		self.printProbabilities(CHigherSLower, CLowerSLower, CHigherSHigher, CLowerSHigher)
-		
+
 		#Calculate the preliminary discrimination score -- disc = P(C+ | S+) - P(C+ | S-)
 		disc = self.calculateDiscriminationScore(CHigherSHigher, CHigherSLower)
 		print("The original discrimination score is: ", disc)
@@ -180,7 +177,7 @@ class TwoBayes(NaiveBayes, ModifiedBayes):
 			#Calculate numPos -- the number of instances that we classify people as C+
 			numPos = self.calculateNumPos(dataFrame, "Bayes Classification", higherOrLowerClassificationDict)
 			print("numPos is: ", numPos)
-			
+
 			weightOfChange = 0.01 #Value by which we will be modifiying the counts
 
 			if (numPos < actualNumPos): #We have more positive C+ labels we can assign
@@ -193,7 +190,7 @@ class TwoBayes(NaiveBayes, ModifiedBayes):
 				CHigherSLower = CHigherSLowerCount / self.countAttr(dataFrame, protected, self.Sy)
 				CLowerSLower = CLowerSLowerCount / self.countAttr(dataFrame, protected, self.Sy)
 
-				#these counts aren't changing with each iteration even though they should be 
+				#these counts aren't changing with each iteration even though they should be
 				print("C+s- bc count", self.countIntersection(dataFrame, protected, self.Sy, "Bayes Classification", higherOrLowerClassificationDict["higher"]))
 				print("c-s+ bc count", self.countIntersection(dataFrame, protected, self.Sx, "Bayes Classification", higherOrLowerClassificationDict["lower"]))
 				print("c+s+ bc count", self.countIntersection(dataFrame, protected, self.Sx, "Bayes Classification", higherOrLowerClassificationDict["higher"]))
@@ -204,20 +201,20 @@ class TwoBayes(NaiveBayes, ModifiedBayes):
 				self.modelY[-1][higherOrLowerClassificationDict["lower"]] = CLowerSLower
 
 			else: #we have assigned more positive C+ labels than we should be
-			
-				#Slightly increase the count for the C-S+ and slightly decrease the count for C+S+ 
+
+				#Slightly increase the count for the C-S+ and slightly decrease the count for C+S+
 				CLowerSHigherCount = CLowerSHigherCount + (weightOfChange * CHigherSLowerCount)
 				CHigherSHigherCount = CHigherSHigherCount - (weightOfChange * CHigherSLowerCount)
 
 				#Update the probabilities based on these new counts
 				CLowerSHigher = CLowerSHigherCount / self.countAttr(dataFrame, protected, self.Sx)
 				CHigherSHigher = CHigherSHigherCount / self.countAttr(dataFrame, protected, self.Sx)
-				
+
 				#Overwrite the old probabilities in the model
 				self.modelX[-1][higherOrLowerClassificationDict["lower"]] = CLowerSHigher
 				self.modelX[-1][higherOrLowerClassificationDict["higher"]] = CHigherSHigher
 
-			
+
 			#reclassify and recompute the new discrimination score
 			self.classify(dataSet)
 			dataFrame = dataSet.dataFrame
@@ -225,11 +222,9 @@ class TwoBayes(NaiveBayes, ModifiedBayes):
 			print("Discrimination score at the end of the iteration: ", disc)
 			print("Updated probabilities at the end of the iteration: ")
 			self.printProbabilities(CHigherSLower, CLowerSLower, CHigherSHigher, CLowerSHigher)
-				
+
 		print("FINISHED\n")
 		#print out the final classifications
 		print(dataFrame.to_string())
 		'''Uncomment if desired: Call to save classifications to a csv file called modifiedBayesClassifications.csv'''
 		#dataFrame.to_csv('modifiedBayesClassification.csv', sep='\t', encoding='utf-8')
-		
-	

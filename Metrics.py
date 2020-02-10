@@ -12,7 +12,7 @@ class Metrics:
 		pass
 
 	'''
-	Calculates basic accuracy for a classified DataSet. Basic accuracy is defined as the number of classifications 
+	Calculates basic accuracy for a classified DataSet. Basic accuracy is defined as the number of classifications
 	that match the known ground truth values.
 		dataSet (DataSet) - the classified DataSet to calculate accuracy for
 	Note: This function assumes that the column header for Bayes classifications is "Bayes Classification"
@@ -29,11 +29,10 @@ class Metrics:
 				numCorrect += 1
 
 		accuracy = numCorrect / dataFrame.shape[0] * 100
-		print("Percentage accuracy: " + str(accuracy) + "%")
 		return accuracy
 
 	'''
-	Calculates the true positive or negative rate for a classified DataSet. 
+	Calculates the true positive or negative rate for a classified DataSet.
 		dataSet (DataSet) - the classified DataSet to calculate true positive or negative rate for
 		truePosOrNeg (int or string) - the true positive value or true negative value
 	Note: this function currently only supports classifications with two possible outcomes (e.g. 0 or 1).
@@ -56,7 +55,6 @@ class Metrics:
 					matchesLabel +=1
 				if groundTruth == truePosOrNeg:
 					actualLabel +=1
-
 			return matchesLabel, actualLabel
 
 
@@ -69,7 +67,7 @@ class Metrics:
 	'''
 	Segments the overarching DataSet into smaller (non-overlapping) subsets by protected attribute. Returns a list of these
 	subsets as well as a list of the corresponding protected attribute values.
-		dataSet (DataSet) - the overarching DataSet NOTE WE'RE PROBABLY GETTING RID OF THIS PART WHEN WE MAKE IT AN INSTANCE VARIABLE
+		dataSet (DataSet) - the overarching DataSet
 	'''
 	def determineGroups(self, dataSet):
 		df = dataSet.dataFrame
@@ -94,15 +92,15 @@ class Metrics:
 		return organizedDataSetList, possibleGroups
 
 	'''
-	Performs a chi square test, which tests whether there is a statistically significant difference between the real and 
+	Performs a chi square test, which tests whether there is a statistically significant difference between the real and
 	predicted values.
-		truePosByAttribute (dict) - dictionary containing keys of protected attribute values and values of true 
+		truePosByAttribute (dict) - dictionary containing keys of protected attribute values and values of true
 			positive counts for that particular protected attribute value
-		trueNegByAttribute (dict) - dictionary containing keys of protected attribute values and values of true 
+		trueNegByAttribute (dict) - dictionary containing keys of protected attribute values and values of true
 			negative counts for that particular protected attribute value
 		TPTotal (int) - total number of true positives
 		TNTotal (int) - total number of true negatives
-	
+
 	return: chi square value (float)
 	'''
 	def chiSquare(self, truePosByAttribute, trueNegByAttribute, TPTotal, TNTotal):
@@ -130,8 +128,8 @@ class Metrics:
 	'''
 	Equality of Opportunity is the metric that stipulates that the true positive rate for each protected attribute should
 	be the same or similar within reason.
-		dataSet (DataSet) - the overarching DataSet NOTE WE'RE PROBABLY GETTING RID OF THIS PART WHEN WE MAKE IT AN INSTANCE VARIABLE
-		
+		dataSet (DataSet) - the overarching DataSet
+
 	return: the p value (float) and whether or not the p value implies that the statistic is significant (bool).
 	'''
 	def runEquOfOpportunity(self, dataset):
@@ -171,14 +169,13 @@ class Metrics:
 	original classifications as if they were true.
 		dataSet (DataSet) - the original dataset
 		trainedBayes (Bayes object) - the trained Bayes model
-		
+
 	return: accuracy
 	'''
 	def counterfactualMeasures(self, dataSet, trainedBayes):
 		swappedDataSet = self.swapProtectedAttributes(dataSet)
-		print(swappedDataSet)
 		swappedDF = swappedDataSet.dataFrame
-		swappedDF.drop(columns=["Bayes Classification", swappedDataSet.trueLabels])
+		swappedDF = swappedDF.drop(columns=["Bayes Classification", swappedDataSet.trueLabels])
 
 		trainedBayes.classify(swappedDataSet)
 		swappedDF = swappedDataSet.dataFrame
@@ -190,7 +187,7 @@ class Metrics:
 	'''
 	Copies the dataset, then swaps the protected attribute values in the copy.
 		dataSet (DataSet) - the original dataset
-		
+
 	returns: a copy of dataSet with the protected attribute values swapped.
 	'''
 	def swapProtectedAttributes(self, dataSet):
@@ -212,9 +209,9 @@ class Metrics:
 		return dataSetCopy
 
 	'''
-	Counts the total number of preferred outcomes for a particular protected attribute class 
+	Counts the total number of preferred outcomes for a particular protected attribute class
 		dataset (DataSet) - the original dataset
-		
+
 	returns: a dictionary where the keys are protected attribute values and the values are the number of positive
 		outcomes that protected attribute group received.
 	'''
@@ -245,7 +242,7 @@ class Metrics:
 		trainedBayes (trained Bayes model) - the trained Bayes model
 		privilegedValue (String) - the protected attribute value of the privileged group
 		typeOfBayes (string) - the name of the type of Bayes algorithm used ("naive", "modified", or "two")
-		
+
 	returns: a boolean
 	'''
 	def preferredTreatment(self, dataSet, trainedBayes, typeOfBayes):
@@ -278,7 +275,7 @@ class Metrics:
 	'''
 	Calculates the probability of a positive outcome across each protected attribute value.
 		dataSet (DataSet) - the dataset
-		
+
 	returns: a dictionary where the keys are the protected attribute values and the values are the positive outcome rate
 		for that protected attribute value.
 	'''
@@ -300,19 +297,16 @@ class Metrics:
 	'''
 	Dummifies the categorical data and then finds the distance between each row and every other row.
 		dataSet (DataSet) - the dataset.
-		
+
 	returns: a distribution of all distances (list), the distances and whether or not the pair had the same outcome (list of tuples)
 	'''
 	def makeEuclideanDistribution(self, dataSet):
 		df = dataSet.dummify(dummifyAll=True)
 		dataSet.dataFrame = df
 		dataSet.resetHeaders()
-		print(dataSet.dataFrame)
 		for header in dataSet.headers:
 			zscores = zscore(df[header], ddof=1)
 			df.loc[:, header] = zscores
-
-		print(dataSet.dataFrame)
 
 		distribution = []
 		distAndOutcome = []
@@ -388,5 +382,3 @@ class Metrics:
 		file.write("Preferred Treatment: " + str(self.preferredTreatment(dataSet, trainedBayes, typeOfBayes)))
 		file.write("Group Fairness: " + str(self.groupFairness(dataSet)))
 		file.write("Individual Fairness: " + str(self.individualFairness(dataSet)))
-
-

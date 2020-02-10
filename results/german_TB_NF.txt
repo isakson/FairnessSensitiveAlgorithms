@@ -1,0 +1,1 @@
+Accuracy: 76.8True positive rate: 87.57142857142857True negative rate: 51.66666666666667Equality of Opportunity: (0.011944201369644913, True)

@@ -1,0 +1,1 @@
+Accuracy: 87.67334360554699True positive rate: 91.95402298850574True negative rate: 82.72425249169434Equality of Opportunity: (0.00476425601166619, True)Counterfactual Measures: 90.75500770416025

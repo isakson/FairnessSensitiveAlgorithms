@@ -31,7 +31,7 @@ class Bayes:
 	def attributeCategoryProbability(self, dataFrame, a, value):
 		return dataFrame.loc[dataFrame[a] == value, a].count() / len(dataFrame.index)
 
-	'''Returns an array of the unique categories (strings) in a column 
+	'''Returns an array of the unique categories (strings) in a column
 	   a - name of attribute'''
 	def getAttributeCategories(self, dataFrame, a):
 		return dataFrame[a].unique()
@@ -49,13 +49,16 @@ class Bayes:
 
 	'''Compute non conditional standard deviation of attribute a'''
 	def calculateStandardDeviation(self, dataFrame, a):
-		return dataFrame[a].std()
+		stdd = dataFrame[a].std()
+		return stdd
 
 	'''Compute conditional standard deviation of attribute a given the classification'''
 	def calculateConditionalStandardDeviation(self, dataFrame, a, groundTruth, gTValue):
-		return dataFrame.groupby([groundTruth]).get_group(gTValue)[a].std()
+		stdd = dataFrame.groupby([groundTruth]).get_group(gTValue)[a].std()
+		return stdd
 
-	
+
+
 	''' P(a | b) = #rows that have both aValue and bValue / #rows with bValue '''
 	def calculateCrossAttributeProbability(self, dataFrame, b, bValue, a, aValue):
 		return self.countIntersection(dataFrame, a, aValue, b, bValue) / self.countAttr(dataFrame, b, bValue)
@@ -64,11 +67,5 @@ class Bayes:
 	def calculateGaussianProbability(self, mean, std, value):
 
 		zscore = ((value - mean) * (value - mean)) / ((2*(std*std)))
-
 		gaussian = (1 / math.sqrt(2*math.pi*(std * std)) ) * (math.e **(-zscore))
-		
 		return gaussian
-
-
-
-		
