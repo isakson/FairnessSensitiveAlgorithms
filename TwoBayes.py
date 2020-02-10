@@ -139,17 +139,17 @@ class TwoBayes(NaiveBayes, ModifiedBayes):
 
 
 		#Compute counts for C+S-,C-S+,C+S+,and C-S- based on counts from the original groundTruth column
-		print("original counts")
-		print("c+s- count: ", self.countIntersection(dataFrame, protected, self.Sy, groundTruth, higherOrLowerClassificationDict["higher"]))
-		print("c-s+ count: ", self.countIntersection(dataFrame, protected, self.Sx, groundTruth, higherOrLowerClassificationDict["lower"]))
-		print("c+s+ count: ", self.countIntersection(dataFrame, protected, self.Sx, groundTruth, higherOrLowerClassificationDict["higher"]))
-		print("c-s- count: ", self.countIntersection(dataFrame, protected, self.Sy, groundTruth, higherOrLowerClassificationDict["lower"]))
-		#Compute counts for C+S-,C-S+,C+S+,and C-S- based on counts from the original groundTruth column
-		print("not original counts")
-		print("c+s- count: ", self.countIntersection(dataFrame, protected, self.Sy, "Bayes Classification", higherOrLowerClassificationDict["higher"]))
-		print("c-s+ count: ", self.countIntersection(dataFrame, protected, self.Sx, "Bayes Classification", higherOrLowerClassificationDict["lower"]))
-		print("c+s+ count: ", self.countIntersection(dataFrame, protected, self.Sx,"Bayes Classification", higherOrLowerClassificationDict["higher"]))
-		print("c-s- count: ", self.countIntersection(dataFrame, protected, self.Sy, "Bayes Classification", higherOrLowerClassificationDict["lower"]))
+		# print("original counts")
+		# print("c+s- count: ", self.countIntersection(dataFrame, protected, self.Sy, groundTruth, higherOrLowerClassificationDict["higher"]))
+		# print("c-s+ count: ", self.countIntersection(dataFrame, protected, self.Sx, groundTruth, higherOrLowerClassificationDict["lower"]))
+		# print("c+s+ count: ", self.countIntersection(dataFrame, protected, self.Sx, groundTruth, higherOrLowerClassificationDict["higher"]))
+		# print("c-s- count: ", self.countIntersection(dataFrame, protected, self.Sy, groundTruth, higherOrLowerClassificationDict["lower"]))
+		# #Compute counts for C+S-,C-S+,C+S+,and C-S- based on counts from the original groundTruth column
+		# print("not original counts")
+		# print("c+s- count: ", self.countIntersection(dataFrame, protected, self.Sy, "Bayes Classification", higherOrLowerClassificationDict["higher"]))
+		# print("c-s+ count: ", self.countIntersection(dataFrame, protected, self.Sx, "Bayes Classification", higherOrLowerClassificationDict["lower"]))
+		# print("c+s+ count: ", self.countIntersection(dataFrame, protected, self.Sx,"Bayes Classification", higherOrLowerClassificationDict["higher"]))
+		# print("c-s- count: ", self.countIntersection(dataFrame, protected, self.Sy, "Bayes Classification", higherOrLowerClassificationDict["lower"]))
 
 		#calculate the number of people in the dataset that are actually classified as C+ (in the ground truth column - the real number from the data)
 		actualNumPos = self.calculateNumPos(dataFrame, groundTruth, higherOrLowerClassificationDict)
@@ -189,12 +189,6 @@ class TwoBayes(NaiveBayes, ModifiedBayes):
 				#Update the probabilities based on these new counts
 				CHigherSLower = CHigherSLowerCount / self.countAttr(dataFrame, protected, self.Sy)
 				CLowerSLower = CLowerSLowerCount / self.countAttr(dataFrame, protected, self.Sy)
-
-				#these counts aren't changing with each iteration even though they should be
-				print("C+s- bc count", self.countIntersection(dataFrame, protected, self.Sy, "Bayes Classification", higherOrLowerClassificationDict["higher"]))
-				print("c-s+ bc count", self.countIntersection(dataFrame, protected, self.Sx, "Bayes Classification", higherOrLowerClassificationDict["lower"]))
-				print("c+s+ bc count", self.countIntersection(dataFrame, protected, self.Sx, "Bayes Classification", higherOrLowerClassificationDict["higher"]))
-				print("c-s- bc count", self.countIntersection(dataFrame, protected, self.Sy, "Bayes Classification", higherOrLowerClassificationDict["lower"]))
 
 				#Overwrite the old probabilities in the model
 				self.modelY[-1][higherOrLowerClassificationDict["higher"]] = CHigherSLower
