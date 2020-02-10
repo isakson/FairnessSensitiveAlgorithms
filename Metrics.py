@@ -198,7 +198,7 @@ class Metrics:
 		possibleAttributeValues = dataFrame[dataSetCopy.protectedAttribute].unique()
 
 		if len(possibleAttributeValues) != 2:
-			return "Cannot calculate counterfactual measures for nonbinary protected attributes."
+			return "Cannot swap protected attributes for nonbinary protected attributes."
 
 		for i in range(dataFrame.shape[0]):
 			protectedAttributeValue = dataFrame.at[i, dataSetCopy.protectedAttribute]
@@ -207,6 +207,9 @@ class Metrics:
 
 			else:
 				dataFrame.loc[[i], [dataSetCopy.protectedAttribute]] = possibleAttributeValues[0]
+		print("**** SWAPPED DATA SET STARTS HERE****")
+		print(dataSetCopy.dataFrame)
+		print("**** SWAPPED DATA SET ENDS HERE****")
 		return dataSetCopy
 
 	'''
@@ -255,19 +258,7 @@ class Metrics:
 			originalPosOutcomes = self.countPositiveOutcomes(dataSet)
 			dataSetCopy = dataSet.copyDataSet()
 			# Change which Bayes is being run on a particular protected attribute by swapping the models
-			print("original trained bayes models before swap\n")
-			print("sx", trainedBayes.Sx)
-			print("Sy", trainedBayes.Sy)
-			print("model x\n", trainedBayes.modelX)
-			print("\n")
-			print("model y\n", trainedBayes.modelY)
-			tempModelX = trainedBayes.modelY
-			trainedBayes.modelY = trainedBayes.modelX
-			trainedBayes.modelX = tempModelX
-			print("\n")
-			print("model x after swap\n", trainedBayes.modelX)
-			print("\nmodel y after swap \n ", trainedBayes.modelY)
-			#print("trained bayes model x\n", ModifiedNaive.printModel(dataSetCopy, trainedBayes.modelX))
+			dataSetCopy = self.swapProtectedAttributes(dataSetCopy)
 			trainedBayes.modify(dataSetCopy, 1)
 			# Count the amount of positive outcomes each protected attribute value group receives in the new dataset
 			swappedPosOutcomes = self.countPositiveOutcomes(dataSetCopy)
