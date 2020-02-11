@@ -92,10 +92,6 @@ class NaiveBayes(Bayes):
 		#append it to the end of the outermost model array
 		model.append(classificationProbabilitiesDict)
 
-		print("\nMODEL UPDATED... PRINTING MODEL...!\n")
-		self.printModel(dataSet, model)
-		print("\n FINISHED PRINTING MODEL. \n")
-
 
 	'''Pretty prints out the Bayesian model '''
 
@@ -194,7 +190,7 @@ class NaiveBayes(Bayes):
 		#sets new column equal to the array of classifications
 
 		dataFrame["Bayes Classification"] = classificationColumn
-		print(dataFrame.to_string())
+#		print(dataFrame.to_string())
 		#dataFrame.to_csv('out.csv', sep='\t', encoding='utf-8')
 		return dataFrame
 
