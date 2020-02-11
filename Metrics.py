@@ -207,9 +207,6 @@ class Metrics:
 
 			else:
 				dataFrame.loc[[i], [dataSetCopy.protectedAttribute]] = possibleAttributeValues[0]
-		print("**** SWAPPED DATA SET STARTS HERE****")
-		print(dataSetCopy.dataFrame)
-		print("**** SWAPPED DATA SET ENDS HERE****")
 		return dataSetCopy
 
 	'''
