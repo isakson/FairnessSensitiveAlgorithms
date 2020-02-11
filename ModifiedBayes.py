@@ -91,7 +91,6 @@ class ModifiedBayes(ModifiedNaive):
 
 		#calculate the number of people in the dataset that are actually classified as C+ (in the ground truth column - the real number from the data)
 		actualNumPos = self.calculateNumPos(dataFrame, groundTruth, higherOrLowerClassificationDict)
-		print("The actualNumPos is: ", actualNumPos)
 
 		#Compute counts for C+S-,C-S+,C+S+,and C-S- based on counts from the original groundTruth column
 		CHigherSLowerCount = self.countIntersection(dataFrame, protected, higherOrLowerSensitiveAttributeDict["lower"], groundTruth, higherOrLowerClassificationDict["higher"])
@@ -107,13 +106,11 @@ class ModifiedBayes(ModifiedNaive):
 		
 		#Calculate the preliminary discrimination score -- disc = P(C+ | S+) - P(C+ | S-)
 		disc = self.calculateDiscriminationScore(CHigherSHigher, CHigherSLower)
-		print("The original discrimination score is: ", disc)
 
 		while (disc > 0.0):
 
 			#Calculate numPos -- the number of instances that we classify people as C+
 			numPos = self.calculateNumPos(dataFrame, "Bayes Classification", higherOrLowerClassificationDict)
-			print("numPos is: ", numPos)
 			
 			weightOfChange = 0.01 #Value by which we will be modifiying the counts
 
@@ -152,13 +149,10 @@ class ModifiedBayes(ModifiedNaive):
 			#reclassify and recompute the new discrimination score
 			dataFrame = self.classify(dataSet)
 			disc = self.calculateDiscriminationScore(CHigherSHigher, CHigherSLower)
-			print("Discrimination score at the end of the iteration: ", disc)
-			print("Updated probabilities at the end of the iteration: ")
 			self.printProbabilities(CHigherSLower, CLowerSLower, CHigherSHigher, CLowerSHigher)
-				
-		print("FINISHED\n")
+
 		#print out the final classifications
-		print(dataFrame.to_string())
+		#print(dataFrame.to_string())
 		'''Uncomment if desired: Call to save classifications to a csv file called modifiedBayesClassifications.csv'''
 		#dataFrame.to_csv('modifiedBayesClassification.csv', sep='\t', encoding='utf-8')
 

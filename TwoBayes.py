@@ -130,28 +130,13 @@ class TwoBayes(NaiveBayes, ModifiedBayes):
 		sensitiveAttributeModelIndex = dataSet.headers.index(protected) #need to know index of sensitive attribute in the model
 
 		#Assign dictionary values based on CHigher parameter
-		print(dataSet.trueLabels)
 		classesList = self.getAttributeCategories(dataFrame, dataSet.trueLabels)
 		higherOrLowerClassificationDict = {}
 		self.assignClassifications(higherOrLowerClassificationDict, CHigher, classesList)
 
 
-		#Compute counts for C+S-,C-S+,C+S+,and C-S- based on counts from the original groundTruth column
-		# print("original counts")
-		# print("c+s- count: ", self.countIntersection(dataFrame, protected, self.Sy, groundTruth, higherOrLowerClassificationDict["higher"]))
-		# print("c-s+ count: ", self.countIntersection(dataFrame, protected, self.Sx, groundTruth, higherOrLowerClassificationDict["lower"]))
-		# print("c+s+ count: ", self.countIntersection(dataFrame, protected, self.Sx, groundTruth, higherOrLowerClassificationDict["higher"]))
-		# print("c-s- count: ", self.countIntersection(dataFrame, protected, self.Sy, groundTruth, higherOrLowerClassificationDict["lower"]))
-		# #Compute counts for C+S-,C-S+,C+S+,and C-S- based on counts from the original groundTruth column
-		# print("not original counts")
-		# print("c+s- count: ", self.countIntersection(dataFrame, protected, self.Sy, "Bayes Classification", higherOrLowerClassificationDict["higher"]))
-		# print("c-s+ count: ", self.countIntersection(dataFrame, protected, self.Sx, "Bayes Classification", higherOrLowerClassificationDict["lower"]))
-		# print("c+s+ count: ", self.countIntersection(dataFrame, protected, self.Sx,"Bayes Classification", higherOrLowerClassificationDict["higher"]))
-		# print("c-s- count: ", self.countIntersection(dataFrame, protected, self.Sy, "Bayes Classification", higherOrLowerClassificationDict["lower"]))
-
 		#calculate the number of people in the dataset that are actually classified as C+ (in the ground truth column - the real number from the data)
 		actualNumPos = self.calculateNumPos(dataFrame, groundTruth, higherOrLowerClassificationDict)
-		print("The actualNumPos is: ", actualNumPos)
 
 		#Compute counts for C+S-,C-S+,C+S+,and C-S- based on counts from the original groundTruth column
 		CHigherSLowerCount = self.countIntersection(dataFrame, protected, self.Sy, groundTruth, higherOrLowerClassificationDict["higher"])
@@ -163,18 +148,14 @@ class TwoBayes(NaiveBayes, ModifiedBayes):
 		CHigherSHigher = CHigherSHigherCount / self.countAttr(dataFrame, protected, self.Sx)
 		CLowerSLower = CLowerSLowerCount / self.countAttr(dataFrame, protected, self.Sy)
 		CLowerSHigher = CLowerSHigherCount / self.countAttr(dataFrame, protected, self.Sx)
-		print("Original probabilities calculated from 'Bayes Classification' column 1st modifiedNaive iteration: ")
-		self.printProbabilities(CHigherSLower, CLowerSLower, CHigherSHigher, CLowerSHigher)
-
+	
 		#Calculate the preliminary discrimination score -- disc = P(C+ | S+) - P(C+ | S-)
 		disc = self.calculateDiscriminationScore(CHigherSHigher, CHigherSLower)
-		print("The original discrimination score is: ", disc)
 
 		while (disc > 0.0):
 
 			#Calculate numPos -- the number of instances that we classify people as C+
 			numPos = self.calculateNumPos(dataFrame, "Bayes Classification", higherOrLowerClassificationDict)
-			print("numPos is: ", numPos)
 
 			weightOfChange = 0.01 #Value by which we will be modifiying the counts
 
@@ -211,12 +192,9 @@ class TwoBayes(NaiveBayes, ModifiedBayes):
 			self.classify(dataSet)
 			dataFrame = dataSet.dataFrame
 			disc = self.calculateDiscriminationScore(CHigherSHigher, CHigherSLower)
-			print("Discrimination score at the end of the iteration: ", disc)
-			print("Updated probabilities at the end of the iteration: ")
 			self.printProbabilities(CHigherSLower, CLowerSLower, CHigherSHigher, CLowerSHigher)
 
-		print("FINISHED\n")
 		#print out the final classifications
-		print(dataFrame.to_string())
+		#print(dataFrame.to_string())
 		'''Uncomment if desired: Call to save classifications to a csv file called modifiedBayesClassifications.csv'''
 		#dataFrame.to_csv('modifiedBayesClassification.csv', sep='\t', encoding='utf-8')

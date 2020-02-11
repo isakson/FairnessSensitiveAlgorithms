@@ -95,10 +95,7 @@ class ModifiedNaive(Bayes):
 			sensitiveProbabilitiesDict[Sx] = probOfSx
 		#append it to the end of the outermost model array
 		model.append(sensitiveProbabilitiesDict)
-
-		print("\nMODEL UPDATED... PRINTING MODEL...!\n")
-		self.printModel(dataSet, model)
-		print("\n FINISHED PRINTING MODEL. \n")
+		#self.printModel(dataSet, model)
 
 
 	'''Pretty prints out the Bayesian model '''
