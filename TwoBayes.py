@@ -98,13 +98,11 @@ class TwoBayes(NaiveBayes, ModifiedBayes):
 					if(dataSet.headers[j] in dataSet.getNumericalColumns()): #numerical
 						meanDict = attributeDict["mean"]
 						stdDict = attributeDict["std"]
-
 						bayesNumerator = self.calculateGaussianProbability(meanDict[classification], stdDict[classification], row[1].iloc[j])
 						numeratorDict[classification] *= bayesNumerator
-					else:
-						#if not attrValue in attributeDict:
-					 		#print(dataSet.headers[j], attrValue)
-							#continue
+					else: #categorical data
+						if not attrValue in attributeDict:
+							continue
 						bayesNumerator = attributeDict[attrValue][classification]
 						numeratorDict[classification] *= bayesNumerator
 
