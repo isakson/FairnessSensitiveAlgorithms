@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import pickle
+import sklearn.model_selection
 
 '''
 An object representing a data set pulled from a csv file. It contains:
@@ -32,6 +33,14 @@ class DataSet:
         self.numAttributes = len(self.headers)
 
     '''
+    Shuffles rows and splits data into training and test sets (80% train, 20% test).
+    '''
+    def splitIntoTrainTest(self):
+        trainTestSplit = sklearn.model_selection.train_test_split(self.dataFrame, train_size=.8, test_size=.2, shuffle=True)
+        self.trainDataFrame = trainTestSplit[0]
+        self.testDataFrame = trainTestSplit[1]
+
+    '''
     Adds random noise to a column in the DataFrame according to the provided scale
         columnName (string) - the name of the column where we should add noise
         scale (float) - the standard deviation (spread or “width”) of the distribution
@@ -55,6 +64,8 @@ class DataSet:
         newDataSet.trueLabels = self.trueLabels
         newDataSet.headers = self.headers
         newDataSet.numAttributes = self.numAttributes
+        newDataSet.testDataFrame = self.testDataFrame
+        newDataSet.trainDataFrame = self.trainDataFrame
         return newDataSet
 
     '''
