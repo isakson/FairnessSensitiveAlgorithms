@@ -259,16 +259,20 @@ class Metrics:
 			trainedBayes.modify(dataSetCopy, 1)
 			# Count the amount of positive outcomes each protected attribute value group receives in the new dataset
 			swappedPosOutcomes = self.countPositiveOutcomes(dataSetCopy)
+			# Since we swap the protectedAttributes, we have to swap the dictionary's keys
+			swappedKeysPosOutcomes = {}
+			keys = list(originalPosOutcomes.keys())
+			swappedKeysPosOutcomes[keys[0]] = swappedPosOutcomes[keys[1]]
+			swappedKeysPosOutcomes[keys[1]] = swappedPosOutcomes[keys[0]]
 			# Compare that to the original
 			# If swapped is worse than the original for all, return true; else return false
-			keys = originalPosOutcomes.keys()
 			listOfBools = []
 			for key in keys:
-				if originalPosOutcomes[key] >= swappedPosOutcomes[key]:
+				if originalPosOutcomes[key] >= swappedKeysPosOutcomes[key]:
 					listOfBools.append(True)
 				else:
 					listOfBools.append(False)
-
+			print(all(listOfBools))
 			return all(listOfBools)
 
 	'''

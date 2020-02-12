@@ -103,7 +103,6 @@ class RepairData:
     '''
     def modifyData(self, columnName, medianDistribution, bucketList, minMaxList, attributeValues):
         df = self.dataSetCopy.dataFrame
-        print(attributeValues)
 
         for i in range(df.shape[0]):
             protectedAttributeValue = df.at[i, self.dataSetCopy.protectedAttribute]
