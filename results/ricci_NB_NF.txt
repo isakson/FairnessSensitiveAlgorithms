@@ -1,1 +1,0 @@
-Accuracy: 93.22033898305084True positive rate: 96.42857142857143True negative rate: 90.32258064516128Equality of Opportunity: (8.563600789157633e-06, True)Counterfactual Measures: 90.67796610169492Preferred Treatment: TrueGroup Fairness: {'W': 0.6911764705882353, 'O': 0.26}Individual Fairness: 1.0
