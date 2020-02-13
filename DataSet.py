@@ -106,7 +106,7 @@ class DataSet:
     '''
     Returns True if a column has numerical data; returns False otherwise
         column (string) - the header for the column in question
-        dataFrame (
+        dataFrame (dataFrame) - the dataFrame whose column should be checked
     '''
     def isNumerical(self, column, dataFrame):
         dataType = dataFrame[column].dtype
@@ -167,15 +167,12 @@ class DataSet:
     def resetHeaders(self, headers):
         if headers == "main":
             df = self.dataFrame
-            headersList = self.headers
 
         elif headers == "test":
             df = self.testDataFrame
-            headersList = self.testHeaders
 
         else:
             df = self.trainDataFrame
-            headersList = self.trainHeaders
 
         newHeaders = []
         for header, content in df.items():

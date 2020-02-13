@@ -76,8 +76,7 @@ class NaiveBayes(Bayes):
 
 					#outermost dictionary
 					attrDict[attrCategory] = probabilityDict
-			
-					
+				
 			model.append(attrDict)
 
 		#Construct a dictionary that will hold the probability of a particular classification C_x (e.g. lieutenant, captain)
@@ -122,7 +121,8 @@ class NaiveBayes(Bayes):
 
 	'''Given the attributes of an entry in an dataset and our trained model, it calculates the P(classification|attributes) for every
 	   possible classification and then appends a classification to dataset based on those probabilities. Appending a new column of classifications
-	   to the dataset under the header "Bayes Classification" '''
+	   to the dataset under the header "Bayes Classification" 
+	   Note: the testOrTrain parameter exists only because of inheritance; this function will only ever classify the test set.'''
 	def classify(self, dataSet, testOrTrain):
 
 		dataFrame = dataSet.testDataFrame
@@ -189,9 +189,7 @@ class NaiveBayes(Bayes):
 		
 		#sets new column equal to the array of classifications
 
-
-		# dataFrame.loc[:, "Bayes Classification"] = classificationColumn
-		dataFrame["Bayes Classification"] = classificationColumn #NOTE: used to be this
+		dataFrame["Bayes Classification"] = classificationColumn
 		dataSet.resetHeaders(testOrTrain)
 		#dataFrame.to_csv('out.csv', sep='\t', encoding='utf-8')
 		return dataFrame
