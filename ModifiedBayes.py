@@ -43,6 +43,7 @@ class ModifiedBayes(ModifiedNaive):
 	'''Counts up the number of elements in a particular column that match the classification value located in the classDict passed in 
 	   with the key "higher" (AKA - C+).'''
 	def calculateNumPos(self, dataFrame, column, classDict):
+		print(dataFrame)
 		return dataFrame.loc[dataFrame[column] == classDict["higher"], column].count()
 
 	'''A function that can be called in the while loop to keep track/ watch how the counts are changing with each iteration'''
@@ -73,12 +74,12 @@ class ModifiedBayes(ModifiedNaive):
 		
 	'''Trains and classifies the dataset '''
 	def modify(self, dataSet, CHigher):
-		dataFrame = dataSet.dataFrame
+		dataFrame = dataSet.trainDataFrame
 		protected = dataSet.protectedAttribute
 		groundTruth = dataSet.trueLabels
-		sensitiveAttributeModelIndex = dataSet.headers.index(protected) #need to know index of sensitive attribute in the model
+		sensitiveAttributeModelIndex = dataSet.trainHeaders.index(protected) #need to know index of sensitive attribute in the model
 
-		dataFrame = self.classify(dataSet)
+		dataFrame = self.classify(dataSet, "train")
 
 		#Assign dictionary values based on CHigher parameter
 		classesList = self.getAttributeCategories(dataFrame, dataSet.trueLabels)
@@ -108,7 +109,6 @@ class ModifiedBayes(ModifiedNaive):
 		disc = self.calculateDiscriminationScore(CHigherSHigher, CHigherSLower)
 
 		while (disc > 0.0):
-
 			#Calculate numPos -- the number of instances that we classify people as C+
 			numPos = self.calculateNumPos(dataFrame, "Bayes Classification", higherOrLowerClassificationDict)
 			
@@ -147,9 +147,9 @@ class ModifiedBayes(ModifiedNaive):
 
 			
 			#reclassify and recompute the new discrimination score
-			dataFrame = self.classify(dataSet)
+			dataFrame = self.classify(dataSet, "train")
 			disc = self.calculateDiscriminationScore(CHigherSHigher, CHigherSLower)
-			self.printProbabilities(CHigherSLower, CLowerSLower, CHigherSHigher, CLowerSHigher)
+			# self.printProbabilities(CHigherSLower, CLowerSLower, CHigherSHigher, CLowerSHigher)
 
 		#print out the final classifications
 		#print(dataFrame.to_string())

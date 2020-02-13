@@ -17,7 +17,7 @@ class NaiveBayes(Bayes):
 			meanDict = {key = classification, value = conditional mean given this classification}
 			stdDict = {key = classification, value = conditional std given this classification}'''
 	def train(self, dataSet, model):
-		dataFrame = dataSet.dataFrame
+		dataFrame = dataSet.trainDataFrame
 		groundTruth = dataSet.trueLabels
 		classificationList = dataFrame[groundTruth].unique()
 
@@ -27,13 +27,13 @@ class NaiveBayes(Bayes):
 			pass
 
 		#for each of the attributes in the datset (a1...an)
-		for attribute in dataSet.headers:
+		for attribute in dataSet.trainHeaders:
 		
 			#create outermost dictionary of the model (key = attribute category, value = another dictionary)
 			attrDict = {}
 
 			#if numerical type data
-			if(attribute in dataSet.getNumericalColumns()):
+			if(attribute in dataSet.getNumericalColumns("train")):
 
 				#for each numerical attribute create dict to hold mean and standard deviation
 				meanDict = {}
@@ -99,7 +99,7 @@ class NaiveBayes(Bayes):
 		#Through the outermost model array, we loop up until the 2nd to last element
 		#The last element has the dictionary of classification probabilities
 		for i in range(0, len(model) - 1):
-			print("Attribute: ", dataSet.headers[i])
+			print("Attribute: ", dataSet.trainHeaders[i])
 			for attrCategory in model[i].keys():
 				if(attrCategory == 'mean' or attrCategory == 'std'): #numerical type
 					if(attrCategory == 'mean'):
@@ -123,9 +123,9 @@ class NaiveBayes(Bayes):
 	'''Given the attributes of an entry in an dataset and our trained model, it calculates the P(classification|attributes) for every
 	   possible classification and then appends a classification to dataset based on those probabilities. Appending a new column of classifications
 	   to the dataset under the header "Bayes Classification" '''
-	def classify(self, dataSet):
+	def classify(self, dataSet, testOrTrain):
 
-		dataFrame = dataSet.dataFrame
+		dataFrame = dataSet.testDataFrame
 		groundTruth = dataSet.trueLabels
 
 		#### NEW #####
@@ -158,13 +158,13 @@ class NaiveBayes(Bayes):
 					if(j == len(self.model) - 1):
 						continue
 					#if we run into the blank ground truth column, skip this
-					if(dataSet.headers[j] == dataSet.trueLabels):
+					if(dataSet.testHeaders[j] == dataSet.trueLabels): #NOTE: this used to be .headers
 						continue
 
 					#value for the current row of the given attribute
 					attrValue = row[1].iloc[j]
 
-					if(dataSet.headers[j] in dataSet.getNumericalColumns()): #numerical
+					if(dataSet.testHeaders[j] in dataSet.getNumericalColumns("test")): #numerical #NOTE: this used to be .headers
 						meanDict = attributeDict["mean"]
 						stdDict = attributeDict["std"]
 
@@ -189,8 +189,10 @@ class NaiveBayes(Bayes):
 		
 		#sets new column equal to the array of classifications
 
-		dataFrame["Bayes Classification"] = classificationColumn
-#		print(dataFrame.to_string())
+
+		# dataFrame.loc[:, "Bayes Classification"] = classificationColumn
+		dataFrame["Bayes Classification"] = classificationColumn #NOTE: used to be this
+		dataSet.resetHeaders(testOrTrain)
 		#dataFrame.to_csv('out.csv', sep='\t', encoding='utf-8')
 		return dataFrame
 

@@ -20,7 +20,7 @@ class Metrics:
 	'''
 	def calculateAccuracy(self, dataSet):
 		numCorrect = 0
-		dataFrame = dataSet.dataFrame
+		dataFrame = dataSet.testDataFrame
 
 		for i in range(dataFrame.shape[0]):
 			groundTruth = dataFrame.at[i, dataSet.trueLabels]
@@ -40,7 +40,7 @@ class Metrics:
 	This function also assumes that the column header for Bayes classifications is "Bayes Classification"
 	'''
 	def truePosOrNeg(self, dataSet, truePosOrNeg):
-		dataFrame = dataSet.dataFrame
+		dataFrame = dataSet.testDataFrame
 		possibleClassifications = dataFrame["Bayes Classification"].unique()
 		if len(possibleClassifications) != 2:
 			return "Cannot calculate true positive or negative rate for nonbinary classifications"
@@ -71,7 +71,7 @@ class Metrics:
 		dataSet (DataSet) - the overarching DataSet
 	'''
 	def determineGroups(self, dataSet):
-		df = dataSet.dataFrame
+		df = dataSet.testDataFrame
 		possibleGroups = df[dataSet.protectedAttribute].unique()
 
 		organizedDataSetList = []
@@ -79,14 +79,15 @@ class Metrics:
 			# Setting up the group as a new DataSet
 			newDataSet = DataSet()
 			newDataSet.fileName = dataSet.fileName
-			newDataSet.dataFrame = df[df[dataSet.protectedAttribute] == value]
+			newDataSet.testDataFrame = df[df[dataSet.protectedAttribute] == value]
 			newDataSet.protectedAttribute = dataSet.protectedAttribute
 			newDataSet.trueLabels = dataSet.trueLabels
 			newDataSet.headers = dataSet.headers
+			newDataSet.testHeaders = dataSet.testHeaders
 			newDataSet.numAttributes = dataSet.numAttributes
 
 			#resets indices for later indexing
-			newDataSet.dataFrame.reset_index(inplace=True, drop=True)
+			newDataSet.testDataFrame.reset_index(inplace=True, drop=True)
 
 			organizedDataSetList.append(newDataSet)
 
@@ -175,13 +176,13 @@ class Metrics:
 	'''
 	def counterfactualMeasures(self, dataSet, trainedBayes):
 		swappedDataSet = self.swapProtectedAttributes(dataSet)
-		swappedDF = swappedDataSet.dataFrame
+		swappedDF = swappedDataSet.testDataFrame
 		swappedDF = swappedDF.drop(columns=["Bayes Classification", swappedDataSet.trueLabels])
 
-		trainedBayes.classify(swappedDataSet)
-		swappedDF = swappedDataSet.dataFrame
+		trainedBayes.classify(swappedDataSet, "test")
+		swappedDF = swappedDataSet.testDataFrame
 
-		swappedDF[swappedDataSet.trueLabels] = dataSet.dataFrame["Bayes Classification"].astype(int)
+		swappedDF[swappedDataSet.trueLabels] = dataSet.testDataFrame["Bayes Classification"].astype(int)
 
 		return self.calculateAccuracy(swappedDataSet)
 
@@ -193,7 +194,7 @@ class Metrics:
 	'''
 	def swapProtectedAttributes(self, dataSet):
 		dataSetCopy = dataSet.copyDataSet()
-		dataFrame = dataSetCopy.dataFrame
+		dataFrame = dataSetCopy.testDataFrame
 
 		possibleAttributeValues = dataFrame[dataSetCopy.protectedAttribute].unique()
 
@@ -217,7 +218,7 @@ class Metrics:
 		outcomes that protected attribute group received.
 	'''
 	def countPositiveOutcomes(self, dataSet):
-		dataFrame = dataSet.dataFrame
+		dataFrame = dataSet.testDataFrame
 		possibleAttributes = dataFrame[dataSet.protectedAttribute].unique()
 
 		# posOutcomes0 is the number of positive classifications for cases with the 0th protected attribute value
@@ -272,7 +273,6 @@ class Metrics:
 					listOfBools.append(True)
 				else:
 					listOfBools.append(False)
-			print(all(listOfBools))
 			return all(listOfBools)
 
 	'''
@@ -283,7 +283,7 @@ class Metrics:
 		for that protected attribute value.
 	'''
 	def groupFairness(self, dataSet):
-		dataFrame = dataSet.dataFrame
+		dataFrame = dataSet.testDataFrame
 		posOutcomes = self.countPositiveOutcomes(dataSet)
 		keys = posOutcomes.keys()
 
@@ -304,10 +304,10 @@ class Metrics:
 	returns: a distribution of all distances (list), the distances and whether or not the pair had the same outcome (list of tuples)
 	'''
 	def makeEuclideanDistribution(self, dataSet):
-		df = dataSet.dummify(dummifyAll=True)
-		dataSet.dataFrame = df
-		dataSet.resetHeaders()
-		for header in dataSet.headers:
+		df = dataSet.dummify("test", dummifyAll=True)
+		dataSet.testDataFrame = df
+		dataSet.resetHeaders("test")
+		for header in dataSet.testHeaders:
 			zscores = zscore(df[header], ddof=1)
 			df.loc[:, header] = zscores
 
@@ -315,7 +315,7 @@ class Metrics:
 		distAndOutcome = []
 		for i in range(df.shape[0] - 1):
 			for j in range(i + 1, df.shape[0]):
-				dist = spatial.distance.seuclidean(df.loc[i], df.loc[j], [1 for col in dataSet.headers])
+				dist = spatial.distance.seuclidean(df.loc[i], df.loc[j], [1 for col in dataSet.testHeaders])
 				distribution.append(dist)
 				outcome = df.at[i, "Bayes Classification"] == df.at[j, "Bayes Classification"]
 				distAndOutcome.append((dist, outcome))
@@ -338,7 +338,7 @@ class Metrics:
 	'''
 	def individualFairness(self, dataSet):
 		dataSetCopy = dataSet.copyDataSet()
-		dataSetCopy.dataFrame.drop(dataSetCopy.protectedAttribute, axis=1)
+		dataSetCopy.testDataFrame.drop(dataSetCopy.protectedAttribute, axis=1)
 		distribution, distAndOutcome = self.makeEuclideanDistribution(dataSetCopy)
 		cutoff = self.findCutoff(distribution)
 

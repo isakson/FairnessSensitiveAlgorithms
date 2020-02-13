@@ -41,25 +41,35 @@ def pipeline(fileName, nameForFiles, protectedAttribute, trueLabels, feldman, ba
         repair.dataSetCopy.saveToCsv("dataCSVs/repairedData/" + nameForFiles + ".csv")
         currDataSet = repair.dataSetCopy
 
+    #Split data into test and training set
+    currDataSet.splitIntoTrainTest()
+    print("Split into test train")
+
     if bayes == "naive":
+        print("Starting Naive Bayes")
         bayesObject = NaiveBayes()
         bayesObject.train(currDataSet, bayesObject.model)
-        bayesObject.classify(currDataSet)
+        bayesObject.classify(currDataSet, "test")
+        print("Completed Naive Bayes")
 
     elif bayes == "modified":
         bayesObject = ModifiedBayes()
         bayesObject.train(currDataSet, 1)
+        bayesObject.classify(currDataSet, "test")
 
     else:
         bayesObject = TwoBayes()
         bayesObject.train(currDataSet, 1)
+        bayesObject.classify(currDataSet, "test")
 
 
     currDataSet.savePickle("pickledObjects/classifiedData/" + nameForFiles)
     currDataSet.saveToCsv("dataCSVs/classifiedData/" + nameForFiles + ".csv")
 
     # Metrics
+    print("Starting metrics")
     metrics = Metrics()
     metrics.runAllMetrics(f, currDataSet, bayes, bayesObject)
+    print("Completed metrics")
 
     f.close()
