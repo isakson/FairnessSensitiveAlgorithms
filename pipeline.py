@@ -62,7 +62,6 @@ def pipeline(fileName, nameForFiles, protectedAttribute, trueLabels, feldman, ba
         bayesObject.train(currDataSet, 1)
         bayesObject.classify(currDataSet, "test")
 
-
     currDataSet.savePickle("pickledObjects/classifiedData/" + nameForFiles)
     currDataSet.saveToCsv("dataCSVs/classifiedData/" + nameForFiles + ".csv")
 

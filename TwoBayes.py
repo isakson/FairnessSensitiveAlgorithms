@@ -140,8 +140,6 @@ class TwoBayes(NaiveBayes, ModifiedBayes):
 		higherOrLowerClassificationDict = {}
 		self.assignClassifications(higherOrLowerClassificationDict, CHigher, classesList)
 
-		print(dataSet.trainHeaders)
-		print(dataSet.testHeaders)
 		#calculate the number of people in the dataset that are actually classified as C+ (in the ground truth column - the real number from the data)
 		actualNumPos = self.calculateNumPos(dataFrame, groundTruth, higherOrLowerClassificationDict)
 
@@ -196,9 +194,9 @@ class TwoBayes(NaiveBayes, ModifiedBayes):
 
 			#reclassify and recompute the new discrimination score
 			self.classify(dataSet, "train")
-			dataFrame = dataSet.dataFrame
+			dataFrame = dataSet.trainDataFrame #NOTE: we changed this from dataFrame to testDataFrame
 			disc = self.calculateDiscriminationScore(CHigherSHigher, CHigherSLower)
-			self.printProbabilities(CHigherSLower, CLowerSLower, CHigherSHigher, CLowerSHigher)
+			# self.printProbabilities(CHigherSLower, CLowerSLower, CHigherSHigher, CLowerSHigher)
 
 		#print out the final classifications
 		#print(dataFrame.to_string())

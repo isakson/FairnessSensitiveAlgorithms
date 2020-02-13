@@ -43,7 +43,6 @@ class ModifiedBayes(ModifiedNaive):
 	'''Counts up the number of elements in a particular column that match the classification value located in the classDict passed in 
 	   with the key "higher" (AKA - C+).'''
 	def calculateNumPos(self, dataFrame, column, classDict):
-		print(dataFrame)
 		return dataFrame.loc[dataFrame[column] == classDict["higher"], column].count()
 
 	'''A function that can be called in the while loop to keep track/ watch how the counts are changing with each iteration'''
