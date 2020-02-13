@@ -384,4 +384,5 @@ class Metrics:
 		file.write("Counterfactual Measures: " + str(self.counterfactualMeasures(dataSet, trainedBayes)))
 		file.write("Preferred Treatment: " + str(self.preferredTreatment(dataSet, trainedBayes, typeOfBayes)))
 		file.write("Group Fairness: " + str(self.groupFairness(dataSet)))
+		print("Starting individual fairness")
 		file.write("Individual Fairness: " + str(self.individualFairness(dataSet)))
