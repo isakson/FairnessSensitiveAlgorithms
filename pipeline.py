@@ -67,8 +67,8 @@ def pipeline(fileName, nameForFiles, protectedAttribute, trueLabels, feldman, ba
 
     # Metrics
     print("Starting metrics")
-    #metrics = Metrics()
-    #metrics.runAllMetrics(f, currDataSet, bayes, bayesObject)
+    metrics = Metrics()
+    metrics.runAllMetrics(f, currDataSet, bayes, bayesObject)
     print("Completed metrics")
 
     f.close()
