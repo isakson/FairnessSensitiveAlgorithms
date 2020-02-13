@@ -4,7 +4,6 @@ from NaiveBayes import NaiveBayes
 from ModifiedBayes import ModifiedBayes
 from TwoBayes import TwoBayes
 from Metrics import Metrics
-from classifierForDI import detectDI
 
 '''
 Parameters:
