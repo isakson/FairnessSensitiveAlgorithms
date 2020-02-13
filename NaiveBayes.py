@@ -76,7 +76,7 @@ class NaiveBayes(Bayes):
 
 					#outermost dictionary
 					attrDict[attrCategory] = probabilityDict
-				
+
 			model.append(attrDict)
 
 		#Construct a dictionary that will hold the probability of a particular classification C_x (e.g. lieutenant, captain)
@@ -175,7 +175,10 @@ class NaiveBayes(Bayes):
 						bayesNumerator = self.calculateGaussianProbability(meanDict[classification], stdDict[classification], row[1].iloc[j])
 						numeratorDict[classification] *= bayesNumerator
 					else:
-						bayesNumerator = attributeDict[attrValue][classification]
+						try:
+							bayesNumerator = attributeDict[attrValue][classification]
+						except:
+							bayesNumerator = 1
 						numeratorDict[classification] *= bayesNumerator
 
 			for key in numeratorDict.keys():
