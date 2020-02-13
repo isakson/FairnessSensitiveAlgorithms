@@ -156,7 +156,7 @@ class RepairData:
     def createDataSet(self, fileName, protectedAttribute, groundTruth, noiseScale):
         data = DataSet()
         data.loadData(fileName, protectedAttribute, groundTruth)
-        numericalColumns = data.getNumericalColumns()
+        numericalColumns = data.getNumericalColumns("main")
         for column in numericalColumns:
             data.addRandomNoise(column, noiseScale)
         self.setDataSetVariables(data)
@@ -180,6 +180,6 @@ class RepairData:
     '''
     def runRepair(self, fileName, protectedAttribute, groundTruth, noiseScale=.01):
         self.createDataSet(fileName, protectedAttribute, groundTruth, noiseScale)
-        numericalColumns = self.dataSetCopy.getNumericalColumns()
+        numericalColumns = self.dataSetCopy.getNumericalColumns("main")
         for column in numericalColumns:
             self.repairColumn(column)

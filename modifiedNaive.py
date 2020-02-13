@@ -18,7 +18,7 @@ class ModifiedNaive(Bayes):
 
 		self.model[-1] = dictionary {key = sensitive attribute (S+ or S-) (e.g. 'Female'): value = P(S)}'''
 	def train(self, dataSet, model):
-		dataFrame = dataSet.dataFrame
+		dataFrame = dataSet.trainDataFrame
 		groundTruth = dataSet.trueLabels
 		classificationList = dataFrame[groundTruth].unique()
 		protected = dataSet.protectedAttribute
@@ -29,13 +29,13 @@ class ModifiedNaive(Bayes):
 			pass
 
 		#for each of the attributes in the datset (a1...an)
-		for attribute in dataSet.headers:
+		for attribute in dataSet.trainHeaders:
 		
 			#create outermost dictionary of the model (key = attribute category, value = another dictionary)
 			attrDict = {}
 
 			#if numerical type data
-			if(attribute in dataSet.getNumericalColumns()):
+			if(attribute in dataSet.getNumericalColumns("train")):
 
 				#for each numerical attribute create dict to hold mean and standard deviation
 				meanDict = {}
@@ -102,7 +102,7 @@ class ModifiedNaive(Bayes):
 	def printModel(self, dataSet, model):
 		#Through the outermost model array, we loop up until the 2nd to last element
 		for i in range(0, len(model) - 1):
-			print("Attribute: ", dataSet.headers[i])
+			print("Attribute: ", dataSet.trainHeaders[i])
 			for attrCategory in model[i].keys():
 				if(attrCategory == 'mean' or attrCategory == 'std'): #numerical type
 					if(attrCategory == 'mean'):
@@ -125,9 +125,15 @@ class ModifiedNaive(Bayes):
 	'''Given the attributes of an entry in an dataset and our trained model, it calculates the P(classification|attributes) for every
 	   possible classification and then appends a classification to dataset based on those probabilities. Appending a new column of classifications
 	   to the dataset under the header "Bayes Classification" '''
-	def classify(self, dataSet):
+	def classify(self, dataSet, testOrTrain):
 
-		dataFrame = dataSet.dataFrame
+		if (testOrTrain == "test"):
+			dataFrame = dataSet.testDataFrame
+			currHeaders = dataSet.testHeaders
+		else:
+			dataFrame = dataSet.trainDataFrame
+			currHeaders = dataSet.trainHeaders
+
 		groundTruth = dataSet.trueLabels
 
 		classificationList = dataFrame[groundTruth].unique()
@@ -146,7 +152,7 @@ class ModifiedNaive(Bayes):
 			denominatorSum = 0 #reset it for every row
 
 			#Get the person's sensitive group
-			ind = dataSet.headers.index(dataSet.protectedAttribute)
+			ind = currHeaders.index(dataSet.protectedAttribute)
 			sensitiveGroup = row[1].iloc[ind]
 
 			#iterate through the possible outcomes of the class variable
@@ -161,14 +167,14 @@ class ModifiedNaive(Bayes):
 					if(j == len(self.model) - 1):
 						continue
 					#if we run into the blank ground truth column, skip this
-					if(dataSet.headers[j] == dataSet.trueLabels):
+					if(currHeaders[j] == dataSet.trueLabels):
 						continue
 
 					#value for the current row of the given attribute
 					attrValue = row[1].iloc[j]
 
 					#NUMERATOR = the product of P(a1|C)...P(an|C)*P(S)
-					if(dataSet.headers[j] in dataSet.getNumericalColumns()): #numerical
+					if(currHeaders[j] in dataSet.getNumericalColumns(testOrTrain)): #numerical
 						meanDict = attributeDict["mean"]
 						stdDict = attributeDict["std"]
 
@@ -189,6 +195,7 @@ class ModifiedNaive(Bayes):
 		
 		#sets new column equal to the array of classifications
 		dataFrame["Bayes Classification"] = classificationColumn
+		dataSet.resetHeaders(testOrTrain)
 		
 		'''Uncomment if desired: prints out the data classifications -- is very time consuming for large datasets and will be done with every iteration of the modified bayes while loop'''
 		#print(dataFrame.to_string())

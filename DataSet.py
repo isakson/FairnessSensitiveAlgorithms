@@ -29,7 +29,11 @@ class DataSet:
         self.dataFrame = pd.read_csv(fileName, sep=",")
         self.protectedAttribute = protectedAttribute
         self.trueLabels = trueLabels
+        self.testDataFrame = None
+        self.trainDataFrame = None
         self.headers = list(self.dataFrame.columns.values)
+        self.testHeaders = self.headers
+        self.trainHeaders = self.headers
         self.numAttributes = len(self.headers)
 
     '''
@@ -37,8 +41,10 @@ class DataSet:
     '''
     def splitIntoTrainTest(self):
         trainTestSplit = sklearn.model_selection.train_test_split(self.dataFrame, train_size=.8, test_size=.2, shuffle=True)
-        self.trainDataFrame = trainTestSplit[0]
-        self.testDataFrame = trainTestSplit[1]
+        self.trainDataFrame = trainTestSplit[0].reset_index(drop=True)
+        self.testDataFrame = trainTestSplit[1].reset_index(drop=True)
+        self.testHeaders = self.headers
+        self.trainHeaders = self.headers
 
     '''
     Adds random noise to a column in the DataFrame according to the provided scale
@@ -63,6 +69,8 @@ class DataSet:
         newDataSet.protectedAttribute = self.protectedAttribute
         newDataSet.trueLabels = self.trueLabels
         newDataSet.headers = self.headers
+        newDataSet.testHeaders = self.testHeaders
+        newDataSet.trainHeaders = self.trainHeaders
         newDataSet.numAttributes = self.numAttributes
         newDataSet.testDataFrame = self.testDataFrame
         newDataSet.trainDataFrame = self.trainDataFrame
@@ -71,12 +79,26 @@ class DataSet:
     '''
     Returns a list of all column headers with strictly numerical data.
     Note: the column containing ground truth values is not returned in this list
+        whichDataFrame (string) - a string stating which headers to update
     '''
-    def getNumericalColumns(self):
+    def getNumericalColumns(self, whichDataFrame):
         numericalColumns = []
-        for i in range(len(self.headers)):
-            dataType = self.dataFrame[self.headers[i]].dtype
-            column = self.headers[i]
+
+        if whichDataFrame == "main":
+            df = self.dataFrame
+            headersList = self.headers
+
+        elif whichDataFrame == "test":
+            df = self.testDataFrame
+            headersList = self.testHeaders
+
+        else:
+            df = self.trainDataFrame
+            headersList = self.trainHeaders
+
+        for i in range(len(headersList)):
+            dataType = df[headersList[i]].dtype
+            column = headersList[i]
             if column != self.trueLabels and (dataType == 'float64' or dataType == 'int64'):
                 numericalColumns.append(column)
         return numericalColumns
@@ -84,9 +106,10 @@ class DataSet:
     '''
     Returns True if a column has numerical data; returns False otherwise
         column (string) - the header for the column in question
+        dataFrame (dataFrame) - the dataFrame whose column should be checked
     '''
-    def isNumerical(self, column):
-        dataType = self.dataFrame[column].dtype
+    def isNumerical(self, column, dataFrame):
+        dataType = dataFrame[column].dtype
         if dataType == 'float64' or dataType == 'int64':
             return True
         else:
@@ -109,29 +132,61 @@ class DataSet:
     Dummifies all non-numerical columns in the DataSet object's DataFrame EXCEPT the protected attribute 
         column when dummifyAll = False. Dummifies all non-numerical columns in the DataSet object's DataFrame
         when dummifyAll = True. 
+        dataFrame (dataframe) - the dataframe we want to dummify (allows us to dummify main dataframe, test or train 
+            dataframes
         
     Returns the modified DataFrame object
     '''
-    def dummify(self, dummifyAll=False):
+    def dummify(self, whichDataFrame, dummifyAll=False):
         columns = []
 
-        if dummifyAll:
-            return pd.get_dummies(self.dataFrame)
-
+        # Check which dataFrame we're dealing with
+        if whichDataFrame == "main":
+            headers = self.headers
+            df = self.dataFrame
+        elif whichDataFrame == "train":
+            headers = self.trainHeaders
+            df = self.trainDataFrame
         else:
-            for column in self.headers:
-                if not (self.isNumerical(column) or column == self.protectedAttribute):
+            headers = self.testHeaders
+            df = self.testDataFrame
+
+        # Dummify accordingly
+        if dummifyAll:
+            return pd.get_dummies(df)
+        else:
+            for column in headers:
+                if not (self.isNumerical(column, df) or column == self.protectedAttribute):
                     columns.append(column)
 
-            return pd.get_dummies(self.dataFrame, columns=columns)
+            return pd.get_dummies(df, columns=columns)
 
-    '''Resets the headers for the DataSet's DataFrame'''
-    def resetHeaders(self):
+    '''Resets the headers for the DataSet's DataFrame
+        headers (string) - a string stating which headers to update
+    '''
+    def resetHeaders(self, headers):
+        if headers == "main":
+            df = self.dataFrame
+
+        elif headers == "test":
+            df = self.testDataFrame
+
+        else:
+            df = self.trainDataFrame
+
         newHeaders = []
-        for header, content in self.dataFrame.items():
+        for header, content in df.items():
             newHeaders.append(header)
-        self.headers = newHeaders
 
+        if headers == "main":
+            self.headers = newHeaders
+
+
+        elif headers == "test":
+            self.testHeaders = newHeaders
+
+        else:
+            self.trainHeaders = newHeaders
     '''
     Saves the dataFrame as a .csv file. All objects will be saved to the folder dataCSVs.
         fileName (string) - the desired output file name (note: should end in .csv, otherwise it saves as a textfile but is still comma-separated)

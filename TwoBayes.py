@@ -17,7 +17,7 @@ class TwoBayes(NaiveBayes, ModifiedBayes):
    S+ ("higher") is the privileged group. We do this based on counts instead of as a manual parameter because there isn't an 'ideal'
    sensitive attribute category like there is with classifications.'''
 	def assignSensitivity(self, dataSet):
-		dataFrame = dataSet.dataFrame
+		dataFrame = dataSet.trainDataFrame
 		sensitiveAttrCatList = self.getAttributeCategories(dataFrame, dataSet.protectedAttribute)
 		Sa = dataFrame.loc[dataFrame[dataSet.protectedAttribute] == sensitiveAttrCatList[0], dataSet.protectedAttribute].count()
 		Sb = dataFrame.loc[dataFrame[dataSet.protectedAttribute] == sensitiveAttrCatList[1], dataSet.protectedAttribute].count()
@@ -30,16 +30,16 @@ class TwoBayes(NaiveBayes, ModifiedBayes):
 
 	def splitDataFrame(self, dataSet, sensitiveVal):
 		sensitiveAttr = dataSet.protectedAttribute
-		df = dataSet.dataFrame
+		df = dataSet.trainDataFrame
 		ds = DataSet()
 		ds.fileName = dataSet.fileName
 		ds.protectedAttribute = sensitiveAttr
 		ds.trueLabels = dataSet.trueLabels
-		ds.headers = dataSet.headers
+		ds.trainHeaders = dataSet.trainHeaders
 		ds.numAttributes = dataSet.numAttributes
 
 		try:
-			ds.dataFrame = df.groupby([sensitiveAttr]).get_group(sensitiveVal)
+			ds.trainDataFrame = df.groupby([sensitiveAttr]).get_group(sensitiveVal)
 		except:
 			return 0
 
@@ -55,8 +55,13 @@ class TwoBayes(NaiveBayes, ModifiedBayes):
 
 		self.modify(dataSet, CHigher)
 
-	def classify(self, dataSet):
-		dataFrame = dataSet.dataFrame
+	def classify(self, dataSet, testOrTrain):
+		if testOrTrain == "test":
+			dataFrame = dataSet.testDataFrame
+			headers = dataSet.testHeaders
+		else:
+			dataFrame = dataSet.trainDataFrame
+			headers = dataSet.trainHeaders
 		groundTruth = dataSet.trueLabels
 
 		#make a new column for the data frame where our classifications are going to go
@@ -70,7 +75,7 @@ class TwoBayes(NaiveBayes, ModifiedBayes):
 			numeratorDict = {}
 			denominatorSum = 0 #reset it for every row
 			#Get the person's sensitive group
-			ind = dataSet.headers.index(dataSet.protectedAttribute)
+			ind = headers.index(dataSet.protectedAttribute)
 			sensitiveGroup = row[1].iloc[ind]
 			currModel = self.modelY
 			classificationList = self.modelY[-1]
@@ -89,13 +94,13 @@ class TwoBayes(NaiveBayes, ModifiedBayes):
 					if(j == len(currModel) - 1):
 						continue
 					#if we run into the blank ground truth column, skip this
-					if(dataSet.headers[j] == dataSet.trueLabels):
+					if(headers[j] == dataSet.trueLabels):
 						continue
 
 					#value for the current row of the given attribute
 					attrValue = row[1].iloc[j]
 
-					if(dataSet.headers[j] in dataSet.getNumericalColumns()): #numerical
+					if(headers[j] in dataSet.getNumericalColumns(testOrTrain)): #numerical
 						meanDict = attributeDict["mean"]
 						stdDict = attributeDict["std"]
 						bayesNumerator = self.calculateGaussianProbability(meanDict[classification], stdDict[classification], row[1].iloc[j])
@@ -118,22 +123,22 @@ class TwoBayes(NaiveBayes, ModifiedBayes):
 		#sets new column equal to the array of classifications
 
 		dataFrame["Bayes Classification"] = classificationColumn
+		dataSet.resetHeaders(testOrTrain)
 		#dataFrame.to_csv('out.csv', sep='\t', encoding='utf-8')
 
 	def modify(self, dataSet, CHigher):
 		#do exactly as ModifiedBayes does except calling TwoBayes classify
-		self.classify(dataSet)
+		self.classify(dataSet, "train")
 
-		dataFrame = dataSet.dataFrame
+		dataFrame = dataSet.trainDataFrame
 		protected = dataSet.protectedAttribute
 		groundTruth = dataSet.trueLabels
-		sensitiveAttributeModelIndex = dataSet.headers.index(protected) #need to know index of sensitive attribute in the model
+		sensitiveAttributeModelIndex = dataSet.trainHeaders.index(protected) #need to know index of sensitive attribute in the model
 
 		#Assign dictionary values based on CHigher parameter
 		classesList = self.getAttributeCategories(dataFrame, dataSet.trueLabels)
 		higherOrLowerClassificationDict = {}
 		self.assignClassifications(higherOrLowerClassificationDict, CHigher, classesList)
-
 
 		#calculate the number of people in the dataset that are actually classified as C+ (in the ground truth column - the real number from the data)
 		actualNumPos = self.calculateNumPos(dataFrame, groundTruth, higherOrLowerClassificationDict)
@@ -153,7 +158,6 @@ class TwoBayes(NaiveBayes, ModifiedBayes):
 		disc = self.calculateDiscriminationScore(CHigherSHigher, CHigherSLower)
 
 		while (disc > 0.0):
-
 			#Calculate numPos -- the number of instances that we classify people as C+
 			numPos = self.calculateNumPos(dataFrame, "Bayes Classification", higherOrLowerClassificationDict)
 
@@ -189,10 +193,10 @@ class TwoBayes(NaiveBayes, ModifiedBayes):
 
 
 			#reclassify and recompute the new discrimination score
-			self.classify(dataSet)
-			dataFrame = dataSet.dataFrame
+			self.classify(dataSet, "train")
+			dataFrame = dataSet.trainDataFrame #NOTE: we changed this from dataFrame to testDataFrame
 			disc = self.calculateDiscriminationScore(CHigherSHigher, CHigherSLower)
-			self.printProbabilities(CHigherSLower, CLowerSLower, CHigherSHigher, CLowerSHigher)
+			# self.printProbabilities(CHigherSLower, CLowerSLower, CHigherSHigher, CLowerSHigher)
 
 		#print out the final classifications
 		#print(dataFrame.to_string())
