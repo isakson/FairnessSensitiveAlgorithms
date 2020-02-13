@@ -1,6 +1,7 @@
 from Bayes import Bayes
 import pandas as pd
 import operator
+import math
 
 class ModifiedNaive(Bayes):
 
@@ -179,16 +180,17 @@ class ModifiedNaive(Bayes):
 						stdDict = attributeDict["std"]
 
 						bayesNumerator = self.calculateGaussianProbability(meanDict[classification], stdDict[classification], row[1].iloc[j])
-						numeratorDict[classification] *= bayesNumerator
+						numeratorDict[classification] += math.log(bayesNumerator)
 					else:
 						bayesNumerator = attributeDict[attrValue][classification]
-						numeratorDict[classification] *= bayesNumerator
+						numeratorDict[classification] += math.log(bayesNumerator)
 
 			#add together probabilities for each classification so we can divide each of them by the sum to normalize them
 			for key in numeratorDict.keys():
-				denominatorSum += numeratorDict[key]
+				denominatorSum += math.exp(numeratorDict[key] - (max(numeratorDict.items(), key=operator.itemgetter(1))[0]))
 			for key in numeratorDict.keys():
-				bayesianDict[key] = round(numeratorDict[key] / denominatorSum, 2)
+				bayesianDict[key] =  math.exp(numeratorDict[key] - (max(numeratorDict.items(), key=operator.itemgetter(1))[0])) / denominatorSum
+
 
 			maxClassification = max(bayesianDict.items(), key=operator.itemgetter(1))[0]
 			classificationColumn.append(maxClassification)

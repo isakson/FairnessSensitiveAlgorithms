@@ -4,6 +4,7 @@ from DataSet import DataSet
 from ModifiedBayes import ModifiedBayes
 import operator
 from modifiedNaive import ModifiedNaive
+import math
 
 class TwoBayes(NaiveBayes, ModifiedBayes):
 
@@ -104,18 +105,18 @@ class TwoBayes(NaiveBayes, ModifiedBayes):
 						meanDict = attributeDict["mean"]
 						stdDict = attributeDict["std"]
 						bayesNumerator = self.calculateGaussianProbability(meanDict[classification], stdDict[classification], row[1].iloc[j])
-						numeratorDict[classification] *= bayesNumerator
+						numeratorDict[classification] += math.log(bayesNumerator)
 					else: #categorical data
 						if not attrValue in attributeDict:
 							continue
 						bayesNumerator = attributeDict[attrValue][classification]
-						numeratorDict[classification] *= bayesNumerator
+						numeratorDict[classification] += math.log(bayesNumerator)
 
 			for key in numeratorDict.keys():
-				denominatorSum += numeratorDict[key]
+				denominatorSum += math.exp(numeratorDict[key] - (max(numeratorDict.items(), key=operator.itemgetter(1))[0]))
 			#currently just adding dictionary of all probabilities given all classifications but eventually want to be adding the max of these (the final classification)
 			for key in numeratorDict.keys():
-				bayesianDict[key] = numeratorDict[key] / denominatorSum
+				bayesianDict[key] = math.exp(numeratorDict[key] - (max(numeratorDict.items(), key=operator.itemgetter(1))[0])) / denominatorSum
 
 			maxClassification = max(bayesianDict.items(), key=operator.itemgetter(1))[0]
 			classificationColumn.append(maxClassification)
