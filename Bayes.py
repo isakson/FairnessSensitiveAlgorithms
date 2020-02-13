@@ -1,6 +1,6 @@
 import pandas as pd
 import math
-#Naive Bayes
+from mpmath import *
 
 class Bayes:
 
@@ -67,5 +67,5 @@ class Bayes:
 	def calculateGaussianProbability(self, mean, std, value):
 
 		zscore = ((value - mean) * (value - mean)) / ((2*(std*std)))
-		gaussian = (1 / math.sqrt(2*math.pi*(std * std)) ) * (math.e **(-zscore))
+		gaussian = (1 / sqrt(2*pi*(std * std)) ) * (e **(-zscore))
 		return gaussian
