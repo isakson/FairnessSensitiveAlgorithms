@@ -1,12 +1,12 @@
 from Bayes import Bayes
 import pandas as pd
 import operator
+import math
 
 class NaiveBayes(Bayes):
 
 	def __init__(self):
 		self.model = [] 
-
 
 	'''Create model filled as such:
 		self.model = array of attributes (e.g. race, position, etc.) where each index points to a dictionary
@@ -173,19 +173,18 @@ class NaiveBayes(Bayes):
 						#Now instead of calling the attributeCategoryProbability() function we're just accessing the classification value from the model
 
 						bayesNumerator = self.calculateGaussianProbability(meanDict[classification], stdDict[classification], row[1].iloc[j])
-						numeratorDict[classification] *= bayesNumerator
+						numeratorDict[classification] += math.log(bayesNumerator)
 					else:
-						try:
-							bayesNumerator = attributeDict[attrValue][classification]
-						except:
-							bayesNumerator = 1
-						numeratorDict[classification] *= bayesNumerator
+						bayesNumerator = attributeDict[attrValue][classification]
+						numeratorDict[classification] += math.log(bayesNumerator)
 
 			for key in numeratorDict.keys():
-				denominatorSum += numeratorDict[key]
+				denominatorSum += math.exp(numeratorDict[key] - (max(numeratorDict.items(), key=operator.itemgetter(1))[0]))
 			#currently just adding dictionary of all probabilities given all classifications but eventually want to be adding the max of these (the final classification)
 			for key in numeratorDict.keys():
-				bayesianDict[key] = numeratorDict[key] / denominatorSum
+				#print("bayesian dict", bayesianDict)
+				#print("denom sum", denominatorSum)
+				bayesianDict[key] = math.exp(numeratorDict[key] - (max(numeratorDict.items(), key=operator.itemgetter(1))[0])) / denominatorSum
 
 			maxClassification = max(bayesianDict.items(), key=operator.itemgetter(1))[0]
 			classificationColumn.append(maxClassification)
