@@ -102,7 +102,7 @@ class ModifiedBayes(ModifiedNaive):
 		CHigherSHigher = CHigherSHigherCount / self.countAttr(dataFrame, protected, higherOrLowerSensitiveAttributeDict["higher"])
 		CLowerSLower = CLowerSLowerCount / self.countAttr(dataFrame, protected, higherOrLowerSensitiveAttributeDict["lower"])
 		CLowerSHigher = CLowerSHigherCount / self.countAttr(dataFrame, protected, higherOrLowerSensitiveAttributeDict["higher"])
-		self.printProbabilities(CHigherSLower, CLowerSLower, CHigherSHigher, CLowerSHigher)
+		# self.printProbabilities(CHigherSLower, CLowerSLower, CHigherSHigher, CLowerSHigher)
 		
 		#Calculate the preliminary discrimination score -- disc = P(C+ | S+) - P(C+ | S-)
 		disc = self.calculateDiscriminationScore(CHigherSHigher, CHigherSLower)
