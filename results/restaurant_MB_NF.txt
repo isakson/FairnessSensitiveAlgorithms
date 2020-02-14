@@ -1,1 +1,0 @@
-Accuracy: 99.08426560808373True positive rate: 99.46824080398088True negative rate: 94.37125748502993Equality of Opportunity: (0.0003434181498717104, True)Counterfactual Measures: 100.0Preferred Treatment: TrueGroup Fairness: {'less wealthy': 0.917184760082895, 'wealthier': 0.9328621908127208}
