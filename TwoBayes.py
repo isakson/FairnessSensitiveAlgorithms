@@ -110,7 +110,8 @@ class TwoBayes(NaiveBayes, ModifiedBayes):
 						if not attrValue in attributeDict:
 							continue
 						bayesNumerator = attributeDict[attrValue][classification]
-						numeratorDict[classification] += math.log(bayesNumerator)
+						if bayesNumerator != 0.0:
+							numeratorDict[classification] += math.log(bayesNumerator)
 
 			for key in numeratorDict.keys():
 				denominatorSum += math.exp(numeratorDict[key] - (max(numeratorDict.items(), key=operator.itemgetter(1))[0]))
