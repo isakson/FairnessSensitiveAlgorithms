@@ -182,8 +182,6 @@ class ModifiedNaive(Bayes):
 						bayesNumerator = self.calculateGaussianProbability(meanDict[classification], stdDict[classification], row[1].iloc[j])
 						numeratorDict[classification] += math.log(bayesNumerator)
 					else:
-						print("attr: ", attrValue)
-						print("class ", classification)
 						bayesNumerator = attributeDict[attrValue][classification]
 						if bayesNumerator != 0.0:
 							numeratorDict[classification] += math.log(bayesNumerator)
