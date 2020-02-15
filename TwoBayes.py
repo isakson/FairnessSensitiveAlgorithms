@@ -105,12 +105,17 @@ class TwoBayes(NaiveBayes, ModifiedBayes):
 						meanDict = attributeDict["mean"]
 						stdDict = attributeDict["std"]
 						bayesNumerator = self.calculateGaussianProbability(meanDict[classification], stdDict[classification], row[1].iloc[j])
-						numeratorDict[classification] += math.log(bayesNumerator)
+						if int(bayesNumerator) != 0:
+							numeratorDict[classification] += math.log(bayesNumerator)
 					else: #categorical data
-						if not attrValue in attributeDict:
-							continue
-						bayesNumerator = attributeDict[attrValue][classification]
-						if bayesNumerator != 0.0:
+						if attrValue in attributeDict:
+							bayesNumerator = attributeDict[attrValue][classification]
+						else:
+							if "rare" in attributeDict:
+								bayesNumerator = attributeDict["rare"][classification]
+							else:
+								bayesNumerator = 1
+						if int(bayesNumerator) != 0:
 							numeratorDict[classification] += math.log(bayesNumerator)
 
 			for key in numeratorDict.keys():

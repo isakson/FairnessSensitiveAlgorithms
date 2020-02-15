@@ -60,10 +60,17 @@ class ModifiedNaive(Bayes):
 			#categorical type data
 			else:
 
+
 				#array of the unique values for the given attribute
 				attrCategories = self.getAttributeCategories(dataFrame, attribute)
+				attrCategories = attrCategories.tolist()
+				rares = self.getRares(dataFrame, attribute)
+				if len(rares) > 0:
+					attrCategories.append("rare")
 
 				for attrCategory in attrCategories:
+					if attrCategory in rares:
+						continue
 					#key = classification, value = probability of P(attr|classification)
 					probabilityDict = {}
 
@@ -77,6 +84,8 @@ class ModifiedNaive(Bayes):
 						#if the attribute is the sensitive attribute then calculate P(C|S) instead of P(a|C)
 						if(attribute == protected):
 							crossAttributeProbability = self.calculateCrossAttributeProbability(dataFrame, attribute, attrCategory, groundTruth, classification)
+						elif(attrCategory == "rare"):
+							crossAttributeProbability = self.getRareProb(dataFrame, groundTruth, classification, attribute, rares)
 						else:
 							crossAttributeProbability = self.calculateCrossAttributeProbability(dataFrame, groundTruth, classification, attribute, attrCategory)
 						probabilityDict[classification] = crossAttributeProbability
@@ -180,10 +189,18 @@ class ModifiedNaive(Bayes):
 						stdDict = attributeDict["std"]
 
 						bayesNumerator = self.calculateGaussianProbability(meanDict[classification], stdDict[classification], row[1].iloc[j])
-						numeratorDict[classification] += math.log(bayesNumerator)
+						if int(bayesNumerator) != 0:
+							numeratorDict[classification] += math.log(bayesNumerator)
 					else:
-						bayesNumerator = attributeDict[attrValue][classification]
-						if bayesNumerator != 0.0:
+						if attrValue in attributeDict:
+							bayesNumerator = attributeDict[attrValue][classification]
+						else:
+							if "rare" in attributeDict:
+								bayesNumerator = attributeDict["rare"][classification]
+							else:
+								bayesNumerator = 1
+
+						if int(bayesNumerator) != 0:
 							numeratorDict[classification] += math.log(bayesNumerator)
 
 			#add together probabilities for each classification so we can divide each of them by the sum to normalize them

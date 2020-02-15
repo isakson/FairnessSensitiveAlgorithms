@@ -9,7 +9,8 @@ from Metrics import Metrics
 def main():
 
 	ds = DataSet()
-	ds.loadData("income-subset.csv", "sex", "income")
+	ds.loadData("adultIncomeData.csv", "sex", "income")
+	ds.splitIntoTrainTest()
 	mb = ModifiedBayes()
 	mb.train(ds, ">50K.")
 	#mt = Metrics()
