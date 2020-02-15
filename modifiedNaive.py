@@ -189,8 +189,10 @@ class ModifiedNaive(Bayes):
 						stdDict = attributeDict["std"]
 
 						bayesNumerator = self.calculateGaussianProbability(meanDict[classification], stdDict[classification], row[1].iloc[j])
-						if int(bayesNumerator) != 0:
+						try:
 							numeratorDict[classification] += math.log(bayesNumerator)
+						except:
+							pass
 					else:
 						if attrValue in attributeDict:
 							bayesNumerator = attributeDict[attrValue][classification]
@@ -200,8 +202,10 @@ class ModifiedNaive(Bayes):
 							else:
 								bayesNumerator = 1
 
-						if int(bayesNumerator) != 0:
+						try:
 							numeratorDict[classification] += math.log(bayesNumerator)
+						except:
+							pass
 
 			#add together probabilities for each classification so we can divide each of them by the sum to normalize them
 			for key in numeratorDict.keys():

@@ -11,9 +11,9 @@ def main():
 	nb = NaiveBayes()
 	nb.train(ds, nb.model)
 
-	nb.classify(ds)
-	#mt = Metrics()
-	#mt.calculateAccuracy(ds)
+	nb.classify(ds, "test")
+	mt = Metrics()
+	print(mt.calculateAccuracy(ds))
 
 
 if __name__== "__main__":

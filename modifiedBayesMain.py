@@ -13,8 +13,9 @@ def main():
 	ds.splitIntoTrainTest()
 	mb = ModifiedBayes()
 	mb.train(ds, ">50K.")
-	#mt = Metrics()
-	#mt.calculateAccuracy(ds)
+	mb.classify(ds, "test")
+	mt = Metrics()
+	print(mt.calculateAccuracy(ds))
 
 
 if __name__== "__main__":

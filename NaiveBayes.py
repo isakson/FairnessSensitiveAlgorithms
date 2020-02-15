@@ -188,8 +188,10 @@ class NaiveBayes(Bayes):
 						#Now instead of calling the attributeCategoryProbability() function we're just accessing the classification value from the model
 
 						bayesNumerator = self.calculateGaussianProbability(meanDict[classification], stdDict[classification], row[1].iloc[j])
-						if int(bayesNumerator) != 0:
+						try:
 							numeratorDict[classification] += math.log(bayesNumerator)
+						except:
+							pass
 					else:
 						if attrValue in attributeDict:
 							bayesNumerator = attributeDict[attrValue][classification]
@@ -199,8 +201,10 @@ class NaiveBayes(Bayes):
 							else:
 								bayesNumerator = 1
 
-						if int(bayesNumerator) != 0:
+						try:
 							numeratorDict[classification] += math.log(bayesNumerator)
+						except:
+							pass
 
 			for key in numeratorDict.keys():
 				denominatorSum += math.exp(numeratorDict[key] - (max(numeratorDict.items(), key=operator.itemgetter(1))[0]))

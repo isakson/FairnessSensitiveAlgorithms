@@ -5,13 +5,14 @@ from Metrics import Metrics
 
 
 def main():
-  ds = DataSet()
-  ds.loadData("adultIncomeData.csv", "sex", "income")
-  ds.splitIntoTrainTest()
-  tb = TwoBayes()
-  tb.train(ds, ">50K.")
-  #mt = Metrics()
- # mt.calculateAccuracy(ds)
+	ds = DataSet()
+	ds.loadData("adultIncomeData.csv", "sex", "income")
+	ds.splitIntoTrainTest()
+	tb = TwoBayes()
+	tb.train(ds, ">50K.")
+	tb.classify(ds, "test")
+	mt = Metrics()
+	print(mt.calculateAccuracy(ds))
   #print("printing tb model x\n\n\n")
   #print(tb.modelX)
  # mt.preferredTreatment(ds, tb, "two")
