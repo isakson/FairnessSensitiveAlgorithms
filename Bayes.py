@@ -36,6 +36,25 @@ class Bayes:
 	def getAttributeCategories(self, dataFrame, a):
 		return dataFrame[a].unique()
 
+	def getRares(self, dataFrame, a):
+		attributeCounts = {}
+		total = []
+		rares = []
+		for val in dataFrame[a].unique():
+			attributeCounts[val] = self.countAttr(dataFrame, a, val)
+			total += self.countAttr(dataFrame, a, val)
+		cutoff = .01 * total
+		for key in attributeCounts.keys():
+			if attributeCounts[key] <= cutoff:
+				rares.append(key)
+		return rares
+
+	def getRareProb(self, dataFrame, groundTruth, classification, attribute, rares):
+		numerator = 0
+		for val in rares:
+			numerator += self.countIntersection(dataFrame, attribute, val, groundTruth, classification)
+		return numerator / self.countAttr(dataFrame, groundTruth, classification)
+
 	'''Compute the non conditional mean of attribute a '''
 	def calculateMean(self, dataFrame, a):
 		return dataFrame[a].mean()
