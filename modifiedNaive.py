@@ -2,6 +2,7 @@ from Bayes import Bayes
 import pandas as pd
 import operator
 import math
+import mpmath
 
 class ModifiedNaive(Bayes):
 
@@ -209,9 +210,9 @@ class ModifiedNaive(Bayes):
 
 			#add together probabilities for each classification so we can divide each of them by the sum to normalize them
 			for key in numeratorDict.keys():
-				denominatorSum += math.exp(numeratorDict[key] - (max(numeratorDict.items(), key=operator.itemgetter(1))[0]))
+				denominatorSum += mpmath.exp(numeratorDict[key] - (max(numeratorDict.items(), key=operator.itemgetter(1))[0]))
 			for key in numeratorDict.keys():
-				bayesianDict[key] =  math.exp(numeratorDict[key] - (max(numeratorDict.items(), key=operator.itemgetter(1))[0])) / denominatorSum
+				bayesianDict[key] =  mpmath.exp(numeratorDict[key] - (max(numeratorDict.items(), key=operator.itemgetter(1))[0])) / denominatorSum
 
 
 			maxClassification = max(bayesianDict.items(), key=operator.itemgetter(1))[0]

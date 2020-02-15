@@ -3,6 +3,7 @@ import pandas as pd
 import operator
 import math
 import numpy as np
+import mpmath
 
 class NaiveBayes(Bayes):
 
@@ -20,8 +21,6 @@ class NaiveBayes(Bayes):
 	def train(self, dataSet, model):
 		dataFrame = dataSet.trainDataFrame
 		groundTruth = dataSet.trueLabels
-		print("ground truth", groundTruth)
-		print("df", dataFrame)
 		classificationList = dataFrame[groundTruth].unique()
 
 		#to ensure that we don't train twice
@@ -207,10 +206,10 @@ class NaiveBayes(Bayes):
 							pass
 
 			for key in numeratorDict.keys():
-				denominatorSum += math.exp(numeratorDict[key] - (max(numeratorDict.items(), key=operator.itemgetter(1))[0]))
+				denominatorSum += mpmath.exp(numeratorDict[key] - (max(numeratorDict.items(), key=operator.itemgetter(1))[0]))
 			#currently just adding dictionary of all probabilities given all classifications but eventually want to be adding the max of these (the final classification)
 			for key in numeratorDict.keys():
-				bayesianDict[key] = math.exp(numeratorDict[key] - (max(numeratorDict.items(), key=operator.itemgetter(1))[0])) / denominatorSum
+				bayesianDict[key] = mpmath.exp(numeratorDict[key] - (max(numeratorDict.items(), key=operator.itemgetter(1))[0])) / denominatorSum
 
 			maxClassification = max(bayesianDict.items(), key=operator.itemgetter(1))[0]
 			classificationColumn.append(maxClassification)

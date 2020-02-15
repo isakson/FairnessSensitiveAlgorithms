@@ -38,12 +38,12 @@ class Bayes:
 
 	def getRares(self, dataFrame, a):
 		attributeCounts = {}
-		counts = []
+		total = []
 		rares = []
 		for val in dataFrame[a].unique():
 			attributeCounts[val] = self.countAttr(dataFrame, a, val)
-			counts.append(self.countAttr(dataFrame, a, val))
-		cutoff = .01 * max(counts)
+			total += self.countAttr(dataFrame, a, val)
+		cutoff = .01 * total
 		for key in attributeCounts.keys():
 			if attributeCounts[key] <= cutoff:
 				rares.append(key)

@@ -5,6 +5,7 @@ from ModifiedBayes import ModifiedBayes
 import operator
 from modifiedNaive import ModifiedNaive
 import math
+import mpmath
 
 class TwoBayes(NaiveBayes, ModifiedBayes):
 
@@ -123,10 +124,10 @@ class TwoBayes(NaiveBayes, ModifiedBayes):
 							pass
 
 			for key in numeratorDict.keys():
-				denominatorSum += math.exp(numeratorDict[key] - (max(numeratorDict.items(), key=operator.itemgetter(1))[0]))
+				denominatorSum += mpmath.exp(numeratorDict[key] - (max(numeratorDict.items(), key=operator.itemgetter(1))[0]))
 			#currently just adding dictionary of all probabilities given all classifications but eventually want to be adding the max of these (the final classification)
 			for key in numeratorDict.keys():
-				bayesianDict[key] = math.exp(numeratorDict[key] - (max(numeratorDict.items(), key=operator.itemgetter(1))[0])) / denominatorSum
+				bayesianDict[key] = mpmath.exp(numeratorDict[key] - (max(numeratorDict.items(), key=operator.itemgetter(1))[0])) / denominatorSum
 
 			maxClassification = max(bayesianDict.items(), key=operator.itemgetter(1))[0]
 			classificationColumn.append(maxClassification)
