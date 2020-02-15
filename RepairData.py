@@ -29,7 +29,6 @@ class RepairData:
     '''
     Finds all unique attribute values in our protected attributes and then finds the distributions attached to
     those values. Also returns a list of all possible values for the current protected attribute.
-        protectedAttribute (string) - the name of the protected attribute we want to use to make the distributions
         nonProtectedAttribute (string) - the name of the numerical, non-protected attribute that we want to get a distribution for
     '''
     def makeDistributions(self, nonProtectedAttribute):
@@ -77,7 +76,7 @@ class RepairData:
 
     '''
     Takes in bucketized values and returns a median distribution.
-        bucketList (list of list of list of floats) - a list of distributions of a protected 
+        bucketList (list of list of list of floats) - a list of distributions of a protected
             attribute's values, organized by bucket
     '''
     def findMedianDistribution(self, bucketList):
@@ -98,7 +97,7 @@ class RepairData:
         columnName (string) - a column header
         medianDistribution (list of floats) - a one-dimensional list containing the median values for each bucket
             in bucketList
-        bucketList (list of list of list of floats) - a list of distributions of a protected 
+        bucketList (list of list of list of floats) - a list of distributions of a protected
             attribute's values, organized by bucket
         attributeValues (list of strings) - a list of all possible values for the current protected attribute
     '''
@@ -116,7 +115,7 @@ class RepairData:
     Finds the index of the pre-filled bucket containing the given value
         value (float) - the value to find
         indexForProtectedAttributeValue (int) - the index within bucketList for a given protected attribute
-        bucketList (list of list of list of floats) - a list of distributions of a protected 
+        bucketList (list of list of list of floats) - a list of distributions of a protected
             attribute's values, organized by bucket
         minMaxList (list of list of list of floats) - a list of lists of the minimum and maximum in each bucket
     '''
@@ -150,14 +149,14 @@ class RepairData:
     '''
     Creates a DataSet object
          fileName (string) - a file name
-         protectedAttribute (string) - the name of the protected attribute 
+         protectedAttribute (string) - the name of the protected attribute
          groundTruth (string) - a 1 or 0 indicating the ground truth of a particular row
          noiseScale (float) - the standard deviation of the normal distribution used to add noise to the data
     '''
     def createDataSet(self, fileName, protectedAttribute, groundTruth, noiseScale):
         data = DataSet()
         data.loadData(fileName, protectedAttribute, groundTruth)
-        numericalColumns = data.getNumericalColumns()
+        numericalColumns = data.getNumericalColumns("main")
         for column in numericalColumns:
             data.addRandomNoise(column, noiseScale)
         self.setDataSetVariables(data)
@@ -167,7 +166,7 @@ class RepairData:
         columnName (string) - a column header
     '''
     def repairColumn(self, columnName):
-        distributions, attributeValues = self.makeDistributions(self.dataSetCopy.protectedAttribute, columnName)
+        distributions, attributeValues = self.makeDistributions(columnName)
         bucketList, minMaxList = self.bucketize(distributions)
         medianDistributions = self.findMedianDistribution(bucketList)
         self.modifyData(columnName, medianDistributions, bucketList, minMaxList, attributeValues)
@@ -175,12 +174,12 @@ class RepairData:
     '''
     Makes DataSet object from a file, then repairs the data
          fileName (string) - a file name
-         protectedAttribute (string) - the name of the protected attribute 
+         protectedAttribute (string) - the name of the protected attribute
          groundTruth (string) - a 1 or 0 indicating the ground truth of a particular row
          noiseScale (float, optional) - the standard deviation of the normal distribution used to add noise to the data
     '''
     def runRepair(self, fileName, protectedAttribute, groundTruth, noiseScale=.01):
         self.createDataSet(fileName, protectedAttribute, groundTruth, noiseScale)
-        numericalColumns = self.dataSetCopy.getNumericalColumns()
+        numericalColumns = self.dataSetCopy.getNumericalColumns("main")
         for column in numericalColumns:
             self.repairColumn(column)

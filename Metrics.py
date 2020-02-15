@@ -1,27 +1,26 @@
-import pandas as pd
 from DataSet import DataSet
+from TwoBayes import TwoBayes
+from modifiedNaive import ModifiedNaive
+import numpy as np
 from scipy import stats
 from scipy import spatial
-from statistics import mean, stdev
+from scipy.stats import zscore
 from matplotlib import pyplot
 
 class Metrics:
-
-	# TODO: Maybe make the DataSet be an instance variable?
-	# TODO: Write function to run all metrics
 
 	def __init__(self):
 		pass
 
 	'''
-	Calculates basic accuracy for a classified DataSet. Basic accuracy is defined as the number of classifications 
+	Calculates basic accuracy for a classified DataSet. Basic accuracy is defined as the number of classifications
 	that match the known ground truth values.
 		dataSet (DataSet) - the classified DataSet to calculate accuracy for
 	Note: This function assumes that the column header for Bayes classifications is "Bayes Classification"
 	'''
 	def calculateAccuracy(self, dataSet):
 		numCorrect = 0
-		dataFrame = dataSet.dataFrame
+		dataFrame = dataSet.testDataFrame
 
 		for i in range(dataFrame.shape[0]):
 			groundTruth = dataFrame.at[i, dataSet.trueLabels]
@@ -31,18 +30,17 @@ class Metrics:
 				numCorrect += 1
 
 		accuracy = numCorrect / dataFrame.shape[0] * 100
-		print("Percentage accuracy: " + str(accuracy) + "%")
 		return accuracy
 
 	'''
-	Calculates the true positive or negative rate for a classified DataSet. 
+	Calculates the true positive or negative rate for a classified DataSet.
 		dataSet (DataSet) - the classified DataSet to calculate true positive or negative rate for
 		truePosOrNeg (int or string) - the true positive value or true negative value
 	Note: this function currently only supports classifications with two possible outcomes (e.g. 0 or 1).
 	This function also assumes that the column header for Bayes classifications is "Bayes Classification"
 	'''
 	def truePosOrNeg(self, dataSet, truePosOrNeg):
-		dataFrame = dataSet.dataFrame
+		dataFrame = dataSet.testDataFrame
 		possibleClassifications = dataFrame["Bayes Classification"].unique()
 		if len(possibleClassifications) != 2:
 			return "Cannot calculate true positive or negative rate for nonbinary classifications"
@@ -58,7 +56,6 @@ class Metrics:
 					matchesLabel +=1
 				if groundTruth == truePosOrNeg:
 					actualLabel +=1
-
 			return matchesLabel, actualLabel
 
 
@@ -71,39 +68,41 @@ class Metrics:
 	'''
 	Segments the overarching DataSet into smaller (non-overlapping) subsets by protected attribute. Returns a list of these
 	subsets as well as a list of the corresponding protected attribute values.
-		dataSet (DataSet) - the overarching DataSet NOTE WE'RE PROBABLY GETTING RID OF THIS PART WHEN WE MAKE IT AN INSTANCE VARIABLE
+		dataSet (DataSet) - the overarching DataSet
 	'''
 	def determineGroups(self, dataSet):
-		df = dataSet.dataFrame
-		possibleGroups = df[dataSet.protectedAttributes[0]].unique()
+		df = dataSet.testDataFrame
+		possibleGroups = df[dataSet.protectedAttribute].unique()
 
 		organizedDataSetList = []
 		for value in possibleGroups:
 			# Setting up the group as a new DataSet
 			newDataSet = DataSet()
 			newDataSet.fileName = dataSet.fileName
-			newDataSet.dataFrame = df[df[dataSet.protectedAttributes[0]] == value]
-			newDataSet.protectedAttributes = dataSet.protectedAttributes
+			newDataSet.testDataFrame = df[df[dataSet.protectedAttribute] == value]
+			newDataSet.protectedAttribute = dataSet.protectedAttribute
 			newDataSet.trueLabels = dataSet.trueLabels
 			newDataSet.headers = dataSet.headers
+			newDataSet.testHeaders = dataSet.testHeaders
 			newDataSet.numAttributes = dataSet.numAttributes
 
 			#resets indices for later indexing
-			newDataSet.dataFrame.reset_index(inplace=True, drop=True)
+			newDataSet.testDataFrame.reset_index(inplace=True, drop=True)
 
 			organizedDataSetList.append(newDataSet)
 
 		return organizedDataSetList, possibleGroups
 
 	'''
-	Performs a chi square test.
-		truePosByAttribute (dict) - dictionary containing keys of protected attribute values and values of true 
+	Performs a chi square test, which tests whether there is a statistically significant difference between the real and
+	predicted values.
+		truePosByAttribute (dict) - dictionary containing keys of protected attribute values and values of true
 			positive counts for that particular protected attribute value
-		trueNegByAttribute (dict) - dictionary containing keys of protected attribute values and values of true 
+		trueNegByAttribute (dict) - dictionary containing keys of protected attribute values and values of true
 			negative counts for that particular protected attribute value
 		TPTotal (int) - total number of true positives
 		TNTotal (int) - total number of true negatives
-	
+
 	return: chi square value (float)
 	'''
 	def chiSquare(self, truePosByAttribute, trueNegByAttribute, TPTotal, TNTotal):
@@ -131,8 +130,8 @@ class Metrics:
 	'''
 	Equality of Opportunity is the metric that stipulates that the true positive rate for each protected attribute should
 	be the same or similar within reason.
-		dataSet (DataSet) - the overarching DataSet NOTE WE'RE PROBABLY GETTING RID OF THIS PART WHEN WE MAKE IT AN INSTANCE VARIABLE
-		
+		dataSet (DataSet) - the overarching DataSet
+
 	return: the p value (float) and whether or not the p value implies that the statistic is significant (bool).
 	'''
 	def runEquOfOpportunity(self, dataset):
@@ -166,74 +165,69 @@ class Metrics:
 
 		return pValue, EquOfOpp
 
-	# TODO: train vs test part of dataset? help?
 	'''
 	Computes the fairness of trainedBayes according to counterfactual measures by running Bayes on the original data, then
 	swapping the protected attribute values and reclassifying (without retraining). Then, to compute accuracy, it treats the
 	original classifications as if they were true.
 		dataSet (DataSet) - the original dataset
 		trainedBayes (Bayes object) - the trained Bayes model
-		
+
 	return: accuracy
 	'''
-
-	# TODO: Run trainedBayes on dataSetCopy
 	def counterfactualMeasures(self, dataSet, trainedBayes):
 		swappedDataSet = self.swapProtectedAttributes(dataSet)
-		swappedDF = swappedDataSet.dataFrame
-		swappedDF.drop(columns=["Bayes Classification", swappedDataSet.trueLabels])
+		swappedDF = swappedDataSet.testDataFrame
+		swappedDF = swappedDF.drop(columns=["Bayes Classification", swappedDataSet.trueLabels])
 
-		trainedBayes.classify(swappedDataSet)
-		swappedDF = swappedDataSet.dataFrame
+		trainedBayes.classify(swappedDataSet, "test")
+		swappedDF = swappedDataSet.testDataFrame
 
-		swappedDF[swappedDataSet.trueLabels] = dataSet.dataFrame["Bayes Classification"].astype(int)
+		swappedDF[swappedDataSet.trueLabels] = dataSet.testDataFrame["Bayes Classification"].astype(int)
 
 		return self.calculateAccuracy(swappedDataSet)
 
-	# TODO: dealing with nonbinary protected attributes
 	'''
 	Copies the dataset, then swaps the protected attribute values in the copy.
 		dataSet (DataSet) - the original dataset
-		
+
 	returns: a copy of dataSet with the protected attribute values swapped.
 	'''
 	def swapProtectedAttributes(self, dataSet):
-		# TODO: change the protectedAttributes parts later
 		dataSetCopy = dataSet.copyDataSet()
-		dataFrame = dataSetCopy.dataFrame
+		dataFrame = dataSetCopy.testDataFrame
 
-		possibleAttributeValues = dataFrame[dataSetCopy.protectedAttributes[0]].unique()
+		possibleAttributeValues = dataFrame[dataSetCopy.protectedAttribute].unique()
 
 		if len(possibleAttributeValues) != 2:
-			return "Cannot calculate counterfactual measures for nonbinary protected attributes."
+			return "Cannot swap protected attributes for nonbinary protected attributes."
 
 		for i in range(dataFrame.shape[0]):
-			protectedAttributeValue = dataFrame.at[i, dataSetCopy.protectedAttributes[0]]
+			protectedAttributeValue = dataFrame.at[i, dataSetCopy.protectedAttribute]
 			if protectedAttributeValue == possibleAttributeValues[0]:
-				dataFrame.loc[[i], [dataSetCopy.protectedAttributes[0]]] = possibleAttributeValues[1]
+				dataFrame.loc[[i], [dataSetCopy.protectedAttribute]] = possibleAttributeValues[1]
 
 			else:
-				dataFrame.loc[[i], [dataSetCopy.protectedAttributes[0]]] = possibleAttributeValues[0]
-
+				dataFrame.loc[[i], [dataSetCopy.protectedAttribute]] = possibleAttributeValues[0]
 		return dataSetCopy
 
-	# TODO: make this nonbinary; currently only works for binary protected attributes :/
 	'''
-	Counts the total number of preferred outcomes for a particular protected attribute class 
+	Counts the total number of preferred outcomes for a particular protected attribute class
 		dataset (DataSet) - the original dataset
-		
+
 	returns: a dictionary where the keys are protected attribute values and the values are the number of positive
 		outcomes that protected attribute group received.
 	'''
 	def countPositiveOutcomes(self, dataSet):
-		dataFrame = dataSet.dataFrame
-		possibleAttributes = dataFrame[dataSet.protectedAttributes[0]].unique()
+		dataFrame = dataSet.testDataFrame
+		possibleAttributes = dataFrame[dataSet.protectedAttribute].unique()
 
+		# posOutcomes0 is the number of positive classifications for cases with the 0th protected attribute value
+		# posOutcomes1 is the number of positive classifications for cases with the 1st protected attribute value
 		posOutcomes0 = 0
 		posOutcomes1 = 0
 		for i in range(dataFrame.shape[0]):
 			bayesClassification = dataFrame.at[i, "Bayes Classification"]
-			protectedAttribute = dataFrame.at[i, dataSet.protectedAttributes[0]]
+			protectedAttribute = dataFrame.at[i, dataSet.protectedAttribute]
 
 			if bayesClassification == 1 and protectedAttribute == possibleAttributes[0]:
 				posOutcomes0 += 1
@@ -247,9 +241,10 @@ class Metrics:
 	'''
 	Calculates whether or not a particular classification algorithm gives preferred treatment for a particular group
 		dataSet (DataSet) - the original dataset
-		trainedBayes (trained Bayes model) - the trained Bayes model
+		trainedBayes - the two bayes object that has two trained models
+		privilegedValue (String) - the protected attribute value of the privileged group
 		typeOfBayes (string) - the name of the type of Bayes algorithm used ("naive", "modified", or "two")
-		
+
 	returns: a boolean
 	'''
 	def preferredTreatment(self, dataSet, trainedBayes, typeOfBayes):
@@ -260,70 +255,91 @@ class Metrics:
 			# Count the amount of positive outcomes each protected attribute value group receives in the original dataset
 			originalPosOutcomes = self.countPositiveOutcomes(dataSet)
 			dataSetCopy = dataSet.copyDataSet()
-			# Change which Bayes is being run on a particular protected attribute
-			# TODO: Do this part
-
+			# Change which Bayes is being run on a particular protected attribute by swapping the models
+			dataSetCopy = self.swapProtectedAttributes(dataSetCopy)
+			trainedBayes.modify(dataSetCopy, 1)
 			# Count the amount of positive outcomes each protected attribute value group receives in the new dataset
 			swappedPosOutcomes = self.countPositiveOutcomes(dataSetCopy)
+			# Since we swap the protectedAttributes, we have to swap the dictionary's keys
+			swappedKeysPosOutcomes = {}
+			keys = list(originalPosOutcomes.keys())
+			swappedKeysPosOutcomes[keys[0]] = swappedPosOutcomes[keys[1]]
+			swappedKeysPosOutcomes[keys[1]] = swappedPosOutcomes[keys[0]]
 			# Compare that to the original
 			# If swapped is worse than the original for all, return true; else return false
-			keys = originalPosOutcomes.keys()
 			listOfBools = []
 			for key in keys:
-				if originalPosOutcomes[key] >= swappedPosOutcomes[key]:
+				if originalPosOutcomes[key] >= swappedKeysPosOutcomes[key]:
 					listOfBools.append(True)
 				else:
 					listOfBools.append(False)
-
 			return all(listOfBools)
 
 	'''
 	Calculates the probability of a positive outcome across each protected attribute value.
 		dataSet (DataSet) - the dataset
-		
+
 	returns: a dictionary where the keys are the protected attribute values and the values are the positive outcome rate
 		for that protected attribute value.
 	'''
 	def groupFairness(self, dataSet):
-		dataFrame = dataSet.dataFrame
+		dataFrame = dataSet.testDataFrame
 		posOutcomes = self.countPositiveOutcomes(dataSet)
 		keys = posOutcomes.keys()
 
 		probabilitiesDict = {}
-		totalsFrame = dataFrame[dataSet.protectedAttributes[0]].value_counts()
+		# totalsFrame is a DataFrame where the row indices are the protected attribute values and the values in the
+		# 	first column are the counts of rows from the original DataFrame with that protected attribute value
+		totalsFrame = dataFrame[dataSet.protectedAttribute].value_counts()
 
 		for key in keys:
 			probabilitiesDict[key] = posOutcomes[key] / totalsFrame.loc[key]
 
 		return probabilitiesDict
 
-	# TODO: write this comment
+	'''
+	Dummifies the categorical data and then finds the distance between each row and every other row.
+		dataSet (DataSet) - the dataset.
+
+	returns: a distribution of all distances (list), the distances and whether or not the pair had the same outcome (list of tuples)
+	'''
 	def makeEuclideanDistribution(self, dataSet):
-		df = dataSet.dummify(dummifyAll=True)
-		dataSet.dataFrame = df
-		dataSet.resetHeaders()
+		df = dataSet.dummify("test", dummifyAll=True)
+		dataSet.testDataFrame = df
+		dataSet.resetHeaders("test")
+		for header in dataSet.testHeaders:
+			zscores = zscore(df[header], ddof=1)
+			df.loc[:, header] = zscores
 
 		distribution = []
 		distAndOutcome = []
 		for i in range(df.shape[0] - 1):
 			for j in range(i + 1, df.shape[0]):
-				dist = spatial.distance.seuclidean(df.loc[i], df.loc[j], [1 for col in dataSet.headers])
+				dist = spatial.distance.seuclidean(df.loc[i], df.loc[j], [1 for col in dataSet.testHeaders])
 				distribution.append(dist)
 				outcome = df.at[i, "Bayes Classification"] == df.at[j, "Bayes Classification"]
 				distAndOutcome.append((dist, outcome))
 
 		return distribution, distAndOutcome
 
-	# TODO: write this comment
-	def findCutoff(self, distribution):
-		average = mean(distribution)
-		stanDev = stdev(distribution)
+	'''
+	Finds the cutoff point to determine whether or not rows are considered similar
+		distribution (list) - a distribution of all distances
+		quantile (float) - a value between 0 and 1 indicating the quantile
+	returns: a cutoff point (float)
+	'''
+	def findCutoff(self, distribution, quantile=.1):
+		return np.quantile(distribution, quantile)
 
-		return average - stanDev
-
-	# TODO: write this comment
+	'''
+	Computes individual fairness metric
+		dataSet (DataSet) - the dataset
+	returns: the proportion of similar pairs with the same outcome over the total number of similar pairs
+	'''
 	def individualFairness(self, dataSet):
-		distribution, distAndOutcome = self.makeEuclideanDistribution(dataSet)
+		dataSetCopy = dataSet.copyDataSet()
+		dataSetCopy.testDataFrame.drop(dataSetCopy.protectedAttribute, axis=1)
+		distribution, distAndOutcome = self.makeEuclideanDistribution(dataSetCopy)
 		cutoff = self.findCutoff(distribution)
 
 		sameOutcome = 0
@@ -335,7 +351,6 @@ class Metrics:
 			# if the difference is below the cutoff and the two rows have different outcomes
 			elif item[0] < cutoff:
 				difOutcome += 1
-
 		return sameOutcome / (sameOutcome + difOutcome)
 
 	'''
@@ -350,4 +365,24 @@ class Metrics:
 		pyplot.axvline(mean(distribution), color='k', linestyle='dashed', linewidth=1)
 		pyplot.show()
 
+	'''
+	Runs all metrics and writes their outputs to a file.
+		file (file) - an open file
+		dataSet (DataSet) - a dataset
+		typeOfBayes (string) - the type of Bayes being used, e.g. "Naive"
+		trainedBayes (trained Bayes model) - the trained Bayes model
+	'''
+	def runAllMetrics(self, file, dataSet, typeOfBayes, trainedBayes):
 
+		dataSet = dataSet.copyDataSet()
+		file.write("Accuracy: " + str(self.calculateAccuracy(dataSet)))
+		matchesLabel, actualLabel = self.truePosOrNeg(dataSet, 1)
+		file.write("True positive rate: " + str(self.truePosOrNegRate(matchesLabel, actualLabel)))
+		matchesLabel, actualLabel = self.truePosOrNeg(dataSet, 0)
+		file.write("True negative rate: " + str(self.truePosOrNegRate(matchesLabel, actualLabel)))
+		file.write("Equality of Opportunity: " + str(self.runEquOfOpportunity(dataSet)))
+		file.write("Counterfactual Measures: " + str(self.counterfactualMeasures(dataSet, trainedBayes)))
+		file.write("Preferred Treatment: " + str(self.preferredTreatment(dataSet, trainedBayes, typeOfBayes)))
+		file.write("Group Fairness: " + str(self.groupFairness(dataSet)))
+		print("Starting individual fairness")
+		file.write("Individual Fairness: " + str(self.individualFairness(dataSet)))

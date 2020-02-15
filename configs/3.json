@@ -1,0 +1,10 @@
+{
+   "num": 3,
+   "dataset": "Portuguese",
+   "filePath": "originalData/EditedClassifiedData/student-por-mod.csv",
+   "filename": "portuguese_MB_NF",
+   "protectedAttribute": "sex",
+   "groundTruth": "G3",
+   "feldman": "no",
+   "bayes": "modified"
+ }
