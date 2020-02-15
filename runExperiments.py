@@ -61,5 +61,7 @@ Command line arguments:
 if len(sys.argv) > 1:
     if sys.argv[1] == "runExperimentSeries":
         runExperimentSeries(sys.argv[2], sys.argv[3])
-    else:
+    elif sys.argv[1] == "runExperiment":
         runExperiment(sys.argv[1])
+    else:
+        runExperiments(sys.argv[1].split(','))
