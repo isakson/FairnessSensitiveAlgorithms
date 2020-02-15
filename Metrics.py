@@ -382,8 +382,7 @@ class Metrics:
 
 		dataSet = dataSet.copyDataSet()
 		file.write("Accuracy: " + str(self.calculateAccuracy(dataSet)))
-		print("true pos or neg " , self.truePosOrNeg(dataSet, 1))
-		matchesLabel, actualLabel = self.truePosOrNeg(dataSet, 1) #this line
+		matchesLabel, actualLabel = self.truePosOrNeg(dataSet, 1)
 		file.write("True positive rate: " + str(self.truePosOrNegRate(matchesLabel, actualLabel)))
 		matchesLabel, actualLabel = self.truePosOrNeg(dataSet, 0)
 		file.write("True negative rate: " + str(self.truePosOrNegRate(matchesLabel, actualLabel)))
