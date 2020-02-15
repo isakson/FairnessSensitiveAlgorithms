@@ -2,6 +2,7 @@ from Bayes import Bayes
 import pandas as pd
 import operator
 import math
+import numpy as np
 
 class NaiveBayes(Bayes):
 
@@ -19,6 +20,8 @@ class NaiveBayes(Bayes):
 	def train(self, dataSet, model):
 		dataFrame = dataSet.trainDataFrame
 		groundTruth = dataSet.trueLabels
+		print("ground truth", groundTruth)
+		print("df", dataFrame)
 		classificationList = dataFrame[groundTruth].unique()
 
 		#to ensure that we don't train twice
@@ -28,6 +31,7 @@ class NaiveBayes(Bayes):
 
 		#for each of the attributes in the datset (a1...an)
 		for attribute in dataSet.trainHeaders:
+
 		
 			#create outermost dictionary of the model (key = attribute category, value = another dictionary)
 			attrDict = {}
@@ -59,10 +63,17 @@ class NaiveBayes(Bayes):
 
 				#array of the unique values for the given attribute
 				attrCategories = self.getAttributeCategories(dataFrame, attribute)
+				attrCategories = attrCategories.tolist()
+				rares = self.getRares(dataFrame, attribute)
+				if len(rares) > 0:
+					attrCategories.append("rare")
 
 				for attrCategory in attrCategories:
+					if attrCategory in rares:
+						continue
 					#key = classification, value = probability of P(attr|classification)
 					probabilityDict = {}
+
 
 					#for each of the possible classifications (i.e. 1 or 0)
 					for classification in classificationList:
@@ -70,12 +81,16 @@ class NaiveBayes(Bayes):
 						if(groundTruth == attribute):
 							continue
 
-						#the value part of the dictionary: P(a|C)
-						crossAttributeProbability = self.calculateCrossAttributeProbability(dataFrame, groundTruth, classification, attribute, attrCategory)
+						if attrCategory == "rare":
+							crossAttributeProbability = self.getRareProb(dataFrame, groundTruth, classification, attribute, rares)
+						else:
+							#the value part of the dictionary: P(a|C)
+							crossAttributeProbability = self.calculateCrossAttributeProbability(dataFrame, groundTruth, classification, attribute, attrCategory)
 						probabilityDict[classification] = crossAttributeProbability
 
 					#outermost dictionary
 					attrDict[attrCategory] = probabilityDict
+
 
 			model.append(attrDict)
 
@@ -175,7 +190,14 @@ class NaiveBayes(Bayes):
 						bayesNumerator = self.calculateGaussianProbability(meanDict[classification], stdDict[classification], row[1].iloc[j])
 						numeratorDict[classification] += math.log(bayesNumerator)
 					else:
-						bayesNumerator = attributeDict[attrValue][classification]
+						if attrValue in attributeDict:
+							bayesNumerator = attributeDict[attrValue][classification]
+						else:
+							if "rare" in attributeDict:
+								bayesNumerator = attributeDict["rare"][classification]
+							else:
+								bayesNumerator = 1
+
 						if bayesNumerator != 0.0:
 							numeratorDict[classification] += math.log(bayesNumerator)
 
@@ -183,8 +205,6 @@ class NaiveBayes(Bayes):
 				denominatorSum += math.exp(numeratorDict[key] - (max(numeratorDict.items(), key=operator.itemgetter(1))[0]))
 			#currently just adding dictionary of all probabilities given all classifications but eventually want to be adding the max of these (the final classification)
 			for key in numeratorDict.keys():
-				#print("bayesian dict", bayesianDict)
-				#print("denom sum", denominatorSum)
 				bayesianDict[key] = math.exp(numeratorDict[key] - (max(numeratorDict.items(), key=operator.itemgetter(1))[0])) / denominatorSum
 
 			maxClassification = max(bayesianDict.items(), key=operator.itemgetter(1))[0]
