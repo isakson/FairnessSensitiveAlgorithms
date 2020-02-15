@@ -42,7 +42,7 @@ class Metrics:
 	def truePosOrNeg(self, dataSet, truePosOrNeg):
 		dataFrame = dataSet.testDataFrame
 		possibleClassifications = dataFrame["Bayes Classification"].unique()
-		if len(possibleClassifications) != 2:
+		if len(possibleClassifications) > 2:
 			return "Cannot calculate true positive or negative rate for nonbinary classifications"
 		else:
 			matchesLabel = 0
@@ -118,10 +118,16 @@ class Metrics:
 		chiSquare = 0
 		for item in keys:
 			expectedPosValue = (totalDict[item] * TPTotal) / overallTotal
-			posOutcome = ((truePosByAttribute[item] - expectedPosValue) ** 2) / truePosByAttribute[item]
+			if truePosByAttribute[item] != 0:
+				posOutcome = ((truePosByAttribute[item] - expectedPosValue) ** 2) / truePosByAttribute[item]
+			else:
+				posOutcome = 0
 
 			expectedNegValue = (totalDict[item] * TNTotal) / overallTotal
-			negOutcome = ((trueNegByAttribute[item] - expectedNegValue) ** 2) / trueNegByAttribute[item]
+			if trueNegByAttribute[item] != 0:
+				negOutcome = ((trueNegByAttribute[item] - expectedNegValue) ** 2) / trueNegByAttribute[item]
+			else:
+				negOutcome = 0
 
 			chiSquare += posOutcome + negOutcome
 
@@ -376,7 +382,8 @@ class Metrics:
 
 		dataSet = dataSet.copyDataSet()
 		file.write("Accuracy: " + str(self.calculateAccuracy(dataSet)))
-		matchesLabel, actualLabel = self.truePosOrNeg(dataSet, 1)
+		print("true pos or neg " , self.truePosOrNeg(dataSet, 1))
+		matchesLabel, actualLabel = self.truePosOrNeg(dataSet, 1) #this line
 		file.write("True positive rate: " + str(self.truePosOrNegRate(matchesLabel, actualLabel)))
 		matchesLabel, actualLabel = self.truePosOrNeg(dataSet, 0)
 		file.write("True negative rate: " + str(self.truePosOrNegRate(matchesLabel, actualLabel)))
