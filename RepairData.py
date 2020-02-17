@@ -211,9 +211,7 @@ class RepairData:
          noiseScale (float, optional) - the standard deviation of the normal distribution used to add noise to the data
     '''
     def runRepair(self, fileName, protectedAttribute, groundTruth, dataName, noiseScale=.01):
-        print("Starting repair")
         self.createDataSet(fileName, protectedAttribute, groundTruth, noiseScale)
-        print("Going to choose columns now")
         repairColumns = self.chooseColumnsForFeldman(self.dataSetCopy, dataName)
         print("Columns to repair: ", repairColumns)
         for column in repairColumns:
