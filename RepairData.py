@@ -67,6 +67,9 @@ class RepairData:
         for i in range(len(bucketList)):
             distributionList = []
             for j in range(len(bucketList[i])):
+                if len(bucketList[i][j]) == 0:
+                    print("No items in bucket: i = " + str(i) + ", j = " +
+                          str(j) + ", bucketList[i][j] = " + str(bucketList[i][j]))
                 minimum = min(bucketList[i][j])
                 maximum = max(bucketList[i][j])
                 distributionList.append([minimum, maximum])
@@ -162,6 +165,35 @@ class RepairData:
         self.setDataSetVariables(data)
 
     '''
+    Select columns for Feldman repair
+    '''
+    def chooseColumnsForFeldman(self, dataSet, dataName):
+        columns = dataSet.getNumericalColumns("main")
+
+        if dataName == "Restaurant":
+            # TODO: consider ZIPCODE, Latitude, Longitude, Community Board, Council District, Census Tract, BIN, BBL
+            return []
+        elif dataName == "Portuguese":
+            # We can repair on all numerical columns
+            return columns
+        elif dataName == "Credit":
+            # We can repair on all numerical columns
+            return columns
+        elif dataName == "Income":
+            # We can repair on all numerical columns
+            return columns
+        elif dataName == "Ricci":
+            # We can repair on all numerical columns
+            return columns
+        elif dataName == "Jury":
+            # We should not repair on "trial_id, so there are no columns to repair"
+            return []
+        elif dataName == "German":
+            return columns
+        else:
+            return "Invalid dataset name."
+
+    '''
     Repairs the data in a single column
         columnName (string) - a column header
     '''
@@ -178,8 +210,11 @@ class RepairData:
          groundTruth (string) - a 1 or 0 indicating the ground truth of a particular row
          noiseScale (float, optional) - the standard deviation of the normal distribution used to add noise to the data
     '''
-    def runRepair(self, fileName, protectedAttribute, groundTruth, noiseScale=.01):
+    def runRepair(self, fileName, protectedAttribute, groundTruth, dataName, noiseScale=.01):
+        print("Starting repair")
         self.createDataSet(fileName, protectedAttribute, groundTruth, noiseScale)
-        numericalColumns = self.dataSetCopy.getNumericalColumns("main")
-        for column in numericalColumns:
+        print("Going to choose columns now")
+        repairColumns = self.chooseColumnsForFeldman(self.dataSetCopy, dataName)
+        print("Columns to repair: ", repairColumns)
+        for column in repairColumns:
             self.repairColumn(column)

@@ -20,7 +20,7 @@ Notes:
     Pickled objects will be written to the pickledObjects/ directory
     CSVs of data will be written to the dataCSVs/ directory
 '''
-def pipeline(fileName, nameForFiles, protectedAttribute, trueLabels, feldman, bayes):
+def pipeline(fileName, nameForFiles, protectedAttribute, trueLabels, feldman, bayes, dataName):
     # Load data into DataSet
     ds = DataSet()
     ds.loadData(fileName, protectedAttribute, trueLabels)
@@ -34,8 +34,9 @@ def pipeline(fileName, nameForFiles, protectedAttribute, trueLabels, feldman, ba
     # Feldman repair algorithm
     currDataSet = ds
     if feldman == "yes":
+        print("Starting Feldman")
         repair = RepairData()
-        repair.runRepair(ds.fileName, ds.protectedAttribute, ds.trueLabels, noiseScale=.01)
+        repair.runRepair(ds.fileName, ds.protectedAttribute, ds.trueLabels, dataName, noiseScale=.01)
         # Pickle the Feldman-repaired data
         repair.dataSetCopy.savePickle("pickledObjects/repairedData/" + nameForFiles)
         repair.dataSetCopy.saveToCsv("dataCSVs/repairedData/" + nameForFiles + ".csv")
