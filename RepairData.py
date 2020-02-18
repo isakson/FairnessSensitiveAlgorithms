@@ -172,7 +172,8 @@ class RepairData:
 
         if dataName == "Restaurant":
             # TODO: consider ZIPCODE, Latitude, Longitude, Community Board, Council District, Census Tract, BIN, BBL
-            return []
+            # TODO: change these columns depending on what the group decides
+            return ["ZIPCODE", "Latitude", "Longitude"]
         elif dataName == "Portuguese":
             # We can repair on all numerical columns
             return columns
