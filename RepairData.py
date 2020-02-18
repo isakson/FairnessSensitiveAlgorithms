@@ -171,9 +171,7 @@ class RepairData:
         columns = dataSet.getNumericalColumns("main")
 
         if dataName == "Restaurant":
-            # TODO: consider ZIPCODE, Latitude, Longitude, Community Board, Council District, Census Tract, BIN, BBL
-            # TODO: change these columns depending on what the group decides
-            return ["ZIPCODE", "Latitude", "Longitude"]
+            return ["ZIPCODE", "Latitude", "Longitude", "Community Board", "Council District", "Census Tract"]
         elif dataName == "Portuguese":
             # We can repair on all numerical columns
             return columns
