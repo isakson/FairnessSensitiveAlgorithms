@@ -14,7 +14,7 @@ def parseConfig(num):
         config = json.load(f)
     print(config["num"])
     return config["filePath"], config["filename"], config["protectedAttribute"],\
-           config["groundTruth"], config["feldman"], config["bayes"]
+           config["groundTruth"], config["feldman"], config["bayes"], config["dataset"]
 
 '''
 Run a single experiment by its number.
@@ -23,7 +23,7 @@ Parameters:
 '''
 def runExperiment(num):
     config = parseConfig(num)
-    pipeline(config[0], config[1], config[2], config[3], config[4], config[5])
+    pipeline(config[0], config[1], config[2], config[3], config[4], config[5], config[6])
 
 '''
 Run multiple experiments by their numbers.
@@ -34,7 +34,7 @@ Parameters:
 def runExperimentSeries(start, end):
     for i in range(int(start), int(end)):
         config = parseConfig(i)
-        pipeline(config[0], config[1], config[2], config[3], config[4], config[5])
+        pipeline(config[0], config[1], config[2], config[3], config[4], config[5], config[6])
 
 '''
 Run a specified list of experiments.
@@ -44,7 +44,7 @@ Parameters:
 def runExperiments(list):
     for num in list:
         config = parseConfig(num)
-        pipeline(config[0], config[1], config[2], config[3], config[4], config[5])
+        pipeline(config[0], config[1], config[2], config[3], config[4], config[5], config[6])
 
 '''
 Command line arguments:

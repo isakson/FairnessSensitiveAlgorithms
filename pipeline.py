@@ -4,6 +4,7 @@ from NaiveBayes import NaiveBayes
 from ModifiedBayes import ModifiedBayes
 from TwoBayes import TwoBayes
 from Metrics import Metrics
+from classifierForDI import detectDI
 
 '''
 Parameters:
@@ -20,7 +21,7 @@ Notes:
     Pickled objects will be written to the pickledObjects/ directory
     CSVs of data will be written to the dataCSVs/ directory
 '''
-def pipeline(fileName, nameForFiles, protectedAttribute, trueLabels, feldman, bayes):
+def pipeline(fileName, nameForFiles, protectedAttribute, trueLabels, feldman, bayes, dataName):
     # Load data into DataSet
     ds = DataSet()
     ds.loadData(fileName, protectedAttribute, trueLabels)
@@ -28,18 +29,24 @@ def pipeline(fileName, nameForFiles, protectedAttribute, trueLabels, feldman, ba
     # Open a file for writing results
     f = open("results/" + nameForFiles + ".txt", "w")
 
-    #DIresult = detectDI(ds)
-    #f.write("DI results: " + DIresult)
+    print("Starting DI detection")
+    DIresult = detectDI(ds)
+    f.write("DI results on original data: " + DIresult)
 
     # Feldman repair algorithm
     currDataSet = ds
     if feldman == "yes":
+        print("Starting Feldman")
         repair = RepairData()
-        repair.runRepair(ds.fileName, ds.protectedAttribute, ds.trueLabels, noiseScale=.01)
+        repair.runRepair(ds.fileName, ds.protectedAttribute, ds.trueLabels, dataName, noiseScale=.01)
         # Pickle the Feldman-repaired data
         repair.dataSetCopy.savePickle("pickledObjects/repairedData/" + nameForFiles)
         repair.dataSetCopy.saveToCsv("dataCSVs/repairedData/" + nameForFiles + ".csv")
         currDataSet = repair.dataSetCopy
+
+        print("Starting post-Feldman DI detection")
+        postFeldmanDIresult = detectDI(repair.dataSetCopy)
+        f.write("DI results after Feldman: " + postFeldmanDIresult)
 
     #Split data into test and training set
     currDataSet.splitIntoTrainTest()
