@@ -1,1 +1,0 @@
-Accuracy: 82.46311950936516True positive rate: 54.35356200527705True negative rate: 91.89727695373035Equality of Opportunity: (0.0, True)Counterfactual Measures: 100.0Preferred Treatment: TrueGroup Fairness: {' Higher ed': 0.16387959866220736, ' HS': 0.16606822262118492}Individual Fairness: 0.868220931184747

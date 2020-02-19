@@ -1,1 +1,0 @@
-Accuracy: 100.0True positive rate: 100.0True negative rate: 100.0Equality of Opportunity: (0.0, True)Counterfactual Measures: 100.0Preferred Treatment: FalseGroup Fairness: {'Black': 0.4205607476635514, 'White': 0.8747454175152749}
