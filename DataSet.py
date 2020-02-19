@@ -72,8 +72,8 @@ class DataSet:
         newDataSet.testHeaders = self.testHeaders
         newDataSet.trainHeaders = self.trainHeaders
         newDataSet.numAttributes = self.numAttributes
-        newDataSet.testDataFrame = self.testDataFrame
-        newDataSet.trainDataFrame = self.trainDataFrame
+        newDataSet.testDataFrame = self.testDataFrame.copy()
+        newDataSet.trainDataFrame = self.trainDataFrame.copy()
         return newDataSet
 
     '''
