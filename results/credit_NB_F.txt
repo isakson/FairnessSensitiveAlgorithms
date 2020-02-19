@@ -1,0 +1,1 @@
+Accuracy: 51.37413589613893True positive rate: 81.15183246073299True negative rate: 42.70787984327383Equality of Opportunity: (0.05108168461904472, False)Counterfactual Measures: 100.0Preferred Treatment: TrueGroup Fairness: {'high school': 0.6521035598705501, 'higher ed': 0.6180344478216818}Individual Fairness: 0.9298947650951754
