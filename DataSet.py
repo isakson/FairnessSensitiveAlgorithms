@@ -72,8 +72,12 @@ class DataSet:
         newDataSet.testHeaders = self.testHeaders
         newDataSet.trainHeaders = self.trainHeaders
         newDataSet.numAttributes = self.numAttributes
-        newDataSet.testDataFrame = self.testDataFrame
-        newDataSet.trainDataFrame = self.trainDataFrame
+        if self.testDataFrame is not None:
+            newDataSet.testDataFrame = self.testDataFrame.copy()
+            newDataSet.trainDataFrame = self.trainDataFrame.copy()
+        else:
+            newDataSet.testDataFrame = None
+            newDataSet.trainDataFrame = None
         return newDataSet
 
     '''
