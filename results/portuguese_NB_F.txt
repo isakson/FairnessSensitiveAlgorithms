@@ -1,1 +1,1 @@
-DI results on original data: Possible disparate impact./n
+DI results on original data: Possible disparate impact.DI results after Feldman: Possible disparate impact.Accuracy: 85.38461538461539True positive rate: 89.39393939393939True negative rate: 81.25Equality of Opportunity: (0.3610321888618936, False)Counterfactual Measures: 97.6923076923077Preferred Treatment: TrueGroup Fairness: {'F': 0.5443037974683544, 'M': 0.5490196078431373}Individual Fairness: 0.7604290822407628

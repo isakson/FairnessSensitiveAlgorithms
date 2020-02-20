@@ -1,1 +1,1 @@
-Accuracy: 100.0True positive rate: 100.0True negative rate: 100.0Equality of Opportunity: (0.0, True)Counterfactual Measures: 100.0Preferred Treatment: FalseGroup Fairness: {'Black': 0.4205607476635514, 'White': 0.8747454175152749}
+DI results on original data: Possible disparate impact.Accuracy: 57.56578947368421True positive rate: 57.74647887323944True negative rate: 57.14285714285714Equality of Opportunity: (0.0, True)Counterfactual Measures: 51.973684210526315Preferred Treatment: TrueGroup Fairness: {'White': 0.6887755102040817, 'Black': 0.25}Individual Fairness: 1.0
