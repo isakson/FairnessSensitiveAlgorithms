@@ -10,7 +10,11 @@ An object representing a data set pulled from a csv file. It contains:
     protectedAttribute (string) - the name of the column containing protected attribute
     trueLabels (string) - the name of the column containing the ground truth; may be None if data has been
         stripped of ground truth
+    testDataFrame (pandas DataFrame) - the DataFrame containing the test data
+    trainDataFrame (pandas DataFrame) - the DataFrame containing the train data
     headers (array of strings) - the names of all of the columns
+    testHeaders (array of strings) - the names of all of the columns in the test data
+    trainHeaders (array of strings) - the names of all of the columns in the train data
     numAttributes (int) - the number of columns (or attributes) in the DataFrame
 '''
 class DataSet:
@@ -38,6 +42,7 @@ class DataSet:
 
     '''
     Shuffles rows and splits data into training and test sets (80% train, 20% test).
+    Sets test and train data frames. Also sets the test and train headers.
     '''
     def splitIntoTrainTest(self):
         trainTestSplit = sklearn.model_selection.train_test_split(self.dataFrame, train_size=.8, test_size=.2, shuffle=True)
@@ -58,7 +63,7 @@ class DataSet:
 
     '''
     Creates a new DataSet that is a copy of this DataSet. 
-    Returns the new DataSet
+    Returns: the new DataSet
     Note: the DataSet produced will have the same fileName as the DataSet we copied from, 
     even though the data is not re-imported from the fileName
     '''
@@ -136,7 +141,7 @@ class DataSet:
     Dummifies all non-numerical columns in the DataSet object's DataFrame EXCEPT the protected attribute 
         column when dummifyAll = False. Dummifies all non-numerical columns in the DataSet object's DataFrame
         when dummifyAll = True. 
-        dataFrame (dataframe) - the dataframe we want to dummify (allows us to dummify main dataframe, test or train 
+        whichDataFrame (dataframe) - the dataframe we want to dummify (allows us to dummify main dataframe, test or train 
             dataframes
         
     Returns the modified DataFrame object
@@ -165,42 +170,38 @@ class DataSet:
 
             return pd.get_dummies(df, columns=columns)
 
-    '''Resets the headers for the DataSet's DataFrame
+    '''
+    Resets the headers for the DataSet's DataFrame
         headers (string) - a string stating which headers to update
     '''
     def resetHeaders(self, headers):
         if headers == "main":
             df = self.dataFrame
-
         elif headers == "test":
             df = self.testDataFrame
-
         else:
             df = self.trainDataFrame
 
         newHeaders = []
         for header, content in df.items():
             newHeaders.append(header)
-
         if headers == "main":
             self.headers = newHeaders
-
-
         elif headers == "test":
             self.testHeaders = newHeaders
-
         else:
             self.trainHeaders = newHeaders
+
     '''
-    Saves the dataFrame as a .csv file. All objects will be saved to the folder dataCSVs.
-        fileName (string) - the desired output file name (note: should end in .csv, otherwise it saves as a textfile but is still comma-separated)
+    Saves the dataFrame as a .csv file. 
+        path (string) - the desired path and output file name (note: should end in .csv, otherwise it saves as a textfile but is still comma-separated)
     '''
     def saveToCsv(self, path="dataFrame.csv"):
         self.dataFrame.to_csv(path)
 
     '''
-    Saves the current DataSet object as a pickle. All objects will be saved to the folder pickledObjects.
-        fileName (string) - The DataSet object to pickle
+    Saves the current DataSet object as a pickle. 
+        path (string) - the desired path and output file name
     '''
     def savePickle(self, path="pickledDataSet"):
         file = open(path, 'wb')
