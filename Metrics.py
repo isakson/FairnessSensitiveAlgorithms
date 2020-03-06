@@ -1,6 +1,4 @@
 from DataSet import DataSet
-from TwoBayes import TwoBayes
-from modifiedNaive import ModifiedNaive
 import numpy as np
 from scipy import stats
 from scipy import spatial
