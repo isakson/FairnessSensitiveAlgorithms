@@ -15,9 +15,12 @@ class TwoBayes(NaiveBayes, ModifiedBayes):
 		self.Sx = ""
 		self.Sy = ""
 
-	'''Assigns the keys "higher" and "lower" to the two possible sensitive attribute values based on which of the two has a higher count.
-   S+ ("higher") is the privileged group. We do this based on counts instead of as a manual parameter because there isn't an 'ideal'
-   sensitive attribute category like there is with classifications.'''
+	'''
+	Assigns the keys "higher" and "lower" to the two possible sensitive attribute values based on which of the two 
+	has a higher count. S+ ("higher") is the privileged group. We do this based on counts instead of as a manual 
+	parameter because there isn't an 'ideal' sensitive attribute category like there is with classifications.
+		dataSet (DataSet) - the dataset
+	'''
 	def assignSensitivity(self, dataSet):
 		dataFrame = dataSet.trainDataFrame
 		sensitiveAttrCatList = self.getAttributeCategories(dataFrame, dataSet.protectedAttribute)
@@ -30,6 +33,11 @@ class TwoBayes(NaiveBayes, ModifiedBayes):
 			self.Sx = sensitiveAttrCatList[1]
 			self.Sy = sensitiveAttrCatList[0]
 
+	'''
+	Splits the train dataframe into two dataframes, grouped by the sensitive attribute
+		dataSet (DataSet) - the dataset
+		sensitiveVal () - 
+	'''
 	def splitDataFrame(self, dataSet, sensitiveVal):
 		sensitiveAttr = dataSet.protectedAttribute
 		df = dataSet.trainDataFrame
@@ -44,9 +52,13 @@ class TwoBayes(NaiveBayes, ModifiedBayes):
 			ds.trainDataFrame = df.groupby([sensitiveAttr]).get_group(sensitiveVal)
 		except:
 			return 0
-
 		return ds
 
+	'''
+	Trains the model.
+		dataSet (DataSet) - the dataset
+		CHigher (str) - C+
+	'''
 	def train(self, dataSet, CHigher):
 		self.assignSensitivity(dataSet)
 		dsX = self.splitDataFrame(dataSet, self.Sx)
@@ -57,6 +69,13 @@ class TwoBayes(NaiveBayes, ModifiedBayes):
 
 		self.modify(dataSet, CHigher)
 
+	'''
+	Given the attributes of an entry in an dataset and our trained model, classify calculates the P(classification|attributes)
+	for every possible classification and then appends a classification to the dataset based on those probabilities. 
+	Appends a new column of classifications to the dataset under the header "Bayes Classification" 
+		dataSet (DataSet) - the dataset
+		testOrTrain (str) - a string indicating whether we are classifying the train or testing set
+	'''
 	def classify(self, dataSet, testOrTrain):
 		if testOrTrain == "test":
 			dataFrame = dataSet.testDataFrame
@@ -65,7 +84,6 @@ class TwoBayes(NaiveBayes, ModifiedBayes):
 			dataFrame = dataSet.trainDataFrame
 			headers = dataSet.trainHeaders
 		groundTruth = dataSet.trueLabels
-
 		#make a new column for the data frame where our classifications are going to go
 		classificationColumn = []
 
@@ -87,9 +105,7 @@ class TwoBayes(NaiveBayes, ModifiedBayes):
 
 			#iterate through the possible outcomes of the class variable
 			for classification in classificationList.keys():
-
 				numeratorDict[classification] = classificationList[classification]
-
 				#loop through outer array of the model (but we stop at second to last element of array)
 				for j, attributeDict in enumerate(currModel):
 					#skip the last element because this isn't an attribute -- it's the classification probabilities dictionary
@@ -101,7 +117,6 @@ class TwoBayes(NaiveBayes, ModifiedBayes):
 
 					#value for the current row of the given attribute
 					attrValue = row[1].iloc[j]
-
 					if(headers[j] in dataSet.getNumericalColumns(testOrTrain)): #numerical
 						meanDict = attributeDict["mean"]
 						stdDict = attributeDict["std"]
@@ -133,19 +148,22 @@ class TwoBayes(NaiveBayes, ModifiedBayes):
 			classificationColumn.append(maxClassification)
 
 		#sets new column equal to the array of classifications
-
 		dataFrame["Bayes Classification"] = classificationColumn
 		dataSet.resetHeaders(testOrTrain)
-		#dataFrame.to_csv('out.csv', sep='\t', encoding='utf-8')
 
+	'''
+	Classifies the dataset and modifies the model until the discrimination score is 0
+		dataSet (DataSet) - the dataset
+		CHigher (str) - C+
+	'''
 	def modify(self, dataSet, CHigher):
 		#do exactly as ModifiedBayes does except calling TwoBayes classify
 		self.classify(dataSet, "train")
-
 		dataFrame = dataSet.trainDataFrame
 		protected = dataSet.protectedAttribute
 		groundTruth = dataSet.trueLabels
-		sensitiveAttributeModelIndex = dataSet.trainHeaders.index(protected) #need to know index of sensitive attribute in the model
+		# need to know index of sensitive attribute in the model
+		sensitiveAttributeModelIndex = dataSet.trainHeaders.index(protected)
 
 		#Assign dictionary values based on CHigher parameter
 		classesList = self.getAttributeCategories(dataFrame, dataSet.trueLabels)
@@ -203,14 +221,7 @@ class TwoBayes(NaiveBayes, ModifiedBayes):
 				self.modelX[-1][higherOrLowerClassificationDict["lower"]] = CLowerSHigher
 				self.modelX[-1][higherOrLowerClassificationDict["higher"]] = CHigherSHigher
 
-
 			#reclassify and recompute the new discrimination score
 			self.classify(dataSet, "train")
-			dataFrame = dataSet.trainDataFrame #NOTE: we changed this from dataFrame to testDataFrame
+			dataFrame = dataSet.trainDataFrame
 			disc = self.calculateDiscriminationScore(CHigherSHigher, CHigherSLower)
-			# self.printProbabilities(CHigherSLower, CLowerSLower, CHigherSHigher, CLowerSHigher)
-
-		#print out the final classifications
-		#print(dataFrame.to_string())
-		'''Uncomment if desired: Call to save classifications to a csv file called modifiedBayesClassifications.csv'''
-		#dataFrame.to_csv('modifiedBayesClassification.csv', sep='\t', encoding='utf-8')
