@@ -36,7 +36,8 @@ class TwoBayes(NaiveBayes, ModifiedBayes):
 	'''
 	Splits the train dataframe into two dataframes, grouped by the sensitive attribute
 		dataSet (DataSet) - the dataset
-		sensitiveVal () - 
+		sensitiveVal (str) - the value of the protected attribute label
+	Returns: the dataset
 	'''
 	def splitDataFrame(self, dataSet, sensitiveVal):
 		sensitiveAttr = dataSet.protectedAttribute
