@@ -2,7 +2,6 @@ import pandas as pd
 from DataSet import DataSet
 from statistics import median
 
-
 class RepairData:
     def __init__(self):
         pass
@@ -12,7 +11,6 @@ class RepairData:
         dataSet (DataSet) - a DataSet object
     '''
     def setDataSetVariables(self, dataSet):
-
         self.dataSetOriginal = dataSet
         self.dataSetCopy = dataSet.copyDataSet()
         self.maxBuckets = self.getMaxBuckets()
@@ -27,9 +25,11 @@ class RepairData:
         return min(df[protectedAttribute].value_counts())
 
     '''
-    Finds all unique attribute values in our protected attributes and then finds the distributions attached to
+    Finds all unique attribute values in our protected attributes and returns the distributions attached to
     those values. Also returns a list of all possible values for the current protected attribute.
-        nonProtectedAttribute (string) - the name of the numerical, non-protected attribute that we want to get a distribution for
+        nonProtectedAttribute (str) - the name of the numerical, non-protected attribute we want to get a distribution for
+    Returns: all unique attribute values in protected attributes, a list of all possible values for the current
+        protected attribute
     '''
     def makeDistributions(self, nonProtectedAttribute):
         df = self.dataSetOriginal.dataFrame
@@ -47,10 +47,12 @@ class RepairData:
     '''
     Takes the list of distributions from makeDistributions and puts the values into buckets.
         distributions (list of lists) - the values from a single column separated by a protectedAttribute value
+    Returns: the list of distributions of a protected attribute's values, a list of the minimum and maximum values
+        in each bucket
     '''
     def bucketize(self, distributions):
         # bucketAssignments is a list containing the index values for the bucket that the distribution values should end up in
-        # e.g. [0, 1, 2, 3, 0] assigns the first and last items to bucket 0, the second item to bucket 2, etc.
+        # e.g. [0, 1, 2, 3, 0] assigns the first and last items to bucket 0, the second item to bucket 1, etc.
         bucketAssignments = []
         for i in range(len(distributions)):
             bucketAssignments.append(pd.qcut(distributions[i], self.maxBuckets, labels=False))
@@ -79,8 +81,9 @@ class RepairData:
 
     '''
     Takes in bucketized values and returns a median distribution.
-        bucketList (list of list of list of floats) - a list of distributions of a protected
-            attribute's values, organized by bucket
+        bucketList (list of list of list of floats) - a list of distributions of a protected attribute's values, 
+            organized by bucket
+    Returns: a list containing the median distribution 
     '''
     def findMedianDistribution(self, bucketList):
         bucketMedians = [[] for subList in bucketList]
@@ -102,6 +105,7 @@ class RepairData:
             in bucketList
         bucketList (list of list of list of floats) - a list of distributions of a protected
             attribute's values, organized by bucket
+        minMaxList (list of list of list of floats) - a list of lists of the minimum and maximum in each bucket
         attributeValues (list of strings) - a list of all possible values for the current protected attribute
     '''
     def modifyData(self, columnName, medianDistribution, bucketList, minMaxList, attributeValues):
@@ -121,6 +125,7 @@ class RepairData:
         bucketList (list of list of list of floats) - a list of distributions of a protected
             attribute's values, organized by bucket
         minMaxList (list of list of list of floats) - a list of lists of the minimum and maximum in each bucket
+    Returns: the index of the bucket containing the given value
     '''
     def getBucket(self, value, indexForProtectedAttributeValue, bucketList, minMaxList):
         bucketedDistribution = bucketList[indexForProtectedAttributeValue]
@@ -129,12 +134,13 @@ class RepairData:
         return self.getBucketHelper(value, 0, len(bucketedDistribution) - 1, bucketedDistribution, minMaxSublist)
 
     '''
-    Helper function for getBucket binary search.
+    Recursive helper function for getBucket binary search.
         value (float) - the value to find
         start (int) - the index of where to start searching
         stop (int) - the index of where to stop searching
         bucketedDistribution (list of list of floats) - a distribution of a protected attribute value, organized by bucket
         minMaxSublist (list of list of floats) - a list of the minimum and maximum in each bucket
+    Returns: the bucket containing the given value
     '''
 
     def getBucketHelper(self, value, start, stop, bucketedDistribution, minMaxSublist):
@@ -165,7 +171,10 @@ class RepairData:
         self.setDataSetVariables(data)
 
     '''
-    Select columns for Feldman repair
+    Select columns for Feldman repair.
+        dataSet (DataSet) - the dataset
+        dataName (str) - the name for a particular dataset (e.g. "Jury" or "Restaurants")
+    Returns: a list of the columns to repair for the given dataset
     '''
     def chooseColumnsForFeldman(self, dataSet, dataName):
         columns = dataSet.getNumericalColumns("main")
@@ -207,6 +216,7 @@ class RepairData:
          fileName (string) - a file name
          protectedAttribute (string) - the name of the protected attribute
          groundTruth (string) - a 1 or 0 indicating the ground truth of a particular row
+         dataName (str) - the name for a particular dataset (e.g. "Jury" or "Restaurants")
          noiseScale (float, optional) - the standard deviation of the normal distribution used to add noise to the data
     '''
     def runRepair(self, fileName, protectedAttribute, groundTruth, dataName, noiseScale=.01):

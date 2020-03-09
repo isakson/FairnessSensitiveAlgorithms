@@ -8,14 +8,13 @@ from classifierForDI import detectDI
 
 '''
 Parameters:
-    fileName (string) - The path to the file whose data should be loaded
-    nameForFiles (string) - The name to assign to files written by the pipeline
-    protectedAttribute (string) - The header name for the column containing the
-        protectedAttribute data in the dataset
-    trueLabels (string) - The header name for the column containing the true classifications
-        in the dataset
-    feldman (bool) - If True, run Feldman repair algorithm. If False, do not run Feldman repair algorithm.
-    bayes (string) - If "naive", run Naive Bayes. If "modified", run Modified Bayes. If "two", run Two Bayes
+    fileName (str) - The path to the file whose data should be loaded
+    nameForFiles (str) - The name to assign to files written by the pipeline
+    protectedAttribute (str) - The header name for the column containing the protectedAttribute data in the dataset
+    trueLabels (str) - The header name for the column containing the true classifications in the dataset
+    feldman (bool) - If True, run Feldman repair algorithm. If False, do not run Feldman repair algorithm
+    bayes (str) - If "naive", run Naive Bayes. If "modified", run Modified Bayes. If "two", run Two Bayes
+    dataName (str) - The name for the dataset (e.g. "Restaurants" or "Jury")
 Notes:
     Results (e.g. DI detector, metrics results) will be written to the results/ directory
     Pickled objects will be written to the pickledObjects/ directory
@@ -52,6 +51,7 @@ def pipeline(fileName, nameForFiles, protectedAttribute, trueLabels, feldman, ba
     currDataSet.splitIntoTrainTest()
     print("Split into test train")
 
+    #Bayes
     if bayes == "naive":
         print("Starting Naive Bayes")
         bayesObject = NaiveBayes()

@@ -6,8 +6,8 @@ from pipeline import pipeline
 Parse a config file.
 Parameters:
     num (int) - The number of the experiment (corresponds to the number of the config file)
-Returns 6 stings representing the config's datasetPath, filename, protectedAttribute, 
-    groundTruth, feldman, and bayes values.
+Returns 6 strings representing the config's datasetPath, filename, protectedAttribute, 
+    groundTruth, feldman, and bayes values
 '''
 def parseConfig(num):
     with open("configs/" + str(num) + ".json") as f:

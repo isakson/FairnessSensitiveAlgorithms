@@ -9,16 +9,19 @@ class ModifiedNaive(Bayes):
 	def __init__(self):
 		self.model = [] 
 
-	'''Create model filled as such:
+	'''
+	Create model filled as such:
 		self.model = array of attributes (e.g. race, position, etc.) where each index points to a dictionary
 			attrDict (categorical) { key =  attribute category (e.g. white, black, hispanic), value = probability dictionary}
 				probabilityDict = { key = classification (e.g. gets loan, differed, doesn't get loan), value = P(attrCategory|classification)}
 
-		attrDict (numerical) { key = "mean" or "std", value = meanDict or stdDict}
-			meanDict = {key = classification, value = conditional mean given this classification}
-			stdDict = {key = classification, value = conditional std given this classification}
-
-		self.model[-1] = dictionary {key = sensitive attribute (S+ or S-) (e.g. 'Female'): value = P(S)}'''
+			attrDict (numerical) { key = "mean" or "std", value = meanDict or stdDict}
+				meanDict = {key = classification, value = conditional mean given this classification}
+				stdDict = {key = classification, value = conditional std given this classification}
+		self.model[-1] = dictionary {key = sensitive attribute (S+ or S-) (e.g. 'Female'): value = P(S)}
+		dataSet (DataSet) - the dataset
+		model (Bayesian model object) - the model we are training
+	'''
 	def train(self, dataSet, model):
 		dataFrame = dataSet.trainDataFrame
 		groundTruth = dataSet.trueLabels
@@ -60,8 +63,6 @@ class ModifiedNaive(Bayes):
 
 			#categorical type data
 			else:
-
-
 				#array of the unique values for the given attribute
 				attrCategories = self.getAttributeCategories(dataFrame, attribute)
 				attrCategories = attrCategories.tolist()
@@ -93,8 +94,7 @@ class ModifiedNaive(Bayes):
 
 					#outermost dictionary
 					attrDict[attrCategory] = probabilityDict
-			
-					
+
 			model.append(attrDict)
 
 		#Construct a dictionary that will hold the probability of each sensitive attribute S_x (e.g. male, female)
@@ -108,8 +108,11 @@ class ModifiedNaive(Bayes):
 		model.append(sensitiveProbabilitiesDict)
 		#self.printModel(dataSet, model)
 
-
-	'''Pretty prints out the Bayesian model '''
+	'''
+	Pretty prints out the Bayesian model
+		dataSet (DataSet) - the dataset
+		model (Baysian model object) - the model to print
+	'''
 	def printModel(self, dataSet, model):
 		#Through the outermost model array, we loop up until the 2nd to last element
 		for i in range(0, len(model) - 1):
@@ -133,9 +136,14 @@ class ModifiedNaive(Bayes):
 			print("\t Classification: ", Cx)
 			print("\t Probability: ", classificationProbs[Cx])
 
-	'''Given the attributes of an entry in an dataset and our trained model, it calculates the P(classification|attributes) for every
-	   possible classification and then appends a classification to dataset based on those probabilities. Appending a new column of classifications
-	   to the dataset under the header "Bayes Classification" '''
+	'''
+	Given the attributes of an entry in an dataset and our trained model, classify calculates the P(classification|attributes)
+	for every possible classification and then appends a classification to the dataset based on those probabilities. 
+	Appends a new column of classifications to the dataset under the header "Bayes Classification" 
+		dataSet (DataSet) - the dataset
+		testOrTrain (str) - a string indicating if we are using the test set or the train set
+	Returns: a DataFrame with new classifications
+	'''
 	def classify(self, dataSet, testOrTrain):
 
 		if (testOrTrain == "test"):
@@ -146,16 +154,14 @@ class ModifiedNaive(Bayes):
 			currHeaders = dataSet.trainHeaders
 
 		groundTruth = dataSet.trueLabels
-
 		classificationList = dataFrame[groundTruth].unique()
-		sensitiveList = self.model[-1] #variable that points to the dictionary of classification probabilities
-
+		# variable that points to the dictionary of classification probabilities
+		sensitiveList = self.model[-1]
 		#make a new column for the data frame where our classifications are going to go
 		classificationColumn = []
 
 		#for each of the rows (people) in the dataset
 		for row in dataFrame.iterrows():
-
 			#dictionary {key = classification, value = complete bayesian probability}
 			bayesianDict = {}
 			#dictionary {key = classification, value = numerator probability}
@@ -168,19 +174,15 @@ class ModifiedNaive(Bayes):
 
 			#iterate through the possible outcomes of the class variable
 			for classification in classificationList:
-
 				numeratorDict[classification] = sensitiveList[sensitiveGroup]
-
 				#loop through outer array of the model (but we stop at second to last element of array)
 				for j, attributeDict in enumerate(self.model):
-
 					#skip the last element because this isn't an attribute -- it's the classification probabilities dictionary
 					if(j == len(self.model) - 1):
 						continue
 					#if we run into the blank ground truth column, skip this
 					if(currHeaders[j] == dataSet.trueLabels):
 						continue
-
 					#value for the current row of the given attribute
 					attrValue = row[1].iloc[j]
 
@@ -188,7 +190,6 @@ class ModifiedNaive(Bayes):
 					if(currHeaders[j] in dataSet.getNumericalColumns(testOrTrain)): #numerical
 						meanDict = attributeDict["mean"]
 						stdDict = attributeDict["std"]
-
 						bayesNumerator = self.calculateGaussianProbability(meanDict[classification], stdDict[classification], row[1].iloc[j])
 						try:
 							numeratorDict[classification] += math.log(bayesNumerator)
@@ -214,7 +215,6 @@ class ModifiedNaive(Bayes):
 			for key in numeratorDict.keys():
 				bayesianDict[key] =  mpmath.exp(numeratorDict[key] - (max(numeratorDict.items(), key=operator.itemgetter(1))[0])) / denominatorSum
 
-
 			maxClassification = max(bayesianDict.items(), key=operator.itemgetter(1))[0]
 			classificationColumn.append(maxClassification)
 		
@@ -222,10 +222,7 @@ class ModifiedNaive(Bayes):
 		dataFrame["Bayes Classification"] = classificationColumn
 		dataSet.resetHeaders(testOrTrain)
 		
-		'''Uncomment if desired: prints out the data classifications -- is very time consuming for large datasets and will be done with every iteration of the modified bayes while loop'''
+		#Uncomment if desired: prints out the data classifications -- is very time consuming for large datasets
+		#and will be done with every iteration of the modified bayes while loop
 		#print(dataFrame.to_string())
 		return dataFrame
-
-
-		
-
