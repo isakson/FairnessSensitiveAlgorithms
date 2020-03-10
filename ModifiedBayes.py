@@ -1,23 +1,27 @@
-from Bayes import Bayes
 from modifiedNaive import ModifiedNaive
-import pandas as pd
-import operator
 
 class ModifiedBayes(ModifiedNaive):
 
-	'''Instance of modified bayes generates an instance of modified naive bayes that we 
-	   can call the train and classify functions on. '''
 	def __init__(self):
-#		self.nb = ModifiedNaive()
 		ModifiedNaive.__init__(self)
 
-	'''Calculates the discrimination score by subtracting the probability of being in the privileged group
-	   with a C+ classification minus the probability of being in the underprivileged group in the C+ classification.'''
+	'''
+	Calculates the discrimination score by subtracting the probability of being in the privileged group
+	with a C+ classification minus the probability of being in the underprivileged group in the C+ classification.
+		CHigherSHigher (float) - the probability of being in the priviliged group given a C+ classification
+		CHigherSLower (float) - the probability of being in the underpriviliged group given a C+ classification
+	Returns: the discrimination score
+	'''
 	def calculateDiscriminationScore(self, CHigherSHigher, CHigherSLower):
 		return CHigherSHigher - CHigherSLower
 
-	'''Based on the parameter passed into the modify() function, C+, we manually match up the two possible classifications
-	   with the keys "higher" and "lower" inside a dictionary so we can refer to them later.'''
+	'''
+	Based on the parameter C+ passed into the modify() function, we manually match up the two possible classifications
+	with the keys "higher" and "lower" inside a dictionary so we can refer to them later.
+		classificationDict (dict) - an empty dictionary 
+		CHigher (str) - positive classification
+		classesList (list) - list of possible classifications
+	'''
 	def assignClassifications(self, classificationDict, CHigher, classesList):
 		if (str(classesList[0]) == CHigher):
 			classificationDict["higher"] = classesList[0]
@@ -26,9 +30,14 @@ class ModifiedBayes(ModifiedNaive):
 			classificationDict["higher"] = classesList[1]
 			classificationDict["lower"] = classesList[0]
 
-	'''Assigns the keys "higher" and "lower" to the two possible sensitive attribute values based on which of the two has a higher count.
-	   S+ ("higher") is the privileged group. We do this based on counts instead of as a manual parameter because there isn't an 'ideal' 
-	   sensitive attribute category like there is with classifications.'''
+	'''
+	Assigns the keys "higher" and "lower" to the two possible sensitive attribute values based on which of the two 
+	has a higher count. S+ ("higher") is the privileged group. We do this based on counts instead of as a manual 
+	parameter because there isn't an 'ideal' sensitive attribute category like there is with classifications.
+		dataSet (DataSet) - the dataset
+		dataFrame (DataFrame) - the dataframe
+		sensitivityDict (dict) - an empty dict 
+	'''
 	def assignSensitivity(self, dataSet, dataFrame, sensitivityDict):
 		sensitiveAttrCatList = self.getAttributeCategories(dataFrame, dataSet.protectedAttribute)
 		Sx = dataFrame.loc[dataFrame[dataSet.protectedAttribute] == sensitiveAttrCatList[0], dataSet.protectedAttribute].count()
@@ -40,12 +49,20 @@ class ModifiedBayes(ModifiedNaive):
 			sensitivityDict["higher"] = sensitiveAttrCatList[1]
 			sensitivityDict["lower"] = sensitiveAttrCatList[0]
 
-	'''Counts up the number of elements in a particular column that match the classification value located in the classDict passed in 
-	   with the key "higher" (AKA - C+).'''
+	'''
+	Counts up the number of elements in a particular column that match the classification value located in the 
+	classDict passed in with the key "higher" (AKA - C+).
+		dataFrame (DataFrame) - the dataframe
+		column (str) - a column header
+		classDict (dict) - a dictionary containing keys of "higher" and "lower" and values of the class labels
+	Returns: the number of elements in the column that match C+
+	'''
 	def calculateNumPos(self, dataFrame, column, classDict):
 		return dataFrame.loc[dataFrame[column] == classDict["higher"], column].count()
 
-	'''A function that can be called in the while loop to keep track/ watch how the counts are changing with each iteration'''
+	'''
+	A function that can be called in the while loop to keep track/ watch how the counts are changing with each iteration
+	'''
 	def printCounts(self, dataSet, CHigherSLowerCount, CLowerSLowerCount, CHigherSHigherCount, CLowerSHigherCount, higherOrLowerSensitiveAttributeDict, higherOrLowerClassificationDict):
 		dataFrame = dataSet.dataFrame
 		print("c+s- count:", CHigherSLowerCount)
@@ -57,21 +74,29 @@ class ModifiedBayes(ModifiedNaive):
 		print("bayes classification column c+s+ count: ", self.countIntersection(dataFrame, dataSet.protectedAttribute, higherOrLowerSensitiveAttributeDict["higher"], "Bayes Classification", higherOrLowerClassificationDict["higher"]))
 		print("bayes classification column c-s+ count: ", self.countIntersection(dataFrame, dataSet.protectedAttribute, higherOrLowerSensitiveAttributeDict["higher"], "Bayes Classification", higherOrLowerClassificationDict["lower"]))
 
-	'''Space saving function for modify() that prints out probabilities'''
+	'''
+	Space saving function for modify() that prints out probabilities
+	'''
 	def printProbabilities(self, CHigherSLower, CLowerSLower, CHigherSHigher, CLowerSHigher):
 		print("c+s- prob:", CHigherSLower)
 		print("c-s- prob:", CLowerSLower)
 		print("c+s+ prob:", CHigherSHigher)
 		print("c-s+ prob:", CLowerSHigher)
 
-		
+	'''
+	Trains the model using modify.
+		dataSet (DataSet) - the dataset
+		CHigher (str) - C+
+	'''
 	def train(self, dataSet, CHigher):
 		ModifiedNaive.train(self, dataSet, self.model)
 		self.modify(dataSet, CHigher)
 		
-		
-		
-	'''Trains and classifies the dataset '''
+	'''
+	Classifies the dataset and modifies the model until the discrimination score is 0
+		dataSet (DataSet) - the dataset
+		CHigher (str) - C+
+	'''
 	def modify(self, dataSet, CHigher):
 		dataFrame = dataSet.trainDataFrame
 		protected = dataSet.protectedAttribute
@@ -102,8 +127,7 @@ class ModifiedBayes(ModifiedNaive):
 		CHigherSHigher = CHigherSHigherCount / self.countAttr(dataFrame, protected, higherOrLowerSensitiveAttributeDict["higher"])
 		CLowerSLower = CLowerSLowerCount / self.countAttr(dataFrame, protected, higherOrLowerSensitiveAttributeDict["lower"])
 		CLowerSHigher = CLowerSHigherCount / self.countAttr(dataFrame, protected, higherOrLowerSensitiveAttributeDict["higher"])
-		# self.printProbabilities(CHigherSLower, CLowerSLower, CHigherSHigher, CLowerSHigher)
-		
+
 		#Calculate the preliminary discrimination score -- disc = P(C+ | S+) - P(C+ | S-)
 		disc = self.calculateDiscriminationScore(CHigherSHigher, CHigherSLower)
 
@@ -144,16 +168,6 @@ class ModifiedBayes(ModifiedNaive):
 				self.model[sensitiveAttributeModelIndex][higherOrLowerSensitiveAttributeDict["higher"]][higherOrLowerClassificationDict["lower"]] = CLowerSHigher
 				self.model[sensitiveAttributeModelIndex][higherOrLowerSensitiveAttributeDict["higher"]][higherOrLowerClassificationDict["higher"]] = CHigherSHigher
 
-			
 			#reclassify and recompute the new discrimination score
 			dataFrame = self.classify(dataSet, "train")
 			disc = self.calculateDiscriminationScore(CHigherSHigher, CHigherSLower)
-			# self.printProbabilities(CHigherSLower, CLowerSLower, CHigherSHigher, CLowerSHigher)
-
-		#print out the final classifications
-		#print(dataFrame.to_string())
-		'''Uncomment if desired: Call to save classifications to a csv file called modifiedBayesClassifications.csv'''
-		#dataFrame.to_csv('modifiedBayesClassification.csv', sep='\t', encoding='utf-8')
-
-
-

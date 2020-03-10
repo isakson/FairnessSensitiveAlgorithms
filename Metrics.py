@@ -33,7 +33,9 @@ class Metrics:
 	'''
 	Calculates the true positive or negative rate for a classified DataSet.
 		dataSet (DataSet) - the classified DataSet to calculate true positive or negative rate for
-		truePosOrNeg (int or string) - the true positive value or true negative value
+		truePosOrNeg (int or string) - the true positive value or true negative value in the dataset
+	Returns: the number of classifications that match the truePosOrNeg and the actual number of people who have 
+	that classification in the dataset.
 	Note: this function currently only supports classifications with two possible outcomes (e.g. 0 or 1).
 	This function also assumes that the column header for Bayes classifications is "Bayes Classification"
 	'''
@@ -58,15 +60,19 @@ class Metrics:
 
 
 	'''
-	Takes the information from truePosOrNeg and turns it into a rate
+	Takes the information from truePosOrNeg and turns it into a rate.
+		matchesLabel (int) - the number of classifications that match the truePosOrNeg
+		actualLabel (int) - the actual number of people who have that classification in the dataset.
+	Returns: the true pos or neg as a percentage
 	'''
 	def truePosOrNegRate(self, matchesLabel, actualLabel):
 		return matchesLabel / actualLabel * 100
 
 	'''
-	Segments the overarching DataSet into smaller (non-overlapping) subsets by protected attribute. Returns a list of these
-	subsets as well as a list of the corresponding protected attribute values.
+	Segments the overarching DataSet into smaller (non-overlapping) DataSet subsets by protected attribute. 
 		dataSet (DataSet) - the overarching DataSet
+	Returns: a list of these subsets (contained in DataSet objects) and a list of the corresponding protected 
+	attribute values.
 	'''
 	def determineGroups(self, dataSet):
 		df = dataSet.testDataFrame
@@ -100,8 +106,7 @@ class Metrics:
 			negative counts for that particular protected attribute value
 		TPTotal (int) - total number of true positives
 		TNTotal (int) - total number of true negatives
-
-	return: chi square value (float)
+	Returns: chi square value (float)
 	'''
 	def chiSquare(self, truePosByAttribute, trueNegByAttribute, TPTotal, TNTotal):
 		keys = truePosByAttribute.keys()
@@ -133,10 +138,10 @@ class Metrics:
 
 	'''
 	Equality of Opportunity is the metric that stipulates that the true positive rate for each protected attribute should
-	be the same or similar within reason.
-		dataSet (DataSet) - the overarching DataSet
-
-	return: the p value (float) and whether or not the p value implies that the statistic is significant (bool).
+	be the same or similar within reason. Calculates Equality of Opportunity by running a chi square test on the true 
+	positive and true negative rates.
+		dataset (DataSet) - the overarching DataSet
+	Returns: the p value (float) and whether or not the p value implies that the statistic is significant (bool).
 	'''
 	def runEquOfOpportunity(self, dataset):
 		groupDataSets, possibleGroups = self.determineGroups(dataset)
@@ -175,8 +180,7 @@ class Metrics:
 	original classifications as if they were true.
 		dataSet (DataSet) - the original dataset
 		trainedBayes (Bayes object) - the trained Bayes model
-
-	return: accuracy
+	Returns: accuracy
 	'''
 	def counterfactualMeasures(self, dataSet, trainedBayes):
 		swappedDataSet = self.swapProtectedAttributes(dataSet)
@@ -191,10 +195,9 @@ class Metrics:
 		return self.calculateAccuracy(swappedDataSet)
 
 	'''
-	Copies the dataset, then swaps the protected attribute values in the copy.
+	Copies the DataSet, then swaps the protected attribute values in the copy.
 		dataSet (DataSet) - the original dataset
-
-	returns: a copy of dataSet with the protected attribute values swapped.
+	Returns: a copy of dataSet with the protected attribute values swapped.
 	'''
 	def swapProtectedAttributes(self, dataSet):
 		dataSetCopy = dataSet.copyDataSet()
@@ -217,8 +220,7 @@ class Metrics:
 	'''
 	Counts the total number of preferred outcomes for a particular protected attribute class
 		dataset (DataSet) - the original dataset
-
-	returns: a dictionary where the keys are protected attribute values and the values are the number of positive
+	Returns: a dictionary where the keys are protected attribute values and the values are the number of positive
 		outcomes that protected attribute group received.
 	'''
 	def countPositiveOutcomes(self, dataSet):
@@ -245,16 +247,14 @@ class Metrics:
 	'''
 	Calculates whether or not a particular classification algorithm gives preferred treatment for a particular group
 		dataSet (DataSet) - the original dataset
-		trainedBayes - the two bayes object that has two trained models
+		trainedBayes (Bayes object) - the bayes object
 		privilegedValue (String) - the protected attribute value of the privileged group
 		typeOfBayes (string) - the name of the type of Bayes algorithm used ("naive", "modified", or "two")
-
-	returns: a boolean
+	Returns: a boolean representing whether or not a Bayes object has preferred treatment
 	'''
 	def preferredTreatment(self, dataSet, trainedBayes, typeOfBayes):
 		if typeOfBayes != "two":
 			return True
-
 		else:
 			# Count the amount of positive outcomes each protected attribute value group receives in the original dataset
 			originalPosOutcomes = self.countPositiveOutcomes(dataSet)
@@ -282,9 +282,8 @@ class Metrics:
 	'''
 	Calculates the probability of a positive outcome across each protected attribute value.
 		dataSet (DataSet) - the dataset
-
-	returns: a dictionary where the keys are the protected attribute values and the values are the positive outcome rate
-		for that protected attribute value.
+	Returns: a dictionary where the keys are the protected attribute values and the values are the positive outcome rate
+	for that protected attribute value.
 	'''
 	def groupFairness(self, dataSet):
 		dataFrame = dataSet.testDataFrame
@@ -304,8 +303,8 @@ class Metrics:
 	'''
 	Dummifies the categorical data and then finds the distance between each row and every other row.
 		dataSet (DataSet) - the dataset.
-
-	returns: a distribution of all distances (list), the distances and whether or not the pair had the same outcome (list of tuples)
+	Returns: a distribution of all distances (list), the distances and whether or not the pair had the same outcome
+	(list of tuples)
 	'''
 	def makeEuclideanDistribution(self, dataSet):
 		df = dataSet.dummify("test", dummifyAll=True)
@@ -330,7 +329,7 @@ class Metrics:
 	Finds the cutoff point to determine whether or not rows are considered similar
 		distribution (list) - a distribution of all distances
 		quantile (float) - a value between 0 and 1 indicating the quantile
-	returns: a cutoff point (float)
+	Returns: a cutoff point (float)
 	'''
 	def findCutoff(self, distribution, quantile=.1):
 		return np.quantile(distribution, quantile)
@@ -338,7 +337,7 @@ class Metrics:
 	'''
 	Computes individual fairness metric
 		dataSet (DataSet) - the dataset
-	returns: the proportion of similar pairs with the same outcome over the total number of similar pairs
+	Returns: the proportion of similar pairs with the same outcome over the total number of similar pairs
 	'''
 	def individualFairness(self, dataSet):
 		dataSetCopy = dataSet.copyDataSet()
@@ -360,11 +359,10 @@ class Metrics:
 	'''
 	Plots the distance distribution and its mean line.
 		distribution (list) - The distribution to plot.
+		num_bins (int; default=10) - The number of bins for the distribution
 	'''
 	def plotDistanceDistribution(self, distribution, num_bins=10):
-
 		print(mean(distribution) - stdev(distribution))
-
 		n, bins, patches = pyplot.hist(distribution, num_bins)
 		pyplot.axvline(mean(distribution), color='k', linestyle='dashed', linewidth=1)
 		pyplot.show()
@@ -373,11 +371,10 @@ class Metrics:
 	Runs all metrics and writes their outputs to a file.
 		file (file) - an open file
 		dataSet (DataSet) - a dataset
-		typeOfBayes (string) - the type of Bayes being used, e.g. "Naive"
+		typeOfBayes (string) - the type of Bayes being used, e.g. "naive"
 		trainedBayes (trained Bayes model) - the trained Bayes model
 	'''
 	def runAllMetrics(self, file, dataSet, typeOfBayes, trainedBayes):
-
 		dataSet = dataSet.copyDataSet()
 		file.write("Accuracy: " + str(self.calculateAccuracy(dataSet)))
 		matchesLabel, actualLabel = self.truePosOrNeg(dataSet, 1)

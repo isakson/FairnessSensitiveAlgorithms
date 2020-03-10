@@ -1,0 +1,47 @@
+Experimental Design,,,,,,,,
+Datasets (7) --> Feldman repair (2) --> Type of Bayes (3),,,,,,,,
+7 x 2 x 3 design = 42 experiments,,,,,,,,
+,,,,,,,,
+Experiment Number,Dataset,File Path,File Name,Sensitive attribute header,Ground truth header,Feldman repair?,Type of Bayes,Run?
+1,Portuguese,originalData/EditedClassifiedData/student-por-mod.csv,portuguese_NB_NF,sex,G3,No,Naive Bayes,Yes
+2,Portuguese,originalData/EditedClassifiedData/student-por-mod.csv,portuguese_NB_F,sex,G3,Yes,Naive Bayes,Yes
+3,Portuguese,originalData/EditedClassifiedData/student-por-mod.csv,portuguese_MB_NF,sex,G3,No,Modified Bayes,Yes
+4,Portuguese,originalData/EditedClassifiedData/student-por-mod.csv,portuguese_MB_F,sex,G3,Yes,Modified Bayes,Yes
+5,Portuguese,originalData/EditedClassifiedData/student-por-mod.csv,portuguese_TB_NF,sex,G3,No,Two Bayes,Yes
+6,Portuguese,originalData/EditedClassifiedData/student-por-mod.csv,portuguese_TB_F,sex,G3,Yes,Two Bayes,Yes
+7,Restaurant,originalData/EditedClassifiedData/editedRestaurants.csv,restaurant_NB_NF,borough,score,No,Naive Bayes,Yes
+8,Restaurant,originalData/EditedClassifiedData/editedRestaurants.csv,restaurant_NB_F,borough,score,Yes,Naive Bayes,Yes
+9,Restaurant,originalData/EditedClassifiedData/editedRestaurants.csv,restaurant_MB_NF,borough,score,No,Modified Bayes,Yes
+10,Restaurant,originalData/EditedClassifiedData/editedRestaurants.csv,restaurant_MB_F,borough,score,Yes,Modified Bayes,Yes
+11,Restaurant,originalData/EditedClassifiedData/editedRestaurants.csv,restaurant_TB_NF,borough,score,No,Two Bayes,Yes
+12,Restaurant,originalData/EditedClassifiedData/editedRestaurants.csv,restaurant_TB_F,borough,score,Yes,Two Bayes,Yes
+13,Credit,originalData/EditedClassifiedData/CreditCardClients.csv,credit_NB_NF,education,default,No,Naive Bayes,Yes
+14,Credit,originalData/EditedClassifiedData/CreditCardClients.csv,credit_NB_F,education,default,Yes,Naive Bayes,Yes
+15,Credit,originalData/EditedClassifiedData/CreditCardClients.csv,credit_MB_NF,education,default,No,Modified Bayes,Yes
+16,Credit,originalData/EditedClassifiedData/CreditCardClients.csv,credit_MB_F,education,default,Yes,Modified Bayes,Yes
+17,Credit,originalData/EditedClassifiedData/CreditCardClients.csv,credit_TB_NF,education,default,No,Two Bayes,Yes
+18,Credit,originalData/EditedClassifiedData/CreditCardClients.csv,credit_TB_F,education,default,Yes,Two Bayes,Yes
+19,Jury,originalData/EditedClassifiedData/APM_DougEvansCases.csv,jury_NB_NF,race,struck_state,No,Naive Bayes,Yes
+20,Jury,originalData/EditedClassifiedData/APM_DougEvansCases.csv,jury_NB_F,race,struck_state,Yes,Naive Bayes,Yes
+21,Jury,originalData/EditedClassifiedData/APM_DougEvansCases.csv,jury_MB_NF,race,struck_state,No,Modified Bayes,Yes
+22,Jury,originalData/EditedClassifiedData/APM_DougEvansCases.csv,jury_MB_F,race,struck_state,Yes,Modified Bayes,Yes
+23,Jury,originalData/EditedClassifiedData/APM_DougEvansCases.csv,jury_TB_NF,race,struck_state,No,Two Bayes,Yes
+24,Jury,originalData/EditedClassifiedData/APM_DougEvansCases.csv,jury_TB_F,race,struck_state,Yes,Two Bayes,Yes
+25,Income,originalData/EditedClassifiedData/adultIncomeData.csv,income_NB_NF,education,income,No,Naive Bayes,Yes
+26,Income,originalData/EditedClassifiedData/adultIncomeData.csv,income_NB_F,education,income,Yes,Naive Bayes,Yes
+27,Income,originalData/EditedClassifiedData/adultIncomeData.csv,income_MB_NF,education,income,No,Modified Bayes,Yes
+28,Income,originalData/EditedClassifiedData/adultIncomeData.csv,income_MB_F,education,income,Yes,Modified Bayes,Yes
+29,Income,originalData/EditedClassifiedData/adultIncomeData.csv,income_TB_NF,education,income,No,Two Bayes,Yes
+30,Income,originalData/EditedClassifiedData/adultIncomeData.csv,income_TB_F,education,income,Yes,Two Bayes,Yes
+31,German,originalData/EditedClassifiedData/germanCreditData.csv,german_NB_NF,sex,creditQuality,No,Naive Bayes,Yes
+32,German,originalData/EditedClassifiedData/germanCreditData.csv,german_NB_F,sex,creditQuality,Yes,Naive Bayes,Yes
+33,German,originalData/EditedClassifiedData/germanCreditData.csv,german_MB_NF,sex,creditQuality,No,Modified Bayes,Yes
+34,German,originalData/EditedClassifiedData/germanCreditData.csv,german_MB_F,sex,creditQuality,Yes,Modified Bayes,Yes
+35,German,originalData/EditedClassifiedData/germanCreditData.csv,german_TB_NF,sex,creditQuality,No,Two Bayes,Yes
+36,German,originalData/EditedClassifiedData/germanCreditData.csv,german_TB_F,sex,creditQuality,Yes,Two Bayes,Yes
+37,Ricci,originalData/EditedClassifiedData/ClassifiedRicciData.csv,ricci_NB_NF,Race,Class,No,Naive Bayes,Yes
+38,Ricci,originalData/EditedClassifiedData/ClassifiedRicciData.csv,ricci_NB_F,Race,Class,Yes,Naive Bayes,Yes
+39,Ricci,originalData/EditedClassifiedData/ClassifiedRicciData.csv,ricci_MB_NF,Race,Class,No,Modified Bayes,Yes
+40,Ricci,originalData/EditedClassifiedData/ClassifiedRicciData.csv,ricci_MB_F,Race,Class,Yes,Modified Bayes,Yes
+41,Ricci,originalData/EditedClassifiedData/ClassifiedRicciData.csv,ricci_TB_NF,Race,Class,No,Two Bayes,Yes
+42,Ricci,originalData/EditedClassifiedData/ClassifiedRicciData.csv,ricci_TB_F,Race,Class,Yes,Two Bayes,Yes

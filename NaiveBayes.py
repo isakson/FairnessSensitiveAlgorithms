@@ -10,14 +10,18 @@ class NaiveBayes(Bayes):
 	def __init__(self):
 		self.model = [] 
 
-	'''Create model filled as such:
+	'''
+	Create model filled as such:
 		self.model = array of attributes (e.g. race, position, etc.) where each index points to a dictionary
 			attrDict (categorical) { key =  attribute category (e.g. white, black, hispanic), value = probability dictionary}
 				probabilityDict = { key = classification (e.g. gets loan, differed, doesn't get loan), value = P(attrCategory|classification)}
 
 		attrDict (numerical) { key = "mean" or "std", value = meanDict or stdDict}
 			meanDict = {key = classification, value = conditional mean given this classification}
-			stdDict = {key = classification, value = conditional std given this classification}'''
+			stdDict = {key = classification, value = conditional std given this classification}
+		dataSet (DataSet) - the dataset
+		model (Bayesian model object) - the model to train
+	'''
 	def train(self, dataSet, model):
 		dataFrame = dataSet.trainDataFrame
 		groundTruth = dataSet.trueLabels
@@ -30,14 +34,11 @@ class NaiveBayes(Bayes):
 
 		#for each of the attributes in the datset (a1...an)
 		for attribute in dataSet.trainHeaders:
-
-		
 			#create outermost dictionary of the model (key = attribute category, value = another dictionary)
 			attrDict = {}
 
 			#if numerical type data
 			if(attribute in dataSet.getNumericalColumns("train")):
-
 				#for each numerical attribute create dict to hold mean and standard deviation
 				meanDict = {}
 				stdDict = {}
@@ -52,14 +53,13 @@ class NaiveBayes(Bayes):
 					std = self.calculateConditionalStandardDeviation(dataFrame, attribute, groundTruth, classification)
 					meanDict[classification] = mean
 					stdDict[classification] = std
-				#append it to the outer dictionary
 
+				#append it to the outer dictionary
 				attrDict["mean"] = meanDict
 				attrDict["std"] = stdDict
 
 			#categorical type data
 			else:
-
 				#array of the unique values for the given attribute
 				attrCategories = self.getAttributeCategories(dataFrame, attribute)
 				attrCategories = attrCategories.tolist()
@@ -73,7 +73,6 @@ class NaiveBayes(Bayes):
 					#key = classification, value = probability of P(attr|classification)
 					probabilityDict = {}
 
-
 					#for each of the possible classifications (i.e. 1 or 0)
 					for classification in classificationList:
 						#skip this case
@@ -85,12 +84,10 @@ class NaiveBayes(Bayes):
 						else:
 							#the value part of the dictionary: P(a|C)
 							crossAttributeProbability = self.calculateCrossAttributeProbability(dataFrame, groundTruth, classification, attribute, attrCategory)
-						probabilityDict[classification] = crossAttributeProbability
 
+						probabilityDict[classification] = crossAttributeProbability
 					#outermost dictionary
 					attrDict[attrCategory] = probabilityDict
-
-
 			model.append(attrDict)
 
 		#Construct a dictionary that will hold the probability of a particular classification C_x (e.g. lieutenant, captain)
@@ -101,13 +98,14 @@ class NaiveBayes(Bayes):
 			#P = (# people with this particular classification) / (total # of people)
 			probOfCx = self.attributeCategoryProbability(dataFrame, dataSet.trueLabels, Cx)
 			classificationProbabilitiesDict[Cx] = probOfCx
-
 		#append it to the end of the outermost model array
 		model.append(classificationProbabilitiesDict)
 
-
-	'''Pretty prints out the Bayesian model '''
-
+	'''
+	Pretty prints out the Bayesian model
+		dataSet (DataSet) - the dataset
+		model (Baysian model object) - the model to print
+	'''
 	def printModel(self, dataSet, model):
 		#Through the outermost model array, we loop up until the 2nd to last element
 		#The last element has the dictionary of classification probabilities
@@ -132,42 +130,39 @@ class NaiveBayes(Bayes):
 			print("\t Classification: ", Cx)
 			print("\t Probability: ", classificationProbs[Cx])
 
-
-	'''Given the attributes of an entry in an dataset and our trained model, it calculates the P(classification|attributes) for every
-	   possible classification and then appends a classification to dataset based on those probabilities. Appending a new column of classifications
-	   to the dataset under the header "Bayes Classification" 
-	   Note: the testOrTrain parameter exists only because of inheritance; this function will only ever classify the test set.'''
+	'''
+	Given the attributes of an entry in an dataset and our trained model, classify calculates the P(classification|attributes) 
+	for every possible classification, then appends a classification to dataset based on those probabilities. 
+	Appends a new column of classifications to the dataset under the header "Bayes Classification" 
+		dataSet (DataSet) - the dataset
+		testOrTrain (str) - a string that denotes whether we are classifying the train or test set
+	Returns: the classified DataFrame
+	Note: the testOrTrain parameter exists only because of inheritance; this function will only ever classify the test set.
+	'''
 	def classify(self, dataSet, testOrTrain):
-
 		dataFrame = dataSet.testDataFrame
 		groundTruth = dataSet.trueLabels
-
-		#### NEW #####
-		#classificationList = dataFrame[groundTruth].unique() --->this isn't going to work for the loop anymore
-		classificationList = self.model[-1] #variable that points to the dictionary of classification probabilities
-		##############
-
+		# variable that points to the dictionary of classification probabilities
+		classificationList = self.model[-1]
 		#make a new column for the data frame where our classifications are going to go
 		classificationColumn = []
 
 		#for each of the rows (people) in the dataset
 		for row in dataFrame.iterrows():
-
 			#dictionary {key = classification, value = complete bayesian probability}
 			bayesianDict = {}
 			#dictionary {key = classification, value = numerator probability}
 			numeratorDict = {}
-			denominatorSum = 0 #reset it for every row
+			# reset it for every row
+			denominatorSum = 0
 
 			#iterate through the possible outcomes of the class variable
 			for classification in classificationList.keys():
-
-				#start the numerator product with the value of P(C) for the current classification (we will be multiplying this by all the other attribute probabilities)
+				#start the numerator product with the value of P(C) for the current classification
+				#(we will be multiplying this by all the other attribute probabilities)
 				numeratorDict[classification] = classificationList[classification]
-
 				#loop through outer array of the model (but we stop at second to last element of array)
 				for j, attributeDict in enumerate(self.model):
-
 					#skip the last element because this isn't an attribute -- it's the classification probabilities dictionary
 					if(j == len(self.model) - 1):
 						continue
@@ -177,15 +172,11 @@ class NaiveBayes(Bayes):
 
 					#value for the current row of the given attribute
 					attrValue = row[1].iloc[j]
-
-					if(dataSet.testHeaders[j] in dataSet.getNumericalColumns("test")): #numerical #NOTE: this used to be .headers
+					if(dataSet.testHeaders[j] in dataSet.getNumericalColumns("test")):
 						meanDict = attributeDict["mean"]
 						stdDict = attributeDict["std"]
 
 						#NUMERATOR = P(person|classification) * P(classification)
-						#### New classify() additions below --->  ####
-						#Now instead of calling the attributeCategoryProbability() function we're just accessing the classification value from the model
-
 						bayesNumerator = self.calculateGaussianProbability(meanDict[classification], stdDict[classification], row[1].iloc[j])
 						try:
 							numeratorDict[classification] += math.log(bayesNumerator)
@@ -199,7 +190,6 @@ class NaiveBayes(Bayes):
 								bayesNumerator = attributeDict["rare"][classification]
 							else:
 								bayesNumerator = 1
-
 						try:
 							numeratorDict[classification] += math.log(bayesNumerator)
 						except:
@@ -207,7 +197,8 @@ class NaiveBayes(Bayes):
 
 			for key in numeratorDict.keys():
 				denominatorSum += mpmath.exp(numeratorDict[key] - (max(numeratorDict.items(), key=operator.itemgetter(1))[0]))
-			#currently just adding dictionary of all probabilities given all classifications but eventually want to be adding the max of these (the final classification)
+			#currently just adding dictionary of all probabilities given all classifications
+			#but eventually want to be adding the max of these (the final classification)
 			for key in numeratorDict.keys():
 				bayesianDict[key] = mpmath.exp(numeratorDict[key] - (max(numeratorDict.items(), key=operator.itemgetter(1))[0])) / denominatorSum
 
@@ -215,12 +206,6 @@ class NaiveBayes(Bayes):
 			classificationColumn.append(maxClassification)
 		
 		#sets new column equal to the array of classifications
-
 		dataFrame["Bayes Classification"] = classificationColumn
 		dataSet.resetHeaders(testOrTrain)
-		#dataFrame.to_csv('out.csv', sep='\t', encoding='utf-8')
 		return dataFrame
-
-
-		
-
