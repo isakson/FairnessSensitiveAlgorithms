@@ -1,1 +1,0 @@
-DI results on original data: Possible disparate impact.Accuracy: 81.96585446709763True positive rate: 46.40215198386012True negative rate: 93.59876814782227Equality of Opportunity: (0.0, True)Counterfactual Measures: 94.99419857450688Preferred Treatment: TrueGroup Fairness: {' Higher ed': 0.23593466424682397, ' HS': 0.0737073707370737}Individual Fairness: 0.8393303190398961
