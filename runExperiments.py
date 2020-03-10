@@ -57,6 +57,10 @@ Command line arguments:
         Enter a single integer parameter after the call to runExperiments.py
         For example, to run experiment 7:
             python3 runExperiments.py 7
+    To call runExperiments(list):
+        Enter a list as a parameter after the call to runExperiments.py (without spaces between list entries).
+        For example, to run experiments 1, 3, and 5:
+            python3 runExperiments.py 1,3,5 
 '''
 if len(sys.argv) > 1:
     if sys.argv[1] == "runExperimentSeries":

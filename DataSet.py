@@ -45,7 +45,7 @@ class DataSet:
     Sets test and train data frames. Also sets the test and train headers.
     '''
     def splitIntoTrainTest(self):
-        trainTestSplit = sklearn.model_selection.train_test_split(self.dataFrame, train_size=.8, test_size=.2, shuffle=True)
+        trainTestSplit = sklearn.model_selection.train_test_split(self.dataFrame, train_size=.8, test_size=.2, shuffle=True, random_state=7)
         self.trainDataFrame = trainTestSplit[0].reset_index(drop=True)
         self.testDataFrame = trainTestSplit[1].reset_index(drop=True)
         self.testHeaders = self.headers
