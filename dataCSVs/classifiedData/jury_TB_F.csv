@@ -1,0 +1,1518 @@
+,trial__id,race,struck_state,defendant_race,same_race,struck_by
+0,4.004361026053088,Black,1,White,different race,Juror chosen to serve on jury
+1,3.9991356394729074,Black,0,White,different race,Struck by the state
+2,3.9937836625068135,White,1,White,same race,Juror chosen to serve on jury
+3,3.990975261379548,White,1,White,same race,Struck by the defense
+4,4.014292904672125,Black,0,White,different race,Struck by the state
+5,4.011158811709339,White,1,White,same race,Juror chosen to serve on jury
+6,3.9988512074754596,Black,0,White,different race,Struck by the state
+7,4.012974191299123,White,1,White,same race,Struck by the defense
+8,4.001897701019852,White,1,White,same race,Juror chosen to serve on jury
+9,4.007828815951544,White,1,White,same race,Struck by the defense
+10,3.9976580895107428,White,1,White,same race,Juror chosen to serve on jury
+11,3.987429152712929,White,1,White,same race,Struck by the defense
+12,300.992049142274,Black,0,Black,same race,Struck by the state
+13,4.994941670929028,Black,1,Black,same race,Juror chosen to serve on jury
+14,5.017762164082168,Black,1,Black,same race,Juror chosen to serve on jury
+15,4.99725205979272,White,1,Black,different race,Struck by the defense
+16,5.011678461808855,Black,0,Black,same race,Struck by the state
+17,4.988288632773128,White,1,Black,different race,Juror chosen to serve on jury
+18,4.991816362996651,Black,0,Black,same race,Struck by the state
+19,5.012222631288366,White,1,Black,different race,Struck by the defense
+20,4.991206477777145,Black,1,Black,same race,Juror chosen to serve on jury
+21,4.99364814245276,Black,1,Black,same race,Juror chosen to serve on jury
+22,5.003996483670973,White,1,Black,different race,Juror chosen to serve on jury
+23,5.010987396144807,White,1,Black,different race,Juror chosen to serve on jury
+24,4.996596065093416,White,1,Black,different race,Juror chosen to serve on jury
+25,4.991366894163256,White,0,Black,different race,Struck by the state
+26,6.015279676724845,White,0,White,same race,Struck by the state
+27,7.0189569913983645,Black,0,White,different race,Struck by the state
+28,6.990626579681403,White,1,White,same race,Juror chosen to serve on jury
+29,6.994534258703234,White,0,White,same race,Struck by the state
+30,269.009348081829,Black,0,Black,same race,Struck by the state
+31,8.003866488286997,Black,0,Black,same race,Struck by the state
+32,6.999750402971701,White,1,White,same race,Struck by the defense
+33,301.00342357236417,Black,1,Black,same race,Struck by the defense
+34,102.0163967737745,White,1,Black,different race,Juror chosen to serve on jury
+35,36.002770657596784,Black,1,White,different race,Struck by the defense
+36,57.989566450305595,White,1,Black,different race,Juror chosen as alternate
+37,160.9909420341378,White,1,Black,different race,Struck by the defense
+38,160.9957978467574,White,1,Black,different race,Struck by the defense
+39,160.98084257811573,Black,1,Black,same race,Juror chosen to serve on jury
+40,160.99246265170993,Black,1,Black,same race,Juror chosen to serve on jury
+41,161.00244661267513,Black,0,Black,same race,Struck by the state
+42,161.00323511873393,Black,1,Black,same race,Juror chosen to serve on jury
+43,160.9850256697868,White,1,Black,different race,Struck by the defense
+44,161.00412228630387,Black,1,Black,same race,Juror chosen to serve on jury
+45,160.99417323678733,Black,1,Black,same race,Juror chosen to serve on jury
+46,161.01715303674084,White,0,Black,different race,Struck by the state
+47,161.00506780873678,Black,1,Black,same race,Juror chosen to serve on jury
+48,160.99672366335437,Black,0,Black,same race,Struck by the state
+49,160.99783148833447,Black,1,Black,same race,Juror chosen to serve on jury
+50,161.01873574401637,Black,1,Black,same race,Juror chosen to serve on jury
+51,160.99214044071863,White,1,Black,different race,Juror chosen as alternate
+52,21.995561149932698,White,1,Black,different race,Juror chosen to serve on jury
+53,22.01509276537588,White,1,Black,different race,Juror chosen to serve on jury
+54,166.02036454661067,White,1,Black,different race,Juror chosen to serve on jury
+55,166.01346456661776,Black,0,Black,same race,Struck by the state
+56,166.0064004947985,Black,0,Black,same race,Struck by the state
+57,166.0071489095754,White,1,Black,different race,Juror chosen to serve on jury
+58,165.9908825417841,Black,1,Black,same race,Juror chosen to serve on jury
+59,165.99186932330463,Black,0,Black,same race,Struck by the state
+60,166.0069065434443,White,1,Black,different race,Juror chosen to serve on jury
+61,165.99911602209409,White,1,Black,different race,Juror chosen to serve on jury
+62,59.00278681123808,Black,0,Black,same race,Struck by the state
+63,58.99152101455646,White,1,Black,different race,Juror chosen to serve on jury
+64,58.99693626576677,White,0,Black,different race,Struck by the state
+65,59.00624785473071,Black,0,Black,same race,Struck by the state
+66,59.01396423415655,White,1,Black,different race,Juror chosen as alternate
+67,71.00406299804493,Black,1,Black,same race,Juror chosen as alternate
+68,70.98687161826734,Black,0,Black,same race,Struck by the state
+69,70.98860963578225,Black,0,Black,same race,Struck by the state
+70,71.00161804436921,White,1,Black,different race,Struck by the defense
+71,71.00272412510685,White,1,Black,different race,Juror chosen to serve on jury
+72,70.99620942153601,Black,1,Black,same race,Juror chosen to serve on jury
+73,71.00373231702726,White,1,Black,different race,Struck by the defense
+74,70.99807047378891,White,1,Black,different race,Juror chosen to serve on jury
+75,70.99993776971188,White,1,Black,different race,Struck by the defense
+76,70.9934416368299,Black,0,Black,same race,Struck by the state
+77,71.0089436923976,Black,1,Black,same race,Juror chosen to serve on jury
+78,70.99966445579331,White,1,Black,different race,Juror chosen to serve on jury
+79,70.99278077970547,Black,0,Black,same race,Struck by the state
+80,70.98909413549984,White,1,Black,different race,Juror chosen to serve on jury
+81,70.99776153257062,Black,0,Black,same race,Struck by the state
+82,71.00698597033823,White,1,Black,different race,Struck by the defense
+83,71.00086591486188,Black,0,Black,same race,Struck by the state
+84,71.00531615891623,White,1,Black,different race,Struck by the defense
+85,70.99985614578902,White,1,Black,different race,Juror chosen to serve on jury
+86,71.00063461117591,Black,1,Black,same race,Juror chosen to serve on jury
+87,236.99329568306237,Black,0,Black,same race,Struck by the state
+88,236.98172906548857,Black,1,Black,same race,Juror chosen to serve on jury
+89,237.00846065279836,Black,1,Black,same race,Juror chosen to serve on jury
+90,237.0083106928466,Black,0,Black,same race,Struck by the state
+91,237.01565305203826,Black,1,Black,same race,Juror chosen to serve on jury
+92,236.9898827014605,Black,0,Black,same race,Struck by the state
+93,169.99979214383376,White,1,White,same race,Juror chosen to serve on jury
+94,169.99098422382062,White,1,White,same race,Juror chosen to serve on jury
+95,170.01049595885496,Black,1,White,different race,Juror chosen to serve on jury
+96,170.0065243455854,Black,0,White,different race,Struck by the state
+97,169.99574327288616,White,1,White,same race,Juror chosen to serve on jury
+98,169.99457187054063,White,1,White,same race,Struck by the defense
+99,169.99817472231626,Black,1,White,different race,Struck by the defense
+100,169.9974357734016,Black,1,White,different race,Juror chosen to serve on jury
+101,169.98803471715792,White,1,White,same race,Juror chosen to serve on jury
+102,169.99773045440637,Black,1,White,different race,Juror chosen to serve on jury
+103,169.9995754693243,Black,1,White,different race,Juror chosen to serve on jury
+104,169.9984884369741,White,1,White,same race,Struck by the defense
+105,170.00803657963854,White,1,White,same race,Juror chosen to serve on jury
+106,169.98518487013794,White,0,White,same race,Struck by the state
+107,169.99163928335366,White,1,White,same race,Struck by the defense
+108,170.0155402330636,White,1,White,same race,Struck by the defense
+109,169.9990012974637,Black,0,White,different race,Struck by the state
+110,170.00336409239645,White,1,White,same race,Juror chosen to serve on jury
+111,170.00311164480587,Black,0,White,different race,Struck by the state
+112,170.00464879119292,Black,0,White,different race,Struck by the state
+113,170.0167609625963,White,1,White,same race,Struck by the defense
+114,4.000335641716399,Black,1,White,different race,Juror chosen to serve on jury
+115,37.99979582623593,White,1,Black,different race,Juror chosen to serve on jury
+116,38.009734324011596,White,1,Black,different race,Struck by the defense
+117,38.01357431728703,White,1,Black,different race,Struck by the defense
+118,37.98552909378099,White,1,Black,different race,Struck by the defense
+119,38.00770608425157,White,1,Black,different race,Struck by the defense
+120,38.00105236660752,White,1,Black,different race,Struck by the defense
+121,38.00089396881542,White,0,Black,different race,Struck by the state
+122,38.008216700839135,White,1,Black,different race,Struck by the defense
+123,38.005502671537485,White,1,Black,different race,Juror chosen to serve on jury
+124,37.992159510291366,White,1,Black,different race,Juror chosen to serve on jury
+125,38.00745401241459,White,1,Black,different race,Juror chosen to serve on jury
+126,38.00944381577505,White,0,Black,different race,Struck by the state
+127,37.97951325484621,White,1,Black,different race,Struck by the defense
+128,37.97571914396369,White,1,Black,different race,Struck by the defense
+129,37.999556462227986,White,1,Black,different race,Struck by the defense
+130,171.98166272659253,White,0,Black,different race,Struck by the state
+131,172.00935051966007,White,1,Black,different race,Struck by the defense
+132,172.00885326682382,White,1,Black,different race,Struck by the defense
+133,171.9990479663586,White,1,Black,different race,Struck by the defense
+134,172.00903294593127,White,1,Black,different race,Juror chosen to serve on jury
+135,171.99355625661767,White,1,Black,different race,Struck by the defense
+136,171.9714475886241,White,1,Black,different race,Juror chosen to serve on jury
+137,171.99457584646234,White,1,Black,different race,Struck by the defense
+138,171.9983459150921,White,1,Black,different race,Juror chosen to serve on jury
+139,171.9891607296769,White,1,Black,different race,Juror chosen to serve on jury
+140,172.0110646170226,White,0,Black,different race,Struck by the state
+141,172.00988308862284,White,0,Black,different race,Struck by the state
+142,171.99003435220868,White,0,Black,different race,Struck by the state
+143,171.99098604497956,White,1,Black,different race,Juror chosen to serve on jury
+144,172.02256504035387,White,1,Black,different race,Juror chosen to serve on jury
+145,171.99708608334362,White,1,Black,different race,Struck by the defense
+146,172.00066525771695,Black,0,Black,same race,Struck by the state
+147,44.99854504907944,Black,1,Black,same race,Juror chosen to serve on jury
+148,45.00410186506394,Black,1,Black,same race,Juror chosen to serve on jury
+149,45.00627708848475,White,1,Black,different race,Struck by the defense
+150,46.993967575733535,White,1,Black,different race,Struck by the defense
+151,46.991462995401115,White,1,Black,different race,Juror chosen to serve on jury
+152,47.00803211965526,White,1,Black,different race,Struck by the defense
+153,46.99673262401419,White,1,Black,different race,Struck by the defense
+154,47.02254390150492,Black,0,Black,same race,Struck by the state
+155,46.9933048491859,White,1,Black,different race,Struck by the defense
+156,47.002348219607164,White,1,Black,different race,Juror chosen to serve on jury
+157,51.99816333265242,White,1,Black,different race,Juror chosen to serve on jury
+158,51.98768814587439,Black,1,Black,same race,Juror chosen to serve on jury
+159,51.99652288561271,White,1,Black,different race,Juror chosen as alternate
+160,244.98964682015207,Black,1,Black,same race,Juror chosen to serve on jury
+161,245.00536428078684,Black,1,Black,same race,Juror chosen to serve on jury
+162,244.99602142295467,White,1,Black,different race,Juror chosen to serve on jury
+163,244.9829101193068,White,1,Black,different race,Juror chosen to serve on jury
+164,245.000469052701,Black,1,Black,same race,Juror chosen to serve on jury
+165,244.99823236938235,Black,1,Black,same race,Juror chosen to serve on jury
+166,245.00165428961546,White,1,Black,different race,Juror chosen to serve on jury
+167,245.0011738666918,Black,1,Black,same race,Juror chosen to serve on jury
+168,244.98495098126355,Black,1,Black,same race,Juror chosen to serve on jury
+169,244.99144435530792,White,1,Black,different race,Juror chosen to serve on jury
+170,244.98541551280374,White,1,Black,different race,Juror chosen to serve on jury
+171,244.99760459302064,White,1,Black,different race,Juror chosen to serve on jury
+172,245.00513848766022,White,1,Black,different race,Juror chosen as alternate
+173,244.99746065544792,Black,1,Black,same race,Juror chosen as alternate
+174,58.01092216908981,Black,0,Black,same race,Struck by the state
+175,59.012138580238734,White,1,Black,different race,Struck by the defense
+176,58.987547000542364,White,1,Black,different race,Struck by the defense
+177,59.004133457003576,White,1,Black,different race,Juror chosen to serve on jury
+178,58.99968704607787,White,1,Black,different race,Struck by the defense
+179,59.000809417556844,Black,0,Black,same race,Struck by the state
+180,58.96772243835392,White,1,Black,different race,Juror chosen to serve on jury
+181,59.01098516971846,White,1,Black,different race,Struck by the defense
+182,58.99254267890908,Black,1,Black,same race,Juror chosen to serve on jury
+183,59.01633607906562,White,0,Black,different race,Struck by the state
+184,59.00730435841186,White,1,Black,different race,Juror chosen to serve on jury
+185,58.99179729259816,Black,0,Black,same race,Struck by the state
+186,59.01396721320258,White,1,Black,different race,Juror chosen to serve on jury
+187,58.991325609005436,White,1,Black,different race,Juror chosen to serve on jury
+188,58.99890791563407,White,1,Black,different race,Struck by the defense
+189,58.987335422394956,White,1,Black,different race,Juror chosen to serve on jury
+190,117.00856657248735,Black,1,Black,same race,Juror chosen to serve on jury
+191,116.99371515611367,Black,0,Black,same race,Struck by the state
+192,61.01320109777518,White,1,White,same race,Struck by the defense
+193,58.99944133145741,White,1,Black,different race,Juror chosen to serve on jury
+194,61.011958158482834,White,1,White,same race,Juror chosen to serve on jury
+195,60.993931657211625,Black,0,White,different race,Struck by the state
+196,60.99690393858078,Black,0,White,different race,Struck by the state
+197,61.01749543047979,Black,1,White,different race,Juror chosen to serve on jury
+198,60.99018811191584,White,1,White,same race,Juror chosen to serve on jury
+199,61.00082983847302,Black,1,White,different race,Juror chosen to serve on jury
+200,117.00230157704115,White,1,Black,different race,Juror chosen to serve on jury
+201,117.00117568177613,White,1,Black,different race,Struck by the defense
+202,117.00668510334454,White,1,Black,different race,Struck by the defense
+203,116.99761082598921,Black,1,Black,same race,Juror chosen to serve on jury
+204,117.00518039664007,White,1,Black,different race,Juror chosen to serve on jury
+205,116.99233239540794,White,1,Black,different race,Juror chosen to serve on jury
+206,116.98592928422461,White,1,Black,different race,Juror chosen to serve on jury
+207,117.00132260147703,White,1,Black,different race,Juror chosen to serve on jury
+208,117.00300265699302,White,1,Black,different race,Juror chosen to serve on jury
+209,116.9921857004553,Black,0,Black,same race,Struck by the state
+210,116.98627455694638,White,1,Black,different race,Juror chosen to serve on jury
+211,117.0056117518095,White,1,Black,different race,Juror chosen to serve on jury
+212,116.99985795447965,White,0,Black,different race,Struck by the state
+213,117.00438386741008,White,1,Black,different race,Juror chosen to serve on jury
+214,117.00104848969832,White,1,Black,different race,Juror chosen to serve on jury
+215,60.989857615943755,White,1,White,same race,Juror chosen to serve on jury
+216,61.002878576749154,Black,0,White,different race,Struck by the state
+217,61.00636781779463,Black,1,White,different race,Juror chosen to serve on jury
+218,61.00049926970394,Black,0,White,different race,Struck by the state
+219,60.97120109424482,White,1,White,same race,Juror chosen to serve on jury
+220,60.9918288556908,Black,0,White,different race,Struck by the state
+221,60.99193787848653,White,1,White,same race,Struck by the defense
+222,61.009493237547694,White,1,White,same race,Juror chosen to serve on jury
+223,60.99713026698976,White,1,White,same race,Juror chosen to serve on jury
+224,61.000063995908434,White,1,White,same race,Struck by the defense
+225,60.99950373948038,White,1,White,same race,Struck by the defense
+226,61.018937082972606,White,1,White,same race,Juror chosen to serve on jury
+227,61.000825268830354,White,1,White,same race,Juror chosen to serve on jury
+228,60.98981575144651,White,1,White,same race,Juror chosen to serve on jury
+229,60.986402061443485,White,1,White,same race,Juror chosen as alternate
+230,117.00415945282356,White,0,Black,different race,Struck by the state
+231,67.99492940821656,White,1,White,same race,Struck by the defense
+232,37.99794144415626,White,1,Black,different race,Juror chosen to serve on jury
+233,72.99464191908585,White,1,Black,different race,Struck by the defense
+234,72.99250828727291,White,1,Black,different race,Juror chosen to serve on jury
+235,73.99056605267236,White,1,White,same race,Juror chosen to serve on jury
+236,74.01671380049957,White,1,White,same race,Struck by the defense
+237,74.0169687764618,Black,0,White,different race,Struck by the state
+238,74.00431818313045,White,1,White,same race,Struck by the defense
+239,74.00085933737759,White,0,White,same race,Struck by the state
+240,74.02118969172437,White,1,White,same race,Juror chosen to serve on jury
+241,74.00873090774512,Black,1,White,different race,Juror chosen to serve on jury
+242,74.01219606920849,White,1,White,same race,Struck by the defense
+243,74.00739626365184,White,1,White,same race,Struck by the defense
+244,73.99587871351049,White,1,White,same race,Struck by the defense
+245,73.99347272219426,White,1,White,same race,Struck by the defense
+246,73.99231742901428,White,1,White,same race,Struck by the defense
+247,74.00482019440787,White,1,White,same race,Juror chosen to serve on jury
+248,73.99289928023519,Black,1,White,different race,Juror chosen to serve on jury
+249,73.99553562868935,Black,1,White,different race,Juror chosen to serve on jury
+250,72.9933024891402,White,1,Black,different race,Struck by the defense
+251,8.015472739142481,White,0,Black,different race,Struck by the state
+252,8.016086180827434,Black,0,Black,same race,Struck by the state
+253,8.007402382397794,White,1,Black,different race,Juror chosen to serve on jury
+254,8.004539817162067,White,1,Black,different race,Juror chosen to serve on jury
+255,7.989825538325152,White,1,Black,different race,Struck by the defense
+256,7.997613362268485,White,1,Black,different race,Struck by the defense
+257,8.010419827835856,White,0,Black,different race,Struck by the state
+258,8.016570083229809,Black,0,Black,same race,Struck by the state
+259,7.994819828659944,White,1,Black,different race,Juror chosen to serve on jury
+260,82.01999207574723,White,1,Black,different race,Struck by the defense
+261,82.00747859502863,Black,0,Black,same race,Struck by the state
+262,82.00688924128845,White,1,Black,different race,Juror chosen to serve on jury
+263,82.00164671812865,Black,1,Black,same race,Struck by the defense
+264,82.00074353910526,Black,1,Black,same race,Struck by the defense
+265,82.00444407520128,White,0,Black,different race,Struck by the state
+266,82.0052695486298,Black,1,Black,same race,Struck by the defense
+267,7.990676886492327,White,1,Black,different race,Struck by the defense
+268,82.01816345333927,White,1,Black,different race,Struck by the defense
+269,82.00460686039057,White,1,Black,different race,Struck by the defense
+270,82.01147361726413,Black,1,Black,same race,Juror chosen to serve on jury
+271,81.9936194800902,Black,1,Black,same race,Struck by the defense
+272,81.99793141002843,White,1,Black,different race,Juror chosen to serve on jury
+273,81.99013156577887,White,1,Black,different race,Struck by the defense
+274,81.99292862045455,Black,1,Black,same race,Struck by the defense
+275,81.97984148562651,White,1,Black,different race,Struck by the defense
+276,8.007383630235937,Black,0,Black,same race,Struck by the state
+277,82.01218668162704,Black,0,Black,same race,Struck by the state
+278,81.99096668439093,White,1,Black,different race,Juror chosen to serve on jury
+279,81.99400183408157,White,1,Black,different race,Juror chosen to serve on jury
+280,81.99645840437984,White,1,Black,different race,Juror chosen to serve on jury
+281,81.98534478834824,Black,0,Black,same race,Struck by the state
+282,81.9997147093244,White,1,Black,different race,Juror chosen to serve on jury
+283,81.99223574040606,White,1,Black,different race,Juror chosen to serve on jury
+284,82.01149351850049,Black,0,Black,same race,Struck by the state
+285,81.99648020158027,White,1,Black,different race,Juror chosen to serve on jury
+286,82.00385726190093,Black,0,Black,same race,Struck by the state
+287,82.00618523012837,Black,0,Black,same race,Struck by the state
+288,76.01206757467763,White,1,Black,different race,Juror chosen as alternate
+289,75.9994136220612,Black,1,Black,same race,Juror chosen to serve on jury
+290,81.99444096263439,White,1,Black,different race,Struck by the defense
+291,82.00377204392896,Black,1,Black,same race,Juror chosen to serve on jury
+292,82.00904418132917,White,1,Black,different race,Juror chosen to serve on jury
+293,82.00162116967668,White,1,Black,different race,Juror chosen to serve on jury
+294,82.00394222219013,White,1,Black,different race,Struck by the defense
+295,81.99024302068352,White,0,Black,different race,Struck by the state
+296,82.01095629948918,Black,1,Black,same race,Juror chosen as alternate
+297,81.99753349277765,Black,1,Black,same race,Juror chosen as alternate
+298,79.00223263807153,White,1,Black,different race,Struck by the defense
+299,79.0258929142638,White,1,Black,different race,Struck by the defense
+300,78.98271933178205,Black,1,Black,same race,Struck by the defense
+301,224.01871071196072,Black,0,Black,same race,Struck by the state
+302,223.9776334478021,Black,0,Black,same race,Struck by the state
+303,223.99920552657898,White,1,Black,different race,Juror chosen to serve on jury
+304,223.98788520172621,White,1,Black,different race,Juror chosen to serve on jury
+305,224.0116657390827,White,1,Black,different race,Juror chosen to serve on jury
+306,223.9921280436341,White,1,Black,different race,Juror chosen to serve on jury
+307,224.0059617068161,White,1,Black,different race,Juror chosen to serve on jury
+308,223.98896695581456,White,1,Black,different race,Juror chosen to serve on jury
+309,224.01451846245686,White,1,Black,different race,Juror chosen to serve on jury
+310,7.996823547113555,White,1,Black,different race,Struck by the defense
+311,7.990821585450578,White,1,Black,different race,Juror chosen to serve on jury
+312,79.99235018049262,White,0,White,same race,Struck by the state
+313,80.00111022836543,White,1,White,same race,Juror chosen to serve on jury
+314,80.01444037524956,White,1,White,same race,Juror chosen to serve on jury
+315,80.00982002487743,White,1,White,same race,Juror chosen to serve on jury
+316,80.00583763453798,Black,0,White,different race,Struck by the state
+317,79.9974527027095,Black,0,White,different race,Struck by the state
+318,8.0098886076878,White,1,Black,different race,Juror chosen to serve on jury
+319,8.005077151104315,White,0,Black,different race,Struck by the state
+320,8.010004603098855,White,1,Black,different race,Juror chosen to serve on jury
+321,7.994223515235965,White,1,Black,different race,Struck by the defense
+322,8.005692917237086,White,1,Black,different race,Juror chosen to serve on jury
+323,7.98479440300725,Black,0,Black,same race,Struck by the state
+324,8.000048195877348,White,1,Black,different race,Struck by the defense
+325,8.017002073590428,White,0,Black,different race,Struck by the state
+326,7.986822214232003,White,1,Black,different race,Struck by the defense
+327,7.9963297894036085,White,1,Black,different race,Juror chosen to serve on jury
+328,8.0227820349279,White,1,Black,different race,Juror chosen to serve on jury
+329,8.013020376943524,White,0,Black,different race,Struck by the state
+330,7.975301701430936,White,1,Black,different race,Struck by the defense
+331,7.989589281729281,White,1,Black,different race,Juror chosen to serve on jury
+332,8.000534242450613,White,0,Black,different race,Struck by the state
+333,8.001041336988644,Black,0,Black,same race,Struck by the state
+334,80.01639965010432,Black,1,White,different race,Juror chosen as alternate
+335,80.00067248431615,Black,1,White,different race,Juror chosen to serve on jury
+336,79.99519099091985,White,1,White,same race,Struck by the defense
+337,79.99525705698872,White,1,White,same race,Juror chosen to serve on jury
+338,79.99749031125481,White,1,White,same race,Juror chosen to serve on jury
+339,79.9978145198204,Black,1,White,different race,Juror chosen to serve on jury
+340,80.00412329512648,White,1,White,same race,Struck by the defense
+341,80.00132560516667,Black,0,White,different race,Struck by the state
+342,79.99409550384304,Black,0,White,different race,Struck by the state
+343,79.97983992618968,Black,0,White,different race,Struck by the state
+344,80.00647013045725,White,1,White,same race,Juror chosen to serve on jury
+345,79.99374090382464,White,1,White,same race,Struck by the defense
+346,80.01682552400996,Black,1,White,different race,Juror chosen to serve on jury
+347,79.99174117488484,White,1,White,same race,Juror chosen to serve on jury
+348,194.99869155434718,Black,0,Black,same race,Struck by the state
+349,92.00369220822316,White,1,Black,different race,Struck by the defense
+350,91.99543306132222,Black,0,Black,same race,Struck by the state
+351,91.99409536698572,White,1,Black,different race,Juror chosen to serve on jury
+352,91.99915417435683,White,1,Black,different race,Struck by the defense
+353,92.0000447271952,White,0,Black,different race,Struck by the state
+354,91.99469729925713,White,1,Black,different race,Juror chosen to serve on jury
+355,92.00678265502849,White,1,Black,different race,Juror chosen to serve on jury
+356,92.00292013012897,Black,0,Black,same race,Struck by the state
+357,92.01897836039335,White,1,Black,different race,Struck by the defense
+358,92.00516334398908,Black,1,Black,same race,Juror chosen to serve on jury
+359,91.9796678485121,Black,1,Black,same race,Juror chosen to serve on jury
+360,92.00519348575726,White,1,Black,different race,Struck by the defense
+361,91.98800144849824,White,1,Black,different race,Juror chosen to serve on jury
+362,92.01005643782504,White,1,Black,different race,Struck by the defense
+363,92.0092172509133,White,1,Black,different race,Juror chosen to serve on jury
+364,91.97859660651386,White,1,Black,different race,Struck by the defense
+365,92.01084139261594,White,1,Black,different race,Juror chosen to serve on jury
+366,91.9968587501549,Black,0,Black,same race,Struck by the state
+367,91.99416075512464,White,1,Black,different race,Juror chosen to serve on jury
+368,91.98246143258298,Black,0,Black,same race,Struck by the state
+369,92.01014391809554,White,1,Black,different race,Juror chosen to serve on jury
+370,92.00190988278642,White,1,Black,different race,Juror chosen to serve on jury
+371,78.99980380068273,Black,0,Black,same race,Struck by the state
+372,78.98639798156931,White,1,Black,different race,Struck by the defense
+373,78.99900448168555,Black,0,Black,same race,Struck by the state
+374,79.01143719901913,White,1,Black,different race,Juror chosen to serve on jury
+375,78.98600564395534,White,1,Black,different race,Juror chosen to serve on jury
+376,78.9965489032882,White,1,Black,different race,Juror chosen to serve on jury
+377,78.99682619680512,White,1,Black,different race,Juror chosen to serve on jury
+378,79.00651709101717,Black,0,Black,same race,Struck by the state
+379,78.99323995121573,White,1,Black,different race,Juror chosen to serve on jury
+380,79.01195003785224,White,1,Black,different race,Juror chosen to serve on jury
+381,78.99190893592056,White,1,Black,different race,Struck by the defense
+382,78.9995224684738,White,1,Black,different race,Struck by the defense
+383,79.00196144764708,White,1,Black,different race,Juror chosen to serve on jury
+384,79.01593735441405,Black,1,Black,same race,Juror chosen to serve on jury
+385,78.9917823625102,White,1,Black,different race,Juror chosen to serve on jury
+386,78.99130423318736,Black,0,Black,same race,Struck by the state
+387,78.98854010760566,Black,0,Black,same race,Struck by the state
+388,95.00144414745883,White,1,Black,different race,Juror chosen to serve on jury
+389,79.01868349846085,White,1,Black,different race,Juror chosen to serve on jury
+390,79.00355099757208,Black,1,Black,same race,Juror chosen to serve on jury
+391,79.00486417412384,Black,1,Black,same race,Juror chosen as alternate
+392,79.00564342569578,White,1,Black,different race,Juror chosen to serve on jury
+393,44.99976748272748,Black,1,Black,same race,Juror chosen to serve on jury
+394,44.988041916504024,White,1,Black,different race,Juror chosen to serve on jury
+395,106.9843323433143,White,1,Black,different race,Struck by the defense
+396,107.01300469676515,Black,1,Black,same race,Juror chosen to serve on jury
+397,75.99563462654399,Black,1,Black,same race,Struck by the defense
+398,75.99212367407615,White,1,Black,different race,Juror chosen to serve on jury
+399,76.00315553006901,Black,0,Black,same race,Struck by the state
+400,76.00276827670834,White,1,Black,different race,Juror chosen to serve on jury
+401,75.99467673419267,White,1,Black,different race,Struck by the defense
+402,75.99134476803975,Black,1,Black,same race,Juror chosen to serve on jury
+403,76.00439266320069,White,1,Black,different race,Struck by the defense
+404,76.00001681993265,Black,0,Black,same race,Struck by the state
+405,75.99888611060267,White,1,Black,different race,Juror chosen to serve on jury
+406,76.00154970327381,White,1,Black,different race,Juror chosen to serve on jury
+407,75.9870655266207,White,1,Black,different race,Juror chosen to serve on jury
+408,75.99317971179046,White,1,Black,different race,Struck by the defense
+409,75.98534722038801,Black,1,Black,same race,Juror chosen to serve on jury
+410,76.00360811905918,Black,0,Black,same race,Struck by the state
+411,75.99802281127398,Black,0,Black,same race,Struck by the state
+412,75.98922048099385,White,1,Black,different race,Juror chosen to serve on jury
+413,75.987355544454,White,1,Black,different race,Juror chosen to serve on jury
+414,76.00515382413086,Black,1,Black,same race,Juror chosen to serve on jury
+415,75.9881818542867,White,1,Black,different race,Struck by the defense
+416,76.01081143275387,White,1,Black,different race,Struck by the defense
+417,76.00089752406205,White,1,Black,different race,Juror chosen to serve on jury
+418,74.99940299548564,White,1,Black,different race,Juror chosen to serve on jury
+419,74.98618974327118,White,1,Black,different race,Struck by the defense
+420,74.99192398016721,Black,1,Black,same race,Struck by the defense
+421,74.99978672737544,Black,1,Black,same race,Struck by the defense
+422,74.97486251356362,White,1,Black,different race,Juror chosen to serve on jury
+423,74.99873582953431,White,1,Black,different race,Struck by the defense
+424,102.00420847789547,White,1,Black,different race,Struck by the defense
+425,101.9822067680526,White,1,Black,different race,Juror chosen as alternate
+426,101.9847682244059,White,1,Black,different race,Juror chosen as alternate
+427,74.99794324792511,Black,1,Black,same race,Struck by the defense
+428,75.01379896012928,White,1,Black,different race,Struck by the defense
+429,74.98027885392979,White,1,Black,different race,Juror chosen to serve on jury
+430,75.01016125124153,White,1,Black,different race,Juror chosen to serve on jury
+431,75.00127076514327,White,1,Black,different race,Struck by the defense
+432,74.99502790013021,White,1,Black,different race,Juror chosen to serve on jury
+433,74.98274565916442,White,1,Black,different race,Struck by the defense
+434,75.00667188007284,White,1,Black,different race,Juror chosen to serve on jury
+435,75.00679009548779,Black,0,Black,same race,Struck by the state
+436,74.99532310386962,Black,1,Black,same race,Juror chosen to serve on jury
+437,75.00854487727405,Black,1,Black,same race,Juror chosen to serve on jury
+438,74.98875246601192,White,1,Black,different race,Struck by the defense
+439,75.00058381207391,White,1,Black,different race,Struck by the defense
+440,75.00801393319666,White,1,Black,different race,Juror chosen to serve on jury
+441,74.99875086215465,Black,0,Black,same race,Struck by the state
+442,74.9836704140481,White,1,Black,different race,Juror chosen to serve on jury
+443,75.00729254792567,Black,0,Black,same race,Struck by the state
+444,74.99958413782021,Black,0,Black,same race,Struck by the state
+445,74.99680437066525,Black,0,Black,same race,Struck by the state
+446,74.97813716078734,Black,1,Black,same race,Struck by the defense
+447,74.98970881684181,Black,0,Black,same race,Struck by the state
+448,74.99237019899374,Black,0,Black,same race,Struck by the state
+449,74.98483407145287,Black,1,Black,same race,Juror chosen to serve on jury
+450,74.996636308858,Black,1,Black,same race,Juror chosen as alternate
+451,74.9900307919475,Black,1,Black,same race,Juror chosen as alternate
+452,74.99783309122094,White,1,Black,different race,Juror chosen to serve on jury
+453,58.005235456202485,White,1,Black,different race,Juror chosen to serve on jury
+454,57.97870983936838,Black,1,Black,same race,Juror chosen to serve on jury
+455,58.015948672207664,Black,0,Black,same race,Struck by the state
+456,58.01578728588047,White,0,Black,different race,Struck by the state
+457,106.98675962830691,Black,0,Black,same race,Struck by the state
+458,107.00876967266436,Black,0,Black,same race,Struck by the state
+459,106.99616128191586,White,1,Black,different race,Juror chosen to serve on jury
+460,107.00292749310465,White,1,Black,different race,Juror chosen to serve on jury
+461,107.01002750175272,White,1,Black,different race,Struck by the defense
+462,106.98347746598611,Black,1,Black,same race,Juror chosen to serve on jury
+463,106.99237006869093,Black,0,Black,same race,Struck by the state
+464,107.0064855799139,White,1,Black,different race,Juror chosen to serve on jury
+465,106.99071692724988,White,1,Black,different race,Juror chosen to serve on jury
+466,106.99623378543572,White,1,Black,different race,Juror chosen to serve on jury
+467,107.0117073696824,White,1,Black,different race,Juror chosen to serve on jury
+468,106.99959924540723,Black,0,Black,same race,Struck by the state
+469,4.986484959574018,White,1,Black,different race,Struck by the defense
+470,119.98091242042959,White,1,Black,different race,Juror chosen as alternate
+471,120.0102641193916,Black,0,Black,same race,Struck by the state
+472,119.99785083250427,Black,1,Black,same race,Juror chosen as alternate
+473,120.01256560837963,White,1,Black,different race,Struck by the defense
+474,119.99370303374955,White,1,Black,different race,Struck by the defense
+475,120.00028829417143,White,1,Black,different race,Juror chosen to serve on jury
+476,119.98317219368832,White,0,Black,different race,Struck by the state
+477,120.01324295338928,Black,0,Black,same race,Struck by the state
+478,119.98886035353752,Black,1,Black,same race,Juror chosen to serve on jury
+479,119.99723592250207,White,1,Black,different race,Struck by the defense
+480,5.977827034346093,White,0,White,same race,Struck by the state
+481,116.01482605486609,White,1,Black,different race,Struck by the defense
+482,116.00377468110436,White,1,Black,different race,Juror chosen to serve on jury
+483,115.99516549084325,White,1,Black,different race,Juror chosen to serve on jury
+484,115.99528890513025,White,1,Black,different race,Juror chosen to serve on jury
+485,115.99217135731054,Black,1,Black,same race,Juror chosen to serve on jury
+486,115.97615539224836,Black,1,Black,same race,Juror chosen to serve on jury
+487,116.0051518323931,White,1,Black,different race,Juror chosen to serve on jury
+488,115.98788007065455,Black,1,Black,same race,Juror chosen as alternate
+489,116.02067771645687,White,1,Black,different race,Juror chosen to serve on jury
+490,115.99286370523212,White,1,Black,different race,Struck by the defense
+491,116.0083077450668,White,1,Black,different race,Juror chosen to serve on jury
+492,115.9969103078818,Black,0,Black,same race,Struck by the state
+493,115.9993401600158,White,1,Black,different race,Juror chosen to serve on jury
+494,115.9932079347082,White,1,Black,different race,Juror chosen to serve on jury
+495,115.99811074807356,Black,0,Black,same race,Struck by the state
+496,115.9925683555827,White,0,Black,different race,Struck by the state
+497,120.03053769967559,White,0,Black,different race,Struck by the state
+498,120.00756119947403,White,1,Black,different race,Struck by the defense
+499,120.01060225944195,White,1,Black,different race,Juror chosen to serve on jury
+500,120.00358775989746,White,1,Black,different race,Struck by the defense
+501,119.99705359284073,White,1,Black,different race,Struck by the defense
+502,119.99644647271393,White,1,Black,different race,Juror chosen to serve on jury
+503,119.98092965186795,White,1,Black,different race,Juror chosen to serve on jury
+504,119.98266068639161,Black,1,Black,same race,Juror chosen to serve on jury
+505,120.00274726200117,White,0,Black,different race,Struck by the state
+506,119.9879420763447,Black,0,Black,same race,Struck by the state
+507,119.98125445703234,Black,0,Black,same race,Struck by the state
+508,119.98676794883961,White,1,Black,different race,Juror chosen to serve on jury
+509,120.00168931479838,White,1,Black,different race,Juror chosen to serve on jury
+510,119.9729853077948,White,1,Black,different race,Struck by the defense
+511,120.00369421621613,White,1,Black,different race,Struck by the defense
+512,119.97403331480068,White,1,Black,different race,Juror chosen to serve on jury
+513,120.00370652596017,Black,1,Black,same race,Juror chosen to serve on jury
+514,7.001569504252027,White,1,White,same race,Struck by the defense
+515,119.99873901952402,White,0,Black,different race,Struck by the state
+516,119.9926509136676,Black,0,Black,same race,Struck by the state
+517,120.00382624723304,White,1,Black,different race,Juror chosen to serve on jury
+518,120.00374547096281,White,1,Black,different race,Struck by the defense
+519,120.0149320117568,Black,0,Black,same race,Struck by the state
+520,119.99895475838677,White,1,Black,different race,Juror chosen to serve on jury
+521,119.9938086682661,Black,1,Black,same race,Struck by the defense
+522,120.00424018687032,White,1,Black,different race,Struck by the defense
+523,51.986583640586645,White,0,Black,different race,Struck by the state
+524,51.99404857722938,Black,0,Black,same race,Struck by the state
+525,52.01817367160256,Black,1,Black,same race,Juror chosen to serve on jury
+526,51.9940023838339,White,1,Black,different race,Juror chosen to serve on jury
+527,52.00372832071772,White,1,Black,different race,Struck by the defense
+528,52.002453484491944,White,1,Black,different race,Struck by the defense
+529,51.996170054810996,White,1,Black,different race,Juror chosen to serve on jury
+530,51.99074289658175,White,1,Black,different race,Struck by the defense
+531,135.0122735669431,White,1,Black,different race,Juror chosen to serve on jury
+532,134.99378460431183,White,1,Black,different race,Struck by the defense
+533,135.0028550366899,Black,0,Black,same race,Struck by the state
+534,135.0067695924227,White,1,Black,different race,Juror chosen to serve on jury
+535,134.98894118017938,White,1,Black,different race,Struck by the defense
+536,134.99531530711835,White,1,Black,different race,Struck by the defense
+537,134.98631201772434,White,1,Black,different race,Struck by the defense
+538,135.0081433457414,White,1,Black,different race,Juror chosen to serve on jury
+539,134.9955378830445,Black,0,Black,same race,Struck by the state
+540,135.00780127987102,White,1,Black,different race,Juror chosen to serve on jury
+541,135.0041015909941,White,1,Black,different race,Struck by the defense
+542,134.9891857965087,Black,0,Black,same race,Struck by the state
+543,134.98866925382123,Black,0,Black,same race,Struck by the state
+544,134.99115345658933,Black,0,Black,same race,Struck by the state
+545,134.986735996523,White,1,Black,different race,Juror chosen to serve on jury
+546,134.99992299087782,White,1,Black,different race,Juror chosen to serve on jury
+547,135.0030999553098,Black,0,Black,same race,Struck by the state
+548,135.00227260850318,White,1,Black,different race,Juror chosen to serve on jury
+549,134.9801058006755,White,1,Black,different race,Struck by the defense
+550,135.00116547507133,White,1,Black,different race,Struck by the defense
+551,135.0028468942892,Black,0,Black,same race,Struck by the state
+552,135.01323402533447,Black,0,Black,same race,Struck by the state
+553,51.99829802394021,Black,0,Black,same race,Struck by the state
+554,52.00290332103357,White,1,Black,different race,Juror chosen to serve on jury
+555,51.996876258686854,White,1,Black,different race,Juror chosen to serve on jury
+556,52.00228800019438,White,1,Black,different race,Struck by the defense
+557,51.99281836875855,Black,1,Black,same race,Juror chosen to serve on jury
+558,52.00399267652948,Black,0,Black,same race,Struck by the state
+559,52.01207641800394,White,1,Black,different race,Juror chosen to serve on jury
+560,51.988734598583925,White,1,Black,different race,Juror chosen to serve on jury
+561,51.99820510102235,Black,1,Black,same race,Juror chosen to serve on jury
+562,52.00557203034115,White,1,Black,different race,Struck by the defense
+563,52.01234805500213,White,1,Black,different race,Juror chosen to serve on jury
+564,57.99912629067355,White,1,Black,different race,Juror chosen to serve on jury
+565,57.998506771218835,White,1,Black,different race,Juror chosen to serve on jury
+566,57.997992864503026,White,1,Black,different race,Juror chosen to serve on jury
+567,58.0226009405189,White,1,Black,different race,Juror chosen to serve on jury
+568,58.009685940013256,Black,1,Black,same race,Juror chosen to serve on jury
+569,58.00044843581446,White,1,Black,different race,Juror chosen to serve on jury
+570,57.99323320398712,White,1,Black,different race,Struck by the defense
+571,58.00159135445717,White,1,Black,different race,Juror chosen to serve on jury
+572,58.00543448952254,Black,0,Black,same race,Struck by the state
+573,57.99479430996506,White,0,Black,different race,Struck by the state
+574,134.99827382824654,Black,0,Black,same race,Struck by the state
+575,74.01330649241507,Black,1,White,different race,Juror chosen to serve on jury
+576,73.99774779781578,Black,1,White,different race,Juror chosen to serve on jury
+577,74.00065096087827,White,1,White,same race,Struck by the defense
+578,73.9898617853995,White,1,White,same race,Struck by the defense
+579,74.00630669524288,White,1,White,same race,Juror chosen to serve on jury
+580,74.02137815557114,White,1,White,same race,Struck by the defense
+581,73.97980492409974,Black,0,White,different race,Struck by the state
+582,73.99470988977565,White,0,White,same race,Struck by the state
+583,73.99974811747097,Black,0,White,different race,Struck by the state
+584,74.00097570661504,Black,1,White,different race,Juror chosen to serve on jury
+585,74.00204730170363,White,1,White,same race,Struck by the defense
+586,73.98645062389528,Black,0,White,different race,Struck by the state
+587,74.0219318333205,White,1,White,same race,Struck by the defense
+588,73.98964735701463,White,1,White,same race,Juror chosen to serve on jury
+589,116.00155834276872,Black,0,Black,same race,Struck by the state
+590,67.99195897532383,White,1,White,same race,Struck by the defense
+591,5.993787325157776,White,0,White,same race,Struck by the state
+592,57.9844883710427,White,1,Black,different race,Struck by the defense
+593,57.987398382806525,White,1,Black,different race,Juror chosen to serve on jury
+594,57.99508116468066,White,1,Black,different race,Struck by the defense
+595,57.99269905534427,White,1,Black,different race,Juror chosen to serve on jury
+596,57.99370699314113,White,0,Black,different race,Struck by the state
+597,268.0166124385578,White,1,Black,different race,Juror chosen to serve on jury
+598,6.004872166050062,Black,1,White,different race,Juror chosen to serve on jury
+599,55.01037894406094,White,1,Black,different race,Struck by the defense
+600,5.996625314851334,White,1,White,same race,Struck by the defense
+601,84.99767367767268,Black,0,Black,same race,Struck by the state
+602,46.985296177920766,White,1,Black,different race,Struck by the defense
+603,47.00565749157067,White,1,Black,different race,Struck by the defense
+604,268.98904276740603,Black,1,Black,same race,Juror chosen to serve on jury
+605,268.9942963390431,Black,0,Black,same race,Struck by the state
+606,269.00580154344584,Black,0,Black,same race,Struck by the state
+607,268.99418877565097,Black,0,Black,same race,Struck by the state
+608,54.99047221276244,White,1,Black,different race,Struck by the defense
+609,54.99381742656888,Black,1,Black,same race,Juror chosen to serve on jury
+610,54.991840791495,White,1,Black,different race,Juror chosen to serve on jury
+611,54.98988113953735,White,1,Black,different race,Struck by the defense
+612,54.983844284286086,White,1,Black,different race,Juror chosen to serve on jury
+613,55.0038709856624,White,1,Black,different race,Juror chosen to serve on jury
+614,55.00725448497822,White,1,Black,different race,Juror chosen to serve on jury
+615,55.00395729511385,White,1,Black,different race,Struck by the defense
+616,55.00752124583484,White,1,Black,different race,Struck by the defense
+617,55.00553955045502,Black,0,Black,same race,Struck by the state
+618,55.0098888539247,White,1,Black,different race,Struck by the defense
+619,54.99955939184406,White,1,Black,different race,Juror chosen to serve on jury
+620,54.990095139633894,White,1,Black,different race,Struck by the defense
+621,55.01373106764911,White,0,Black,different race,Struck by the state
+622,94.99806524575693,White,0,Black,different race,Struck by the state
+623,55.0034696636689,White,1,Black,different race,Juror chosen to serve on jury
+624,54.993841641603225,White,1,Black,different race,Juror chosen to serve on jury
+625,54.996805390146676,White,1,Black,different race,Juror chosen to serve on jury
+626,55.013270614285744,White,1,Black,different race,Juror chosen to serve on jury
+627,54.996153168630606,White,1,Black,different race,Juror chosen as alternate
+628,54.99354908093629,White,1,Black,different race,Struck by the defense
+629,55.003065378154794,Black,1,Black,same race,Juror chosen to serve on jury
+630,54.978550774774334,White,1,Black,different race,Juror chosen to serve on jury
+631,6.01359651159003,White,0,White,same race,Struck by the state
+632,5.983884042459803,White,1,White,same race,Juror chosen to serve on jury
+633,5.987750042838693,White,1,White,same race,Struck by the defense
+634,5.991948241042247,Black,0,White,different race,Struck by the state
+635,6.018214414114853,Black,1,White,different race,Juror chosen to serve on jury
+636,160.99835012424478,White,1,Black,different race,Juror chosen to serve on jury
+637,161.00017383769904,Black,1,Black,same race,Juror chosen to serve on jury
+638,160.99801877515512,Black,1,Black,same race,Juror chosen to serve on jury
+639,161.00154823689567,White,1,Black,different race,Juror chosen to serve on jury
+640,165.99205127801196,Black,0,Black,same race,Struck by the state
+641,165.99397932685588,White,1,Black,different race,Struck by the defense
+642,166.0016923511339,White,1,Black,different race,Juror chosen to serve on jury
+643,165.99562314842086,White,1,Black,different race,Juror chosen to serve on jury
+644,166.0020192500868,White,1,Black,different race,Struck by the defense
+645,165.99835375279454,White,1,Black,different race,Struck by the defense
+646,165.98572161661843,Black,1,Black,same race,Juror chosen to serve on jury
+647,166.0029085039045,White,1,Black,different race,Struck by the defense
+648,165.99796848617154,White,1,Black,different race,Struck by the defense
+649,166.01240852980712,Black,0,Black,same race,Struck by the state
+650,166.00078704011594,White,1,Black,different race,Juror chosen to serve on jury
+651,166.00097729945895,White,1,Black,different race,Juror chosen to serve on jury
+652,165.9929561574646,White,1,Black,different race,Juror chosen to serve on jury
+653,166.0048382419387,White,1,Black,different race,Struck by the defense
+654,166.0112560990393,White,1,Black,different race,Juror chosen to serve on jury
+655,130.00655348591272,White,1,Black,different race,Juror chosen to serve on jury
+656,129.9990661775967,Black,0,Black,same race,Struck by the state
+657,129.9935236725412,Black,1,Black,same race,Juror chosen to serve on jury
+658,129.99684755292094,Black,0,Black,same race,Struck by the state
+659,130.0069138191056,White,1,Black,different race,Struck by the defense
+660,130.00590331538757,Black,0,Black,same race,Struck by the state
+661,130.0088670768406,Black,1,Black,same race,Juror chosen to serve on jury
+662,130.00797478276073,Black,1,Black,same race,Juror chosen to serve on jury
+663,130.0065116541752,White,1,Black,different race,Juror chosen to serve on jury
+664,130.0056854280836,Black,0,Black,same race,Struck by the state
+665,129.99579968814098,Black,1,Black,same race,Struck by the defense
+666,129.99371890295217,White,1,Black,different race,Struck by the defense
+667,129.9999025746618,White,1,Black,different race,Struck by the defense
+668,130.00964372690729,White,1,Black,different race,Juror chosen to serve on jury
+669,129.99708788432216,White,1,Black,different race,Struck by the defense
+670,129.98559621007865,White,1,Black,different race,Juror chosen to serve on jury
+671,130.00297022446318,White,1,Black,different race,Juror chosen to serve on jury
+672,130.00681470161757,Black,1,Black,same race,Juror chosen to serve on jury
+673,129.99725875038976,White,1,Black,different race,Struck by the defense
+674,130.00113106918016,White,1,Black,different race,Juror chosen to serve on jury
+675,130.0029610038133,White,1,Black,different race,Juror chosen to serve on jury
+676,130.0046159870584,White,1,Black,different race,Juror chosen to serve on jury
+677,129.99697031934707,White,1,Black,different race,Juror chosen as alternate
+678,170.00411985642114,Black,1,White,different race,Juror chosen as alternate
+679,169.99360170711375,White,1,White,same race,Juror chosen to serve on jury
+680,170.0085289784266,White,1,White,same race,Juror chosen to serve on jury
+681,171.99054647215502,White,1,Black,different race,Struck by the defense
+682,172.00121822066825,Black,0,Black,same race,Struck by the state
+683,171.9932119955505,White,1,Black,different race,Juror chosen to serve on jury
+684,171.9998560544336,Black,0,Black,same race,Struck by the state
+685,171.9933429173705,Black,0,Black,same race,Struck by the state
+686,172.01254071102045,Black,0,Black,same race,Struck by the state
+687,171.99267207385827,Black,0,Black,same race,Struck by the state
+688,172.0021697815534,White,1,Black,different race,Struck by the defense
+689,172.00904182403164,Black,0,Black,same race,Struck by the state
+690,171.97599993780895,Black,0,Black,same race,Struck by the state
+691,171.97580742881263,White,1,Black,different race,Struck by the defense
+692,171.97359149870218,White,1,Black,different race,Juror chosen to serve on jury
+693,175.9944024593059,White,1,White,same race,Struck by the defense
+694,175.9910403959211,Black,1,White,different race,Juror chosen to serve on jury
+695,175.998850075502,Black,1,White,different race,Juror chosen to serve on jury
+696,176.01282131429986,White,0,White,same race,Struck by the state
+697,175.99911551264444,White,1,White,same race,Struck by the defense
+698,175.98424016572693,Black,1,White,different race,Juror chosen to serve on jury
+699,175.9924825876114,White,1,White,same race,Juror chosen to serve on jury
+700,176.0075640920936,Black,1,White,different race,Juror chosen to serve on jury
+701,176.01202864951966,White,1,White,same race,Struck by the defense
+702,175.99513260632597,Black,0,White,different race,Struck by the state
+703,176.01342254454093,White,1,White,same race,Juror chosen to serve on jury
+704,176.01406683624788,White,1,White,same race,Struck by the defense
+705,175.99065316250997,Black,0,White,different race,Struck by the state
+706,176.00239937200263,White,1,White,same race,Juror chosen to serve on jury
+707,176.00705047031454,White,1,White,same race,Juror chosen to serve on jury
+708,175.99137418703992,Black,0,White,different race,Struck by the state
+709,175.9942235535831,White,1,White,same race,Juror chosen to serve on jury
+710,176.00295689246764,White,1,White,same race,Juror chosen to serve on jury
+711,176.01190679628638,White,0,White,same race,Struck by the state
+712,175.99153013017113,White,1,White,same race,Juror chosen to serve on jury
+713,175.98902277977987,White,1,White,same race,Struck by the defense
+714,176.00042820669853,White,0,White,same race,Struck by the state
+715,176.00169517856136,White,1,White,same race,Juror chosen to serve on jury
+716,175.9974498239033,White,1,White,same race,Struck by the defense
+717,52.98587307156314,White,1,Black,different race,Struck by the defense
+718,67.99150894299464,White,0,White,same race,Struck by the state
+719,67.99610458015346,White,1,White,same race,Juror chosen as alternate
+720,53.00119524639356,White,1,Black,different race,Juror chosen as alternate
+721,52.9833375843825,White,0,Black,different race,Struck by the state
+722,53.003704718876016,White,1,Black,different race,Juror chosen to serve on jury
+723,52.99667924682916,Black,1,Black,same race,Juror chosen to serve on jury
+724,53.00988167544958,White,1,Black,different race,Juror chosen to serve on jury
+725,52.971169567948685,White,1,Black,different race,Struck by the defense
+726,53.005034104471335,White,1,Black,different race,Juror chosen to serve on jury
+727,52.99722967171673,White,1,Black,different race,Juror chosen to serve on jury
+728,53.0208477025796,Black,1,Black,same race,Juror chosen to serve on jury
+729,53.02263747900106,Black,0,Black,same race,Struck by the state
+730,52.99060139431173,White,1,Black,different race,Juror chosen to serve on jury
+731,52.998815307470444,White,0,Black,different race,Struck by the state
+732,52.99552254577036,White,0,Black,different race,Struck by the state
+733,53.01191522838475,Black,0,Black,same race,Struck by the state
+734,53.01263605176389,White,1,Black,different race,Juror chosen to serve on jury
+735,53.002306512093526,White,1,Black,different race,Juror chosen to serve on jury
+736,52.99360167210421,White,1,Black,different race,Juror chosen to serve on jury
+737,53.01291716589229,White,1,Black,different race,Struck by the defense
+738,52.99016017447093,White,0,Black,different race,Struck by the state
+739,52.99589771329253,White,1,Black,different race,Struck by the defense
+740,52.98636901459222,White,1,Black,different race,Struck by the defense
+741,53.00074317593081,White,1,Black,different race,Juror chosen to serve on jury
+742,300.01476029280883,White,1,Black,different race,Struck by the defense
+743,300.0000189896693,Black,0,Black,same race,Struck by the state
+744,299.9976917976,Black,1,Black,same race,Juror chosen to serve on jury
+745,300.01597093001226,Black,0,Black,same race,Struck by the state
+746,299.9941086031673,White,1,Black,different race,Struck by the defense
+747,300.0060087913538,White,1,Black,different race,Juror chosen to serve on jury
+748,299.9875528388911,White,1,Black,different race,Struck by the defense
+749,300.02059067241225,Black,0,Black,same race,Struck by the state
+750,300.0073891778924,Black,0,Black,same race,Struck by the state
+751,299.98115234160707,Black,0,Black,same race,Struck by the state
+752,300.0072762644672,White,1,Black,different race,Struck by the defense
+753,300.01270028866134,White,1,Black,different race,Juror chosen to serve on jury
+754,299.9961962952979,White,1,Black,different race,Juror chosen to serve on jury
+755,300.02087488998427,White,1,Black,different race,Struck by the defense
+756,299.9821618290833,Black,1,Black,same race,Juror chosen to serve on jury
+757,299.99530788229646,White,1,Black,different race,Struck by the defense
+758,299.9944201738098,Black,0,Black,same race,Struck by the state
+759,299.9975082007115,White,1,Black,different race,Juror chosen to serve on jury
+760,300.0113775654609,Black,0,Black,same race,Struck by the state
+761,196.01362437261776,Black,1,Black,same race,Juror chosen to serve on jury
+762,196.01597159847023,Black,1,Black,same race,Juror chosen to serve on jury
+763,196.0108935463378,Black,1,Black,same race,Juror chosen to serve on jury
+764,195.98905962557407,Black,1,Black,same race,Juror chosen to serve on jury
+765,195.99908483066537,Black,0,Black,same race,Struck by the state
+766,300.0044880013804,Black,0,Black,same race,Struck by the state
+767,299.99618285804286,White,1,Black,different race,Struck by the defense
+768,299.9960493943087,Black,1,Black,same race,Juror chosen to serve on jury
+769,300.00081182975987,Black,1,Black,same race,Juror chosen to serve on jury
+770,299.9967992699648,White,1,Black,different race,Struck by the defense
+771,300.01432224874264,White,1,Black,different race,Struck by the defense
+772,300.00038264494816,White,1,Black,different race,Struck by the defense
+773,300.0076669805861,Black,0,Black,same race,Struck by the state
+774,300.0003553240115,White,1,Black,different race,Juror chosen to serve on jury
+775,300.008026224904,Black,0,Black,same race,Struck by the state
+776,299.9928658767746,Black,1,Black,same race,Juror chosen to serve on jury
+777,299.9950025854392,White,1,Black,different race,Juror chosen to serve on jury
+778,300.0154083001981,White,1,Black,different race,Juror chosen to serve on jury
+779,299.9946782435239,White,1,Black,different race,Juror chosen as alternate
+780,300.0123092512282,White,1,Black,different race,Struck by the defense
+781,299.99193901964065,Black,0,Black,same race,Struck by the state
+782,299.98428725557045,White,1,Black,different race,Juror chosen as alternate
+783,201.996632605837,Black,0,Black,same race,Struck by the state
+784,202.02373046286016,Black,0,Black,same race,Struck by the state
+785,202.0201706415604,Black,0,Black,same race,Struck by the state
+786,255.01001953440212,Black,1,Black,same race,Juror chosen as alternate
+787,301.00341296531417,White,1,Black,different race,Juror chosen to serve on jury
+788,255.00485680438143,White,1,Black,different race,Juror chosen as alternate
+789,301.00020510661597,White,1,Black,different race,Juror chosen to serve on jury
+790,204.99022785053037,Black,0,Black,same race,Struck by the state
+791,204.99928852701802,White,0,Black,different race,Struck by the state
+792,204.99987769501396,White,0,Black,different race,Struck by the state
+793,204.97766818845102,Black,0,Black,same race,Struck by the state
+794,268.99586878435696,Black,0,Black,same race,Struck by the state
+795,269.0054902345888,Black,0,Black,same race,Struck by the state
+796,224.9859212622093,White,0,Black,different race,Struck by the state
+797,224.98406876815002,White,1,Black,different race,Juror chosen to serve on jury
+798,224.9988015677151,White,1,Black,different race,Struck by the defense
+799,224.99976340751076,White,1,Black,different race,Juror chosen to serve on jury
+800,225.00770448703406,White,1,Black,different race,Struck by the defense
+801,224.9856067595972,White,1,Black,different race,Struck by the defense
+802,300.9826240037615,Black,1,Black,same race,Juror chosen to serve on jury
+803,225.01289115024096,Black,0,Black,same race,Struck by the state
+804,224.99658019844895,White,0,Black,different race,Struck by the state
+805,224.98741109371247,Black,0,Black,same race,Struck by the state
+806,225.00404564846684,Black,0,Black,same race,Struck by the state
+807,5.007164998690804,Black,0,Black,same race,Struck by the state
+808,5.0011892149533255,White,1,Black,different race,Juror chosen to serve on jury
+809,5.02253893085518,White,1,Black,different race,Struck by the defense
+810,5.013314199427136,White,1,Black,different race,Struck by the defense
+811,254.9792476255353,Black,1,Black,same race,Juror chosen to serve on jury
+812,254.98534688658293,White,1,Black,different race,Juror chosen to serve on jury
+813,255.0095345929828,White,1,Black,different race,Juror chosen to serve on jury
+814,255.00197866415928,White,1,Black,different race,Juror chosen to serve on jury
+815,255.0028452680615,White,1,Black,different race,Juror chosen to serve on jury
+816,255.00839958828382,Black,1,Black,same race,Juror chosen to serve on jury
+817,254.99792877768826,White,1,Black,different race,Juror chosen to serve on jury
+818,259.013151511923,White,1,White,same race,Struck by the defense
+819,254.99409647629167,White,1,Black,different race,Juror chosen to serve on jury
+820,254.99424294170618,White,1,Black,different race,Juror chosen to serve on jury
+821,255.01986399920074,White,1,Black,different race,Juror chosen to serve on jury
+822,254.99779263228592,White,1,Black,different race,Juror chosen as alternate
+823,254.98401252296492,Black,1,Black,same race,Juror chosen to serve on jury
+824,258.9966033274587,White,1,White,same race,Struck by the defense
+825,259.00100836114285,White,1,White,same race,Struck by the defense
+826,259.0063459366614,White,1,White,same race,Struck by the defense
+827,254.99949681376154,White,1,Black,different race,Juror chosen to serve on jury
+828,223.9947456255597,White,0,Black,different race,Struck by the state
+829,224.01287125591392,White,1,Black,different race,Juror chosen to serve on jury
+830,224.00537289148645,White,0,Black,different race,Struck by the state
+831,224.02210808369693,White,1,Black,different race,Juror chosen to serve on jury
+832,268.00099787220614,White,1,Black,different race,Struck by the defense
+833,223.98825895786567,White,0,Black,different race,Struck by the state
+834,236.99679010127934,Black,1,Black,same race,Juror chosen to serve on jury
+835,237.0158197391845,Black,0,Black,same race,Struck by the state
+836,236.98852414082404,Black,0,Black,same race,Struck by the state
+837,236.99976923053268,Black,1,Black,same race,Juror chosen to serve on jury
+838,236.9932022529291,Black,0,Black,same race,Struck by the state
+839,237.00868669962378,Black,1,Black,same race,Juror chosen to serve on jury
+840,236.99551984304296,Black,0,Black,same race,Struck by the state
+841,237.01356024072163,Black,1,Black,same race,Struck by the defense
+842,239.00275140785308,White,0,Black,different race,Struck by the state
+843,239.0228116634165,Black,0,Black,same race,Struck by the state
+844,238.9999552239826,Black,0,Black,same race,Struck by the state
+845,225.0056080366722,White,1,Black,different race,Struck by the defense
+846,225.0083741332728,White,0,Black,different race,Struck by the state
+847,224.99763785504004,White,1,Black,different race,Struck by the defense
+848,224.99307049723566,White,1,Black,different race,Struck by the defense
+849,224.98292471971553,White,1,Black,different race,Juror chosen as alternate
+850,246.0017161802268,White,0,Black,different race,Struck by the state
+851,246.00990501888023,White,1,Black,different race,Struck by the defense
+852,245.99996335028183,White,1,Black,different race,Struck by the defense
+853,245.9948620216762,Black,0,Black,same race,Struck by the state
+854,245.99216952734704,Black,0,Black,same race,Struck by the state
+855,246.01489314842124,White,0,Black,different race,Struck by the state
+856,251.006199004938,White,0,Black,different race,Struck by the state
+857,250.99884668889987,Black,0,Black,same race,Struck by the state
+858,250.98528603113832,White,0,Black,different race,Struck by the state
+859,251.0087049980609,Black,0,Black,same race,Struck by the state
+860,250.99962067761527,Black,0,Black,same race,Struck by the state
+861,250.98314237684235,White,0,Black,different race,Struck by the state
+862,251.0103327815733,Black,0,Black,same race,Struck by the state
+863,250.99790284649706,White,0,Black,different race,Struck by the state
+864,250.99822447912686,White,0,Black,different race,Struck by the state
+865,250.99355310091312,Black,0,Black,same race,Struck by the state
+866,255.00423561151263,White,0,Black,different race,Struck by the state
+867,254.9894670044401,White,1,Black,different race,Struck by the defense
+868,255.00697183537383,White,1,Black,different race,Struck by the defense
+869,254.9852044040509,White,1,Black,different race,Struck by the defense
+870,255.00639545684533,White,1,Black,different race,Struck by the defense
+871,254.99067286691172,White,1,Black,different race,Struck by the defense
+872,245.98485367234582,White,1,Black,different race,Struck by the defense
+873,246.0095302030404,White,1,Black,different race,Struck by the defense
+874,245.99932323420248,White,1,Black,different race,Struck by the defense
+875,245.98900006410815,Black,0,Black,same race,Struck by the state
+876,245.99952101035424,White,1,Black,different race,Struck by the defense
+877,254.9830229868183,White,1,Black,different race,Struck by the defense
+878,254.995808463948,White,1,Black,different race,Struck by the defense
+879,254.99472697942724,Black,0,Black,same race,Struck by the state
+880,255.00386707417906,White,1,Black,different race,Struck by the defense
+881,254.99364209876694,White,1,Black,different race,Struck by the defense
+882,254.99439978097845,White,1,Black,different race,Struck by the defense
+883,255.0056212508296,Black,0,Black,same race,Struck by the state
+884,254.99197294029284,Black,0,Black,same race,Struck by the state
+885,255.00704332402466,Black,0,Black,same race,Struck by the state
+886,245.99875048699892,Black,1,Black,same race,Juror chosen to serve on jury
+887,246.01403587171063,White,0,Black,different race,Struck by the state
+888,245.9908707850284,White,1,Black,different race,Struck by the defense
+889,259.01158536084733,Black,0,White,different race,Struck by the state
+890,258.9968523805102,White,0,White,same race,Struck by the state
+891,258.98404610279977,White,0,White,same race,Struck by the state
+892,259.0066808431801,White,0,White,same race,Struck by the state
+893,259.0055785843673,Black,0,White,different race,Struck by the state
+894,259.01414640101734,Black,0,White,different race,Struck by the state
+895,258.99206222303906,White,1,White,same race,Struck by the defense
+896,245.99610867944253,White,1,Black,different race,Struck by the defense
+897,246.00304141527513,White,1,Black,different race,Struck by the defense
+898,245.98775428399676,Black,0,Black,same race,Struck by the state
+899,267.9987683243489,White,1,Black,different race,Juror chosen to serve on jury
+900,267.99598629562036,Black,1,Black,same race,Juror chosen as alternate
+901,268.0013892513535,Black,0,Black,same race,Struck by the state
+902,268.0050605539175,Black,0,Black,same race,Struck by the state
+903,272.00392057863377,Black,1,Black,same race,Juror chosen to serve on jury
+904,272.0070218979355,Black,0,Black,same race,Struck by the state
+905,271.98918771068367,Black,0,Black,same race,Struck by the state
+906,272.0009491579043,Black,1,Black,same race,Juror chosen to serve on jury
+907,272.0172038909265,Black,0,Black,same race,Struck by the state
+908,271.99563803871393,Black,0,Black,same race,Struck by the state
+909,276.9885543238885,Black,1,Unknown,different race,Juror chosen to serve on jury
+910,277.0096389473134,Black,1,Unknown,different race,Juror chosen to serve on jury
+911,276.9966246925805,Black,1,Unknown,different race,Struck by the defense
+912,288.9792835974639,White,0,Black,different race,Struck by the state
+913,288.99430046172057,White,1,Black,different race,Juror chosen to serve on jury
+914,289.0284558600853,White,1,Black,different race,Struck by the defense
+915,289.00659499175964,White,1,Black,different race,Juror chosen to serve on jury
+916,288.9856580626364,White,1,Black,different race,Juror chosen to serve on jury
+917,288.99825834691427,White,1,Black,different race,Juror chosen to serve on jury
+918,22.000980762191325,White,1,Black,different race,Struck by the defense
+919,9.983830313080656,White,0,White,same race,Struck by the state
+920,9.997286915363777,White,1,White,same race,Struck by the defense
+921,288.98392127556275,White,1,Black,different race,Struck by the defense
+922,7.009544402954584,Black,0,White,different race,Struck by the state
+923,289.00190037433873,White,1,Black,different race,Struck by the defense
+924,288.98941144085336,White,1,Black,different race,Juror chosen to serve on jury
+925,288.9926389102917,Black,0,Black,same race,Struck by the state
+926,288.99897266263554,White,1,Black,different race,Struck by the defense
+927,289.0044932647557,White,1,Black,different race,Juror chosen to serve on jury
+928,289.01018697290357,Black,0,Black,same race,Struck by the state
+929,288.99934558307365,Black,0,Black,same race,Struck by the state
+930,288.9819972481843,White,1,Black,different race,Struck by the defense
+931,288.9853479105366,Black,0,Black,same race,Struck by the state
+932,289.0164342300142,Black,0,Black,same race,Struck by the state
+933,288.99127552186474,White,1,Black,different race,Struck by the defense
+934,288.9779000026436,White,0,Black,different race,Struck by the state
+935,6.012768570561854,Black,1,White,different race,Juror chosen to serve on jury
+936,4.008086887938176,White,1,White,same race,Juror chosen as alternate
+937,4.997876546013914,White,1,Black,different race,Juror chosen to serve on jury
+938,4.99773435150324,White,1,Black,different race,Juror chosen to serve on jury
+939,4.974715193120379,White,1,Black,different race,Juror chosen to serve on jury
+940,5.004983494324687,White,1,Black,different race,Struck by the defense
+941,4.991429628700946,White,1,Black,different race,Juror chosen as alternate
+942,4.017043069651313,White,1,White,same race,Struck by the defense
+943,4.013378217531144,White,1,White,same race,Juror chosen to serve on jury
+944,4.006999070484336,White,1,White,same race,Struck by the defense
+945,4.00079358869794,Black,1,White,different race,Juror chosen to serve on jury
+946,3.9994731854716647,White,1,White,same race,Struck by the defense
+947,3.9985129462496465,Black,1,White,different race,Juror chosen to serve on jury
+948,3.993344450582436,White,1,White,same race,Struck by the defense
+949,3.998311083117238,Black,1,White,different race,Juror chosen to serve on jury
+950,3.9934606540611264,Black,0,White,different race,Struck by the state
+951,3.990494284972223,White,1,White,same race,Struck by the defense
+952,4.019749231210486,Black,1,White,different race,Juror chosen to serve on jury
+953,3.9781215941224204,White,1,White,same race,Struck by the defense
+954,4.001129144890897,Black,0,White,different race,Struck by the state
+955,3.9964876927497412,White,1,White,same race,Struck by the defense
+956,3.979056696376153,White,1,White,same race,Struck by the defense
+957,4.006183327712848,Black,1,White,different race,Juror chosen to serve on jury
+958,3.9935210061567914,White,1,White,same race,Struck by the defense
+959,4.998497797774328,White,1,Black,different race,Struck by the defense
+960,7.009652079384575,Black,0,White,different race,Struck by the state
+961,7.013395600866069,White,1,White,same race,Struck by the defense
+962,6.992961261259921,White,1,White,same race,Struck by the defense
+963,7.01490057682372,White,1,White,same race,Juror chosen to serve on jury
+964,7.010151783326053,Black,0,White,different race,Struck by the state
+965,7.005133335718268,White,0,White,same race,Struck by the state
+966,7.024287283014034,White,1,White,same race,Juror chosen to serve on jury
+967,7.015742628574623,White,1,White,same race,Juror chosen to serve on jury
+968,6.98952078304806,Black,0,White,different race,Struck by the state
+969,6.992346406922161,White,1,White,same race,Juror chosen to serve on jury
+970,7.022265141804073,White,1,White,same race,Juror chosen to serve on jury
+971,6.971845605457204,White,1,White,same race,Juror chosen to serve on jury
+972,6.982378936394042,White,1,White,same race,Struck by the defense
+973,7.004853683329384,White,1,White,same race,Struck by the defense
+974,6.999987868683013,Black,0,White,different race,Struck by the state
+975,7.008389938902406,White,1,White,same race,Juror chosen to serve on jury
+976,6.998795327435227,White,0,White,same race,Struck by the state
+977,7.024910723659866,Black,0,White,different race,Struck by the state
+978,6.999926923553386,White,1,White,same race,Juror chosen to serve on jury
+979,6.998853285986356,White,1,White,same race,Juror chosen to serve on jury
+980,7.00099987347782,Black,0,White,different race,Struck by the state
+981,7.006204890748687,White,1,White,same race,Juror chosen to serve on jury
+982,6.991606652253618,White,1,White,same race,Struck by the defense
+983,7.0107242413094815,Black,1,White,different race,Juror chosen as alternate
+984,7.013766344768744,White,1,White,same race,Struck by the defense
+985,6.9823702337920475,Black,0,White,different race,Struck by the state
+986,7.002727393251462,Black,0,White,different race,Struck by the state
+987,6.999647203268654,White,1,White,same race,Struck by the defense
+988,6.9809864675595055,White,1,White,same race,Juror chosen to serve on jury
+989,7.995729324619128,White,1,Black,different race,Struck by the defense
+990,5.996369088531569,White,1,White,same race,Struck by the defense
+991,6.013879176347182,White,1,White,same race,Struck by the defense
+992,6.004011496703081,Black,1,White,different race,Juror chosen to serve on jury
+993,6.000307228833574,Black,1,White,different race,Juror chosen to serve on jury
+994,6.000173777468795,Black,1,White,different race,Juror chosen to serve on jury
+995,5.997821130301985,Black,1,White,different race,Juror chosen to serve on jury
+996,5.997199643339217,White,1,White,same race,Struck by the defense
+997,5.974263175159318,Black,1,White,different race,Struck by the defense
+998,5.986405677386254,White,1,White,same race,Struck by the defense
+999,6.006830460852718,Black,1,White,different race,Juror chosen to serve on jury
+1000,5.982386531866405,White,1,White,same race,Struck by the defense
+1001,6.015599439612296,White,1,White,same race,Juror chosen to serve on jury
+1002,6.003514430937026,Black,1,White,different race,Juror chosen to serve on jury
+1003,6.005488228631466,White,1,White,same race,Juror chosen to serve on jury
+1004,6.008408925750768,White,1,White,same race,Struck by the defense
+1005,5.986634484402138,Black,1,White,different race,Juror chosen as alternate
+1006,6.007895145784616,Black,1,White,different race,Juror chosen as alternate
+1007,6.007150164906696,Black,0,White,different race,Struck by the state
+1008,7.982365009225968,White,1,Black,different race,Juror chosen as alternate
+1009,9.972824510158134,Black,1,White,different race,Struck by the defense
+1010,22.011025568840765,White,1,Black,different race,Juror chosen to serve on jury
+1011,21.99296230008659,White,1,Black,different race,Juror chosen to serve on jury
+1012,21.994226735684247,White,1,Black,different race,Struck by the defense
+1013,21.987338343243167,White,1,Black,different race,Struck by the defense
+1014,21.994531992197093,White,1,Black,different race,Struck by the defense
+1015,21.982962911049277,White,1,Black,different race,Struck by the defense
+1016,21.999757987807577,Black,0,Black,same race,Struck by the state
+1017,22.030338640773074,White,1,Black,different race,Struck by the defense
+1018,21.997252084433196,White,1,Black,different race,Juror chosen to serve on jury
+1019,22.006932633054927,White,1,Black,different race,Struck by the defense
+1020,22.013130037811212,White,1,Black,different race,Juror chosen to serve on jury
+1021,22.001397916074396,White,1,Black,different race,Juror chosen to serve on jury
+1022,22.016459013612213,White,1,Black,different race,Juror chosen to serve on jury
+1023,21.999268188398283,White,1,Black,different race,Juror chosen to serve on jury
+1024,21.992081709072707,White,0,Black,different race,Struck by the state
+1025,21.993647390923783,White,1,Black,different race,Struck by the defense
+1026,21.986945494986855,Black,0,Black,same race,Struck by the state
+1027,21.997263874209594,Black,0,Black,same race,Struck by the state
+1028,22.01389896941508,White,1,Black,different race,Juror chosen to serve on jury
+1029,21.99831302929245,White,1,Black,different race,Juror chosen to serve on jury
+1030,22.003737954226786,White,0,Black,different race,Struck by the state
+1031,22.01044461234275,Black,1,Black,same race,Juror chosen to serve on jury
+1032,21.99610356017971,Black,0,Black,same race,Struck by the state
+1033,21.992810995320216,White,1,Black,different race,Struck by the defense
+1034,21.99912972943385,White,1,Black,different race,Struck by the defense
+1035,21.992675452720153,White,1,Black,different race,Juror chosen as alternate
+1036,22.011804606246805,Black,1,Black,same race,Juror chosen as alternate
+1037,195.0064759067621,Black,0,Black,same race,Struck by the state
+1038,195.0158829116344,Black,0,Black,same race,Struck by the state
+1039,194.98276764681646,Black,0,Black,same race,Struck by the state
+1040,195.00600130423578,White,0,Black,different race,Struck by the state
+1041,72.9888327647702,White,1,Black,different race,Juror chosen to serve on jury
+1042,72.99610420392521,Black,1,Black,same race,Juror chosen to serve on jury
+1043,73.00034447299817,Black,1,Black,same race,Juror chosen to serve on jury
+1044,73.01600002909333,Black,1,Black,same race,Juror chosen to serve on jury
+1045,73.0052320511114,Black,1,Black,same race,Juror chosen to serve on jury
+1046,73.00271636962708,Black,0,Black,same race,Struck by the state
+1047,73.00914323798703,Black,1,Black,same race,Juror chosen to serve on jury
+1048,72.99355648373346,Black,0,Black,same race,Struck by the state
+1049,73.00817065323322,White,1,Black,different race,Struck by the defense
+1050,72.99066214040357,White,1,Black,different race,Juror chosen to serve on jury
+1051,73.00206877356503,White,1,Black,different race,Juror chosen to serve on jury
+1052,73.0073194703462,Black,0,Black,same race,Struck by the state
+1053,73.00893658576702,White,0,Black,different race,Struck by the state
+1054,73.00529090739876,White,1,Black,different race,Juror chosen to serve on jury
+1055,72.99949218885085,Black,1,Black,same race,Juror chosen to serve on jury
+1056,72.98498311878329,White,1,Black,different race,Struck by the defense
+1057,72.99272356724582,White,1,Black,different race,Struck by the defense
+1058,72.99416380007031,White,1,Black,different race,Juror chosen to serve on jury
+1059,72.98753355199526,Black,0,Black,same race,Struck by the state
+1060,194.99922843709174,White,0,Black,different race,Struck by the state
+1061,76.99996519130501,Black,1,Black,same race,Juror chosen to serve on jury
+1062,76.99364935063612,Black,0,Black,same race,Struck by the state
+1063,76.98216958695228,Black,1,Black,same race,Juror chosen to serve on jury
+1064,76.9864241950604,Black,0,Black,same race,Struck by the state
+1065,77.01058353812577,White,0,Black,different race,Struck by the state
+1066,76.99683361458447,White,0,Black,different race,Struck by the state
+1067,77.00105218551016,White,1,Black,different race,Struck by the defense
+1068,76.99390667115624,Black,0,Black,same race,Struck by the state
+1069,77.00096424355877,White,1,Black,different race,Struck by the defense
+1070,76.99322874593949,White,1,Black,different race,Struck by the defense
+1071,76.99199765750053,White,1,Black,different race,Juror chosen to serve on jury
+1072,77.02823305095913,White,1,Black,different race,Juror chosen to serve on jury
+1073,77.01653748141835,Black,0,Black,same race,Struck by the state
+1074,77.01190854301156,White,1,Black,different race,Struck by the defense
+1075,77.00403993587933,White,1,Black,different race,Struck by the defense
+1076,77.00727629483428,White,1,Black,different race,Struck by the defense
+1077,76.99754863351001,White,1,Black,different race,Juror chosen to serve on jury
+1078,77.01597613202946,Black,1,Black,same race,Juror chosen to serve on jury
+1079,77.01309823213674,White,1,Black,different race,Struck by the defense
+1080,76.99519558997572,White,1,Black,different race,Struck by the defense
+1081,77.01456452183325,Black,0,Black,same race,Struck by the state
+1082,77.00236805777773,White,1,Black,different race,Struck by the defense
+1083,76.99779256545797,Black,0,Black,same race,Struck by the state
+1084,77.00398304643258,Black,0,Black,same race,Struck by the state
+1085,77.01247285090871,White,1,Black,different race,Struck by the defense
+1086,76.99587835274426,White,1,Black,different race,Juror chosen to serve on jury
+1087,77.02256996737367,White,1,Black,different race,Juror chosen to serve on jury
+1088,76.99459949688135,White,1,Black,different race,Struck by the defense
+1089,76.9904906914298,White,1,Black,different race,Struck by the defense
+1090,76.9913694152199,White,0,Black,different race,Struck by the state
+1091,76.98559734009707,White,1,Black,different race,Juror chosen to serve on jury
+1092,77.0147582011939,White,1,Black,different race,Juror chosen to serve on jury
+1093,76.9875416603622,White,1,Black,different race,Juror chosen to serve on jury
+1094,76.99472427235231,White,1,Black,different race,Juror chosen to serve on jury
+1095,77.00750531642008,Black,0,Black,same race,Struck by the state
+1096,76.98847234246149,Black,1,Black,same race,Juror chosen as alternate
+1097,77.0072565661093,White,1,Black,different race,Struck by the defense
+1098,76.99292803978446,Black,1,Black,same race,Juror chosen as alternate
+1099,67.99554291742831,Black,1,White,different race,Juror chosen to serve on jury
+1100,68.00851427363116,Black,1,White,different race,Juror chosen to serve on jury
+1101,67.98886296046184,Black,1,White,different race,Juror chosen to serve on jury
+1102,67.9964862611858,Black,1,White,different race,Juror chosen to serve on jury
+1103,68.01127331496946,White,1,White,same race,Juror chosen to serve on jury
+1104,68.01341733434528,White,1,White,same race,Juror chosen to serve on jury
+1105,68.00477552863654,Black,1,White,different race,Juror chosen to serve on jury
+1106,67.99406259512257,White,1,White,same race,Struck by the defense
+1107,68.01149077082539,White,1,White,same race,Juror chosen to serve on jury
+1108,67.97880700931654,White,1,White,same race,Juror chosen to serve on jury
+1109,67.99501837967671,White,1,White,same race,Juror chosen to serve on jury
+1110,68.00425818029846,White,1,White,same race,Juror chosen to serve on jury
+1111,67.99281511766785,White,1,White,same race,Struck by the defense
+1112,68.01181434620918,White,1,White,same race,Struck by the defense
+1113,68.00018864431641,White,0,White,same race,Struck by the state
+1114,67.99932042237234,White,1,White,same race,Juror chosen to serve on jury
+1115,68.00573837648042,White,1,White,same race,Struck by the defense
+1116,68.01348494128263,Black,0,White,different race,Struck by the state
+1117,67.98060811669966,Black,0,White,different race,Struck by the state
+1118,268.0086098108539,White,1,Black,different race,Juror chosen to serve on jury
+1119,268.00192800293956,White,1,Black,different race,Juror chosen to serve on jury
+1120,267.9962854403318,White,1,Black,different race,Juror chosen to serve on jury
+1121,267.99767799461205,Black,1,Black,same race,Juror chosen to serve on jury
+1122,268.0047656357002,White,1,Black,different race,Juror chosen to serve on jury
+1123,267.9868187678318,White,1,Black,different race,Juror chosen to serve on jury
+1124,268.01164477375255,White,1,Black,different race,Juror chosen to serve on jury
+1125,267.99804563024134,White,1,Black,different race,Juror chosen to serve on jury
+1126,267.98891609707556,White,1,Black,different race,Juror chosen to serve on jury
+1127,267.9995448047139,White,1,Black,different race,Juror chosen to serve on jury
+1128,268.02873929684245,White,1,Black,different race,Juror chosen as alternate
+1129,268.00627664013524,White,1,Black,different race,Juror chosen as alternate
+1130,267.9933585558287,White,1,Black,different race,Struck by the defense
+1131,268.00035882327825,White,1,Black,different race,Struck by the defense
+1132,268.009382968261,White,1,Black,different race,Struck by the defense
+1133,268.0052595291391,Black,0,Black,same race,Struck by the state
+1134,268.01772697641906,White,1,Black,different race,Struck by the defense
+1135,267.98212164857034,White,1,Black,different race,Struck by the defense
+1136,84.98526515272219,White,1,Black,different race,Struck by the defense
+1137,84.99967620667445,Black,1,Black,same race,Juror chosen to serve on jury
+1138,85.01417615428701,White,1,Black,different race,Struck by the defense
+1139,85.01683295285093,White,1,Black,different race,Struck by the defense
+1140,85.00934139156321,Black,1,Black,same race,Juror chosen to serve on jury
+1141,84.9837324894256,Black,1,Black,same race,Juror chosen to serve on jury
+1142,84.99248592435433,Black,1,Black,same race,Juror chosen to serve on jury
+1143,268.0153988622743,White,1,Black,different race,Struck by the defense
+1144,85.01268316410282,Black,0,Black,same race,Struck by the state
+1145,88.01250343716661,Black,0,Black,same race,Struck by the state
+1146,87.9812856286989,White,0,Black,different race,Struck by the state
+1147,84.9827935864153,Black,0,Black,same race,Struck by the state
+1148,88.00963595420052,Black,0,Black,same race,Struck by the state
+1149,85.00664918920373,Black,0,Black,same race,Struck by the state
+1150,85.0061426560221,White,1,Black,different race,Struck by the defense
+1151,84.99524942933785,White,1,Black,different race,Struck by the defense
+1152,85.00247195848453,Black,1,Black,same race,Juror chosen to serve on jury
+1153,84.9908668319518,Black,1,Black,same race,Juror chosen to serve on jury
+1154,85.0072163819109,White,1,Black,different race,Struck by the defense
+1155,85.01001013956893,White,1,Black,different race,Juror chosen to serve on jury
+1156,84.99937689386353,Black,0,Black,same race,Struck by the state
+1157,85.0066396577129,White,1,Black,different race,Struck by the defense
+1158,84.98930754367836,Black,0,Black,same race,Struck by the state
+1159,87.99131856621692,White,1,Black,different race,Struck by the defense
+1160,87.99823400691245,White,1,Black,different race,Juror chosen to serve on jury
+1161,87.9903683357741,Black,1,Black,same race,Juror chosen to serve on jury
+1162,88.00988755255841,White,1,Black,different race,Juror chosen to serve on jury
+1163,87.99880218923359,Black,0,Black,same race,Struck by the state
+1164,87.98929173974997,White,1,Black,different race,Struck by the defense
+1165,87.99180900937579,White,1,Black,different race,Struck by the defense
+1166,87.99776187891541,White,1,Black,different race,Struck by the defense
+1167,88.00288435496216,Black,0,Black,same race,Struck by the state
+1168,88.0008897392816,Black,0,Black,same race,Struck by the state
+1169,88.00989266801014,Black,1,Black,same race,Juror chosen to serve on jury
+1170,87.99631947085518,Black,0,Black,same race,Struck by the state
+1171,87.99626489921374,White,1,Black,different race,Struck by the defense
+1172,88.0098683447434,White,1,Black,different race,Juror chosen to serve on jury
+1173,88.01167608931121,White,1,Black,different race,Struck by the defense
+1174,87.98912955442403,White,0,Black,different race,Struck by the state
+1175,88.00409783450209,Black,0,Black,same race,Struck by the state
+1176,87.99148025023275,Black,0,Black,same race,Struck by the state
+1177,88.00013452463719,Black,0,Black,same race,Struck by the state
+1178,88.01502861392987,White,1,Black,different race,Struck by the defense
+1179,87.99228928607639,White,0,Black,different race,Struck by the state
+1180,87.99240818133379,White,1,Black,different race,Juror chosen to serve on jury
+1181,88.0291958838223,White,1,Black,different race,Struck by the defense
+1182,87.99737914250767,Black,0,Black,same race,Struck by the state
+1183,87.98562495320708,White,1,Black,different race,Struck by the defense
+1184,88.00016541029147,White,1,Black,different race,Juror chosen to serve on jury
+1185,88.00341364944335,White,1,Black,different race,Juror chosen to serve on jury
+1186,88.00346288823829,White,1,Black,different race,Juror chosen to serve on jury
+1187,87.99589491275137,Black,0,Black,same race,Struck by the state
+1188,87.99955351900708,White,1,Black,different race,Struck by the defense
+1189,87.97076266548198,White,1,Black,different race,Struck by the defense
+1190,88.00273040162054,White,1,Black,different race,Struck by the defense
+1191,87.99694549294367,White,1,Black,different race,Struck by the defense
+1192,88.00912875938931,Black,0,Black,same race,Struck by the state
+1193,88.00237654444052,Black,1,Black,same race,Struck by the defense
+1194,87.99783107824526,White,1,Black,different race,Struck by the defense
+1195,88.00147495711542,White,1,Black,different race,Struck by the defense
+1196,88.0152088031094,White,1,Black,different race,Struck by the defense
+1197,88.00787587588673,Black,0,Black,same race,Struck by the state
+1198,88.02320295835436,White,1,Black,different race,Juror chosen as alternate
+1199,88.00096647110144,White,1,Black,different race,Juror chosen as alternate
+1200,268.00448887013573,White,1,Black,different race,Struck by the defense
+1201,91.99882780219448,Black,1,Black,same race,Juror chosen as alternate
+1202,91.99779027907586,White,0,Black,different race,Struck by the state
+1203,94.9873740652985,White,1,Black,different race,Juror chosen to serve on jury
+1204,195.98625832603707,Black,1,Black,same race,Juror chosen to serve on jury
+1205,94.98280878658105,Black,0,Black,same race,Struck by the state
+1206,94.99058314974913,White,0,Black,different race,Struck by the state
+1207,94.99173144446665,White,1,Black,different race,Juror chosen to serve on jury
+1208,94.9931847999847,White,1,Black,different race,Struck by the defense
+1209,95.00158389504031,White,1,Black,different race,Struck by the defense
+1210,94.99606796497254,White,1,Black,different race,Juror chosen to serve on jury
+1211,94.9791460272132,White,1,Black,different race,Juror chosen to serve on jury
+1212,94.9945457269828,White,0,Black,different race,Struck by the state
+1213,95.00394066726926,White,1,Black,different race,Juror chosen to serve on jury
+1214,95.00267751932975,White,0,Black,different race,Struck by the state
+1215,95.00193543884824,White,1,Black,different race,Struck by the defense
+1216,94.99812977023308,White,1,Black,different race,Struck by the defense
+1217,94.99591994657294,White,1,Black,different race,Juror chosen to serve on jury
+1218,95.00350682477386,Black,0,Black,same race,Struck by the state
+1219,95.01067781702129,White,1,Black,different race,Struck by the defense
+1220,95.01507246580418,White,0,Black,different race,Struck by the state
+1221,94.99068960703363,White,1,Black,different race,Struck by the defense
+1222,94.98613707764348,White,1,Black,different race,Juror chosen to serve on jury
+1223,95.01020951568677,White,1,Black,different race,Struck by the defense
+1224,95.00403832137373,Black,0,Black,same race,Struck by the state
+1225,94.99962648338916,White,0,Black,different race,Struck by the state
+1226,95.00080766048315,White,1,Black,different race,Juror chosen to serve on jury
+1227,95.00427280541219,White,1,Black,different race,Struck by the defense
+1228,95.0247471643595,Black,0,Black,same race,Struck by the state
+1229,94.99620524315372,Black,0,Black,same race,Struck by the state
+1230,95.01121099245147,White,1,Black,different race,Struck by the defense
+1231,94.9778303228505,White,1,Black,different race,Juror chosen to serve on jury
+1232,95.02196846015974,White,1,Black,different race,Juror chosen to serve on jury
+1233,94.99662270434843,White,1,Black,different race,Struck by the defense
+1234,94.99864949110926,White,1,Black,different race,Juror chosen to serve on jury
+1235,94.98817335079131,White,1,Black,different race,Struck by the defense
+1236,94.99557287529382,White,1,Black,different race,Struck by the defense
+1237,267.9953581491261,Black,0,Black,same race,Struck by the state
+1238,95.00472921628946,White,1,Black,different race,Struck by the defense
+1239,95.012060509964,White,1,Black,different race,Juror chosen as alternate
+1240,95.01478420329586,Black,0,Black,same race,Struck by the state
+1241,196.0035934660452,Black,0,Black,same race,Struck by the state
+1242,196.0193015560402,Black,0,Black,same race,Struck by the state
+1243,205.01652324178437,Black,0,Black,same race,Struck by the state
+1244,204.99935847808956,White,0,Black,different race,Struck by the state
+1245,205.00251285593566,White,0,Black,different race,Struck by the state
+1246,205.00099810840038,Black,0,Black,same race,Struck by the state
+1247,204.9976851156689,Black,0,Black,same race,Struck by the state
+1248,36.011823481309996,Black,0,White,different race,Struck by the state
+1249,36.00300188420401,Black,1,White,different race,Juror chosen to serve on jury
+1250,36.01672603715094,Black,1,White,different race,Struck by the defense
+1251,35.993618766970584,Black,1,White,different race,Juror chosen to serve on jury
+1252,36.00131384001902,White,0,White,same race,Struck by the state
+1253,35.99213915259882,White,1,White,same race,Struck by the defense
+1254,36.012415501609354,Black,0,White,different race,Struck by the state
+1255,35.99308702739287,White,0,White,same race,Struck by the state
+1256,36.001245624857305,White,0,White,same race,Struck by the state
+1257,36.00978931233552,Black,0,White,different race,Struck by the state
+1258,35.982968959274004,Black,0,White,different race,Struck by the state
+1259,35.99981336034602,Black,1,White,different race,Struck by the defense
+1260,35.995321581261805,Black,1,White,different race,Juror chosen to serve on jury
+1261,36.023944054190416,White,1,White,same race,Struck by the defense
+1262,35.99258319033157,Black,1,White,different race,Struck by the defense
+1263,35.977518897963535,White,1,White,same race,Juror chosen to serve on jury
+1264,36.002982246061144,White,1,White,same race,Struck by the defense
+1265,36.00725254987206,White,1,White,same race,Juror chosen to serve on jury
+1266,36.00674211027,Black,0,White,different race,Struck by the state
+1267,36.008532818121694,White,1,White,same race,Struck by the defense
+1268,35.99677367765408,Black,0,White,different race,Struck by the state
+1269,36.00752032232777,White,1,White,same race,Struck by the defense
+1270,35.990452269975904,White,1,White,same race,Struck by the defense
+1271,35.99068819679043,White,1,White,same race,Struck by the defense
+1272,35.993404746199815,White,1,White,same race,Juror chosen to serve on jury
+1273,36.01329878717309,Black,0,White,different race,Struck by the state
+1274,36.00130481376741,Black,1,White,different race,Juror chosen to serve on jury
+1275,35.999032544674066,White,1,White,same race,Struck by the defense
+1276,36.005974052800056,White,1,White,same race,Juror chosen to serve on jury
+1277,36.009939184975536,White,1,White,same race,Struck by the defense
+1278,36.01827722005109,Black,1,White,different race,Juror chosen to serve on jury
+1279,35.99458845056147,White,0,White,same race,Struck by the state
+1280,35.98472011732571,Black,0,White,different race,Struck by the state
+1281,35.992974278921885,Black,0,White,different race,Struck by the state
+1282,35.99410497393387,White,1,White,same race,Juror chosen as alternate
+1283,36.00408972857858,Black,0,White,different race,Struck by the state
+1284,25.00869664682974,White,1,Black,different race,Juror chosen to serve on jury
+1285,25.002045981014593,White,1,Black,different race,Juror chosen to serve on jury
+1286,24.999828447709394,White,1,Black,different race,Juror chosen to serve on jury
+1287,25.00538525487751,Black,0,Black,same race,Struck by the state
+1288,25.01025027917215,White,1,Black,different race,Juror chosen to serve on jury
+1289,25.005172833281268,White,1,Black,different race,Struck by the defense
+1290,25.00138405825914,White,0,Black,different race,Struck by the state
+1291,25.00752371598083,White,0,Black,different race,Struck by the state
+1292,24.9896825379194,Black,1,Black,same race,Struck by the defense
+1293,24.985250300744767,Black,1,Black,same race,Juror chosen to serve on jury
+1294,25.006231175498765,White,1,Black,different race,Juror chosen to serve on jury
+1295,25.011509977343213,White,1,Black,different race,Juror chosen to serve on jury
+1296,24.991733828507655,White,1,Black,different race,Juror chosen to serve on jury
+1297,25.02019955123627,White,1,Black,different race,Struck by the defense
+1298,24.996985715626906,Black,0,Black,same race,Struck by the state
+1299,25.0026923370269,White,1,Black,different race,Juror chosen to serve on jury
+1300,24.98844193338337,White,1,Black,different race,Struck by the defense
+1301,25.004161019077742,White,1,Black,different race,Struck by the defense
+1302,24.99576282507406,Black,0,Black,same race,Struck by the state
+1303,25.004944457441887,White,1,Black,different race,Struck by the defense
+1304,25.012523262401427,White,1,Black,different race,Struck by the defense
+1305,25.016883060698877,White,1,Black,different race,Juror chosen to serve on jury
+1306,25.003793144343973,White,1,Black,different race,Struck by the defense
+1307,24.992905209150326,White,1,Black,different race,Struck by the defense
+1308,25.00250690320137,Black,0,Black,same race,Struck by the state
+1309,24.98710967874212,White,1,Black,different race,Struck by the defense
+1310,24.99946591511827,White,1,Black,different race,Struck by the defense
+1311,24.986696828082636,White,1,Black,different race,Juror chosen to serve on jury
+1312,25.00053745005626,White,1,Black,different race,Struck by the defense
+1313,25.006768272385397,White,1,Black,different race,Juror chosen to serve on jury
+1314,24.993625710981895,White,1,Black,different race,Juror chosen as alternate
+1315,24.989068621511557,White,1,Black,different race,Juror chosen as alternate
+1316,37.99288404465382,White,0,Black,different race,Struck by the state
+1317,37.99282664956536,White,1,Black,different race,Struck by the defense
+1318,38.00521870663161,White,1,Black,different race,Juror chosen to serve on jury
+1319,38.01076096961855,White,1,Black,different race,Struck by the defense
+1320,37.995917790484064,White,1,Black,different race,Juror chosen to serve on jury
+1321,38.01150229096528,Black,1,Black,same race,Juror chosen to serve on jury
+1322,37.99401146329355,Black,0,Black,same race,Struck by the state
+1323,38.003755945992616,White,1,Black,different race,Juror chosen to serve on jury
+1324,37.9957883293369,White,1,Black,different race,Struck by the defense
+1325,38.004558540862924,White,0,Black,different race,Struck by the state
+1326,38.001812741820984,Black,1,Black,same race,Juror chosen to serve on jury
+1327,37.98759354960655,White,1,Black,different race,Juror chosen to serve on jury
+1328,37.99782353816668,White,1,Black,different race,Juror chosen as alternate
+1329,38.00173574990403,White,1,Black,different race,Struck by the defense
+1330,37.99853661507039,White,1,Black,different race,Juror chosen as alternate
+1331,268.0011102179589,White,1,Black,different race,Struck by the defense
+1332,267.9947693932589,White,0,Black,different race,Struck by the state
+1333,106.98692777022666,White,1,Black,different race,Struck by the defense
+1334,107.00537245208169,White,1,Black,different race,Struck by the defense
+1335,106.9954458535112,White,1,Black,different race,Struck by the defense
+1336,106.97790016206648,White,1,Black,different race,Struck by the defense
+1337,106.98788320098602,White,1,Black,different race,Struck by the defense
+1338,107.0046666094885,White,1,Black,different race,Juror chosen to serve on jury
+1339,107.00411399030102,White,1,Black,different race,Juror chosen to serve on jury
+1340,107.00603441369421,White,0,Black,different race,Struck by the state
+1341,107.00075336724083,White,1,Black,different race,Juror chosen to serve on jury
+1342,107.00014875833091,Black,1,Black,same race,Juror chosen to serve on jury
+1343,106.9899021805944,White,0,Black,different race,Struck by the state
+1344,268.00701351622837,Black,0,Black,same race,Struck by the state
+1345,85.01603064067349,Black,0,Black,same race,Struck by the state
+1346,85.00616716794083,Black,1,Black,same race,Juror chosen to serve on jury
+1347,85.00325436610922,White,1,Black,different race,Juror chosen to serve on jury
+1348,87.99726341586175,White,1,Black,different race,Juror chosen to serve on jury
+1349,88.00768052004763,Black,0,Black,same race,Struck by the state
+1350,102.00156017868211,Black,0,Black,same race,Struck by the state
+1351,102.00488125467565,White,0,Black,different race,Struck by the state
+1352,102.0074895776598,White,1,Black,different race,Juror chosen to serve on jury
+1353,101.99863132525104,White,1,Black,different race,Struck by the defense
+1354,101.9979576443086,White,1,Black,different race,Juror chosen to serve on jury
+1355,101.99713494716845,White,1,Black,different race,Struck by the defense
+1356,101.994720369432,White,1,Black,different race,Struck by the defense
+1357,101.99823014948568,White,1,Black,different race,Struck by the defense
+1358,102.01216373236652,White,1,Black,different race,Struck by the defense
+1359,101.99744547720583,White,1,Black,different race,Struck by the defense
+1360,102.00020934275294,White,1,Black,different race,Juror chosen to serve on jury
+1361,101.99822208632503,White,1,Black,different race,Juror chosen to serve on jury
+1362,102.00980815979736,White,1,Black,different race,Struck by the defense
+1363,102.0108012821023,White,1,Black,different race,Juror chosen to serve on jury
+1364,101.99215460734413,Black,0,Black,same race,Struck by the state
+1365,101.98972879129487,White,1,Black,different race,Struck by the defense
+1366,101.99415813025975,Black,0,Black,same race,Struck by the state
+1367,101.99012628327766,White,1,Black,different race,Struck by the defense
+1368,101.99990471759332,Black,0,Black,same race,Struck by the state
+1369,101.9914445518831,White,1,Black,different race,Struck by the defense
+1370,102.00966601766713,White,0,Black,different race,Struck by the state
+1371,101.98866479822212,White,1,Black,different race,Juror chosen to serve on jury
+1372,102.00693623652836,Black,1,Black,same race,Juror chosen to serve on jury
+1373,102.00096514319374,White,1,Black,different race,Juror chosen to serve on jury
+1374,102.00081353685206,White,1,Black,different race,Juror chosen to serve on jury
+1375,101.97804979583232,White,1,Black,different race,Struck by the defense
+1376,101.99563836927385,White,1,Black,different race,Struck by the defense
+1377,101.992607205933,White,0,Black,different race,Struck by the state
+1378,101.99091035303445,White,1,Black,different race,Juror chosen to serve on jury
+1379,102.01126447255086,White,1,Black,different race,Juror chosen to serve on jury
+1380,45.00503847831554,White,1,Black,different race,Juror chosen to serve on jury
+1381,44.99424025673914,White,1,Black,different race,Struck by the defense
+1382,44.994129789142,White,1,Black,different race,Juror chosen to serve on jury
+1383,45.010815204201144,White,1,Black,different race,Juror chosen to serve on jury
+1384,45.00907062558242,Black,1,Black,same race,Juror chosen to serve on jury
+1385,45.00764933443334,White,1,Black,different race,Struck by the defense
+1386,45.01450618658547,White,1,Black,different race,Struck by the defense
+1387,44.993143248130046,White,1,Black,different race,Juror chosen to serve on jury
+1388,45.011142386650775,White,1,Black,different race,Struck by the defense
+1389,44.998923493685936,Black,0,Black,same race,Struck by the state
+1390,45.02394951561195,Black,0,Black,same race,Struck by the state
+1391,46.96880541017411,White,1,Black,different race,Juror chosen to serve on jury
+1392,46.997841304471656,White,0,Black,different race,Struck by the state
+1393,222.99921048782724,Black,1,Black,same race,Juror chosen to serve on jury
+1394,223.00168732064455,Black,0,Black,same race,Struck by the state
+1395,222.99913707888504,Black,1,Black,same race,Struck by the defense
+1396,222.9998116040392,Black,0,Black,same race,Struck by the state
+1397,223.01123112884525,Black,0,Black,same race,Struck by the state
+1398,223.00204595609665,Black,0,Black,same race,Struck by the state
+1399,223.00633195708392,Black,0,Black,same race,Struck by the state
+1400,45.00608043516167,Black,0,Black,same race,Struck by the state
+1401,222.99094791361912,Black,1,Black,same race,Juror chosen to serve on jury
+1402,47.004496501546946,Black,0,Black,same race,Struck by the state
+1403,47.00691028305117,White,1,Black,different race,Juror chosen to serve on jury
+1404,47.00462365296532,White,1,Black,different race,Juror chosen to serve on jury
+1405,46.991146584923506,White,1,Black,different race,Juror chosen to serve on jury
+1406,47.00280556225249,White,1,Black,different race,Juror chosen to serve on jury
+1407,47.01221860198235,Black,0,Black,same race,Struck by the state
+1408,46.99283849285342,White,1,Black,different race,Struck by the defense
+1409,46.974214620730926,White,1,Black,different race,Juror chosen to serve on jury
+1410,46.999970914130834,White,1,Black,different race,Struck by the defense
+1411,47.00894197210372,White,1,Black,different race,Struck by the defense
+1412,47.014865579423834,White,1,Black,different race,Juror chosen to serve on jury
+1413,46.98984315227155,White,1,Black,different race,Juror chosen to serve on jury
+1414,46.99592375796145,White,1,Black,different race,Juror chosen to serve on jury
+1415,47.00453940418759,White,1,Black,different race,Juror chosen to serve on jury
+1416,47.00769641083253,White,1,Black,different race,Juror chosen as alternate
+1417,47.00897213271776,White,1,Black,different race,Juror chosen as alternate
+1418,268.00283314156565,White,1,Black,different race,Struck by the defense
+1419,268.00687297014207,White,1,Black,different race,Struck by the defense
+1420,134.9982165451461,Black,0,Black,same race,Struck by the state
+1421,134.99100556632396,White,1,Black,different race,Juror chosen to serve on jury
+1422,134.9832837089165,Black,0,Black,same race,Struck by the state
+1423,135.0027047468418,White,1,Black,different race,Struck by the defense
+1424,135.00047117570134,White,1,Black,different race,Juror chosen to serve on jury
+1425,135.00911758072544,Black,0,Black,same race,Struck by the state
+1426,135.0063625044321,White,1,Black,different race,Struck by the defense
+1427,134.99006712378227,White,1,Black,different race,Struck by the defense
+1428,134.9863520027936,Black,0,Black,same race,Struck by the state
+1429,135.00481911130933,White,1,Black,different race,Struck by the defense
+1430,134.99488340103764,White,1,Black,different race,Juror chosen to serve on jury
+1431,134.9987556593469,Black,0,Black,same race,Struck by the state
+1432,134.98394774838184,Black,0,Black,same race,Struck by the state
+1433,301.00423828433753,White,0,Black,different race,Struck by the state
+1434,300.98979975163655,White,1,Black,different race,Struck by the defense
+1435,300.99758017935636,Black,0,Black,same race,Struck by the state
+1436,301.00320160558636,White,1,Black,different race,Struck by the defense
+1437,301.00327719107673,White,1,Black,different race,Struck by the defense
+1438,9.997376895230873,White,1,White,same race,Juror chosen to serve on jury
+1439,300.99700120897563,White,1,Black,different race,Juror chosen to serve on jury
+1440,301.0054549426006,White,1,Black,different race,Juror chosen to serve on jury
+1441,300.99158801943463,Black,1,Black,same race,Juror chosen to serve on jury
+1442,301.0078403250479,White,1,Black,different race,Juror chosen to serve on jury
+1443,300.99936388395616,White,1,Black,different race,Juror chosen to serve on jury
+1444,10.002742216588986,Black,0,White,different race,Struck by the state
+1445,9.992492316650921,White,1,White,same race,Struck by the defense
+1446,9.999146644114033,Black,1,White,different race,Juror chosen to serve on jury
+1447,10.011121579829709,White,0,White,same race,Struck by the state
+1448,10.004027072866783,White,0,White,same race,Struck by the state
+1449,10.00328117464048,White,1,White,same race,Juror chosen to serve on jury
+1450,10.006667829605949,White,0,White,same race,Struck by the state
+1451,9.998514315205343,White,1,White,same race,Juror chosen to serve on jury
+1452,9.98664671584641,White,0,White,same race,Struck by the state
+1453,9.996880225066144,Black,0,White,different race,Struck by the state
+1454,9.998107653535243,White,1,White,same race,Struck by the defense
+1455,9.98063078035094,White,1,White,same race,Juror chosen to serve on jury
+1456,9.980958050206844,Black,0,White,different race,Struck by the state
+1457,300.99784129504144,White,1,Black,different race,Juror chosen to serve on jury
+1458,301.00436668741463,White,1,Black,different race,Struck by the defense
+1459,300.99185269370986,White,1,Black,different race,Struck by the defense
+1460,300.9838274207636,Black,0,Black,same race,Struck by the state
+1461,301.0099288668484,White,1,Black,different race,Struck by the defense
+1462,300.9931740171515,White,0,Black,different race,Struck by the state
+1463,9.982493060149388,White,1,White,same race,Juror chosen to serve on jury
+1464,10.0085686501922,White,1,White,same race,Struck by the defense
+1465,9.989200781558104,Black,1,White,different race,Juror chosen to serve on jury
+1466,10.008656891477473,White,1,White,same race,Struck by the defense
+1467,301.0013332052982,Black,0,Black,same race,Struck by the state
+1468,301.0248761352604,White,1,Black,different race,Struck by the defense
+1469,300.9823774607298,White,1,Black,different race,Struck by the defense
+1470,300.9962727210423,White,1,Black,different race,Struck by the defense
+1471,301.01103234890564,White,1,Black,different race,Struck by the defense
+1472,301.0051584273182,Black,0,Black,same race,Struck by the state
+1473,301.00513241168926,White,1,Black,different race,Struck by the defense
+1474,300.9860248690921,White,1,Black,different race,Juror chosen to serve on jury
+1475,301.00924813437666,Black,1,Black,same race,Juror chosen to serve on jury
+1476,300.9955313803462,White,1,Black,different race,Juror chosen to serve on jury
+1477,301.0099007957929,Black,0,Black,same race,Struck by the state
+1478,277.01011920781156,Black,1,Unknown,different race,Struck by the defense
+1479,277.0009379599979,Black,1,Unknown,different race,Struck by the defense
+1480,277.0078077666435,Black,1,Unknown,different race,Struck by the defense
+1481,252.99080277386577,White,1,Black,different race,Juror chosen to serve on jury
+1482,253.00041972824508,Black,1,Black,same race,Juror chosen to serve on jury
+1483,253.02254102858396,Black,0,Black,same race,Struck by the state
+1484,253.00161274683305,White,0,Black,different race,Struck by the state
+1485,252.9843162132755,Black,0,Black,same race,Struck by the state
+1486,253.01109147339474,Black,0,Black,same race,Struck by the state
+1487,252.98790884517894,Black,0,Black,same race,Struck by the state
+1488,252.99519417745404,White,0,Black,different race,Struck by the state
+1489,251.0054922960594,White,0,Black,different race,Struck by the state
+1490,9.999699430986738,Black,1,White,different race,Juror chosen to serve on jury
+1491,9.998912214271753,Black,0,White,different race,Struck by the state
+1492,9.986280320895796,White,0,White,same race,Struck by the state
+1493,9.989198472471818,Black,1,White,different race,Juror chosen to serve on jury
+1494,9.989549421279026,White,1,White,same race,Juror chosen to serve on jury
+1495,10.003696622247935,Black,1,White,different race,Struck by the defense
+1496,10.006411523628572,White,1,White,same race,Struck by the defense
+1497,246.01345360757946,White,1,Black,different race,Struck by the defense
+1498,246.01550400696502,Black,0,Black,same race,Struck by the state
+1499,246.00049590451738,White,1,Black,different race,Struck by the defense
+1500,246.00441510723778,Black,0,Black,same race,Struck by the state
+1501,246.00135446941243,White,1,Black,different race,Struck by the defense
+1502,10.011842720485015,White,0,White,same race,Struck by the state
+1503,9.993217806842125,White,1,White,same race,Struck by the defense
+1504,9.991105918519974,White,1,White,same race,Struck by the defense
+1505,10.011941704093177,Black,1,White,different race,Juror chosen to serve on jury
+1506,10.003827791907542,White,1,White,same race,Struck by the defense
+1507,10.007799567119127,Black,0,White,different race,Struck by the state
+1508,9.993412663231679,White,1,White,same race,Juror chosen as alternate
+1509,9.996882757956916,White,1,White,same race,Juror chosen as alternate
+1510,195.9939677344113,Black,0,Black,same race,Struck by the state
+1511,6.013233621507384,White,0,White,same race,Struck by the state
+1512,22.00127293299635,White,0,Black,different race,Struck by the state
+1513,74.00718059279505,White,1,White,same race,Juror chosen to serve on jury
+1514,73.99432275858979,Black,1,White,different race,Juror chosen as alternate
+1515,73.99180112783655,Black,1,White,different race,Juror chosen as alternate
+1516,46.9953803698197,White,1,Black,different race,Struck by the defense
