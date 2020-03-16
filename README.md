@@ -6,8 +6,7 @@ their performance on different datasets.
 
 For more information about what we set out to do, [click here](http://www.cs.carleton.edu/cs_comps/1920/fairness/index.php).
 
-For more information about our comps project and results, 
-# click here.
+A website with more about our comps project and results is forthcoming.
 
 ### Running our code
 All of our algorithms can be run through runExperiments.py. Experiments can be run in 
@@ -77,4 +76,12 @@ Gajane, P., & Pechenizkiy, M. (2017). On formalizing fairness in prediction with
 learning.
 
 ### Dataset citations
+Craft, W., Montgomery, D., Tungekar, R., & Yesko, P. (2018). Jurors. American Public Media. https://github.com/APM-Reports/jury-data/blob/master/jurors.csv
+
+Dua, D., & Graff, C. (2017). UCI Machine Learning Repository. University of California, Irvine, School of Information and Computer Sciences. http://archive.ics.uci.edu/ml
+
+Health, N. Y. C. D. of, & Hygiene, M. (2020). DOHMH New York City Restaurant Inspection Results. New York City Department of Health and Mental Hygiene. https://data.cityofnewyork.us/Health/DOHMH-New-York-City-Restaurant-Inspection-Results/43nn-pn8j
+
+Miao, W. (2010). Did the results of promotion exams have a disparate impact on minorities? Using statistical evidence in Ricci v. DeStefano. Journal of Statistics Education, 18(3).
+
 
